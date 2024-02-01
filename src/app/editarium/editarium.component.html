@@ -1,0 +1,18 @@
+<div [hidden]="!active">
+    <div [id]="containerId" style="width:100%;overflow:auto;"></div>
+    <div>
+        <button mat-icon-button (click)="clear()">
+            <mat-icon fontIcon="crop_square"></mat-icon>
+        </button>
+        <button mat-icon-button
+            [disabled]="index === 0"
+            (click)="switch('previous')">
+            <mat-icon fontIcon="arrow_left"></mat-icon>
+        </button>
+        <button mat-icon-button
+            (click)="switch('next')"
+            [disabled]="isLast">
+            <mat-icon fontIcon="arrow_right"></mat-icon>
+        </button>
+    </div>
+</div>
