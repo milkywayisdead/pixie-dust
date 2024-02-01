@@ -18,10 +18,10 @@
 
 <div style="width:50%">
   <pix-editarium #grids
-    *ngFor="let frame of frames; index as i"
+    *ngFor="let frame of framesService.frames; index as i"
     [index]="i"
-    [isLast]="i+1 === frames.length"
-    [active]="i === currentFrameIndex"
-    (nextFrame)="switch('next')"
-    (previousFrame)="switch('previous')"></pix-editarium>
+    [isLast]="i+1 === framesService.frames.length"
+    [active]="i === framesService.currentFrameIndex"
+    (nextFrame)="framesService.stepForward()"
+    (previousFrame)="framesService.stepBack()"></pix-editarium>
 </div>

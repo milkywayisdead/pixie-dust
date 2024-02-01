@@ -7,6 +7,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatToolbarModule} from '@angular/material/toolbar';
 
 import { EditariumComponent } from './editarium/editarium.component';
+import { FramesService } from './frames/frames.service';
 
 @Component({
   selector: 'app-root',
@@ -25,30 +26,21 @@ import { EditariumComponent } from './editarium/editarium.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'pix';
+  title = 'pixie-dust';
   color = '#000000';
   frames: number[] = [];
   currentFrameIndex: number = 0;
 
+  constructor(public framesService: FramesService) {}
+
   @ViewChildren('grids')
   editariums: EditariumComponent[]|undefined;
 
-  addFrame(){
-    this.frames.push(this.frames.length);
-  }
-
-  switch(direction: string){
-    if(direction === 'next'){
-      this.currentFrameIndex++;
-    } else if(direction === 'previous'){
-      this.currentFrameIndex--;
-    }
+  addFrame(): void {
+    this.framesService.add();
   }
 
   save(){
-    this.editariums?.forEach((ed: EditariumComponent) => {
-      console.log(ed)
-    })
   }
 
   setColor(value: string):void{

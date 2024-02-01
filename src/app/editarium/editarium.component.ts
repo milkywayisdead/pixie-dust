@@ -3,6 +3,8 @@ import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+import { FramesService } from '../frames/frames.service';
+
 const _IDX_ATTR = 'pixidx';
 
 @Component({
@@ -25,6 +27,8 @@ export class EditariumComponent {
   _grid: HTMLElement | null = null;
   @Output() nextFrame = new EventEmitter<any>;
   @Output() previousFrame = new EventEmitter<any>;
+
+  constructor(public framesService: FramesService) {}
 
   createGrid(cols:number=20, rows:number=20){
     const grid = document.createElement('table');
@@ -147,6 +151,10 @@ export class EditariumComponent {
     } else if(direction === 'previous'){
       this.previousFrame.emit();
     }
+  }
+
+  remove(){
+    this.framesService.removeIndex(this.index);
   }
 
   ngAfterViewInit(){
