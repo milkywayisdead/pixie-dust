@@ -1,0 +1,1 @@
+export interface Locale { [name: string]: { [name: string]: string } };

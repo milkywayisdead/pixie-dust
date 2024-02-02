@@ -1,27 +1,31 @@
 <mat-toolbar>
-  <button mat-icon-button>
+  <button mat-icon-button
+    [matTooltip]="locale.currentLocale['actions']['open']">
     <mat-icon fontIcon="folder_open"></mat-icon>
   </button>
-  <button mat-icon-button (click)="save()">
+  <button mat-icon-button
+    [matTooltip]="locale.currentLocale['actions']['save']"
+    (click)="save()">
     <mat-icon fontIcon="save"></mat-icon>
   </button>
-  <button mat-icon-button (click)="addFrame()">
+  <button mat-icon-button
+    [matTooltip]="locale.currentLocale['actions']['addFrame']"
+    (click)="framesService.add()">
     <mat-icon fontIcon="add_box"></mat-icon>
   </button>
-  <button mat-icon-button (click)="destroyGrid()">
+  <button mat-icon-button
+    [matTooltip]="locale.currentLocale['actions']['removeFrames']"
+    (click)="framesService.removeAll()">
     <mat-icon fontIcon="delete_forever"></mat-icon>
-  </button>
-  <button mat-icon-button (click)="clearGrid()">
-    <mat-icon fontIcon="crop_square"></mat-icon>
   </button>
 </mat-toolbar>
 
 <div style="width:50%">
   <pix-editarium #grids
-    *ngFor="let frame of frames; index as i"
+    *ngFor="let frameId of framesService.frames; index as i"
+    [containerId]="frameId"
     [index]="i"
-    [isLast]="i+1 === frames.length"
-    [active]="i === currentFrameIndex"
-    (nextFrame)="switch('next')"
-    (previousFrame)="switch('previous')"></pix-editarium>
+    [isLast]="i + 1 === framesService.frames.length"
+    [active]="i === framesService.currentFrameIndex"
+  ></pix-editarium>
 </div>

@@ -1,18 +1,27 @@
 <div [hidden]="!active">
     <div [id]="containerId" style="width:100%;overflow:auto;"></div>
     <div>
-        <button mat-icon-button (click)="clear()">
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['actions']['clear']"
+            (click)="clear()">
             <mat-icon fontIcon="crop_square"></mat-icon>
         </button>
         <button mat-icon-button
             [disabled]="index === 0"
-            (click)="switch('previous')">
+            [matTooltip]="locale.currentLocale['actions']['previousFrame']"
+            (click)="framesService.stepBack()">
             <mat-icon fontIcon="arrow_left"></mat-icon>
         </button>
         <button mat-icon-button
-            (click)="switch('next')"
-            [disabled]="isLast">
+            [disabled]="isLast"
+            [matTooltip]="locale.currentLocale['actions']['nextFrame']"
+            (click)="framesService.stepForward()">
             <mat-icon fontIcon="arrow_right"></mat-icon>
+        </button>
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['actions']['remove']"
+            (click)="remove()">
+            <mat-icon fontIcon="delete_forever"></mat-icon>
         </button>
     </div>
 </div>

@@ -5,8 +5,11 @@ import {MatButtonModule} from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 import { EditariumComponent } from './editarium/editarium.component';
+import { FramesService } from './services/frames/frames.service';
+import { LocaleService } from './services/locale/locale.service';
 
 @Component({
   selector: 'app-root',
@@ -20,35 +23,26 @@ import { EditariumComponent } from './editarium/editarium.component';
     MatButtonModule,
     MatToolbarModule,
     EditariumComponent,
+    MatTooltipModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'pix';
+  title = 'pixie-dust';
   color = '#000000';
   frames: number[] = [];
   currentFrameIndex: number = 0;
 
+  constructor(
+    public framesService: FramesService,
+    public locale: LocaleService,
+  ) {}
+
   @ViewChildren('grids')
   editariums: EditariumComponent[]|undefined;
 
-  addFrame(){
-    this.frames.push(this.frames.length);
-  }
-
-  switch(direction: string){
-    if(direction === 'next'){
-      this.currentFrameIndex++;
-    } else if(direction === 'previous'){
-      this.currentFrameIndex--;
-    }
-  }
-
   save(){
-    this.editariums?.forEach((ed: EditariumComponent) => {
-      console.log(ed)
-    })
   }
 
   setColor(value: string):void{
@@ -65,5 +59,9 @@ export class AppComponent {
 
   destroyGrid(){
     //this.grid?.destroy();
+  }
+
+  ngOnInit(){
+    this.locale.setLocale('ru');
   }
 }
