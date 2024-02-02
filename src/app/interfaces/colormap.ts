@@ -1,0 +1,1 @@
+export interface ColorMap { [color: string]: number[] };
