@@ -8,8 +8,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 import { EditariumComponent } from './editarium/editarium.component';
-import { FramesService } from './frames/frames.service';
-import { LocaleService } from './locale/locale.service';
+import { FramesService } from './services/frames/frames.service';
+import { LocaleService } from './services/locale/locale.service';
 
 @Component({
   selector: 'app-root',

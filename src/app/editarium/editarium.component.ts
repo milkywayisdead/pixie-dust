@@ -4,8 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { FramesService } from '../frames/frames.service';
-import { LocaleService } from '../locale/locale.service';
+import { FramesService } from '../services/frames/frames.service';
+import { LocaleService } from '../services/locale/locale.service';
 
 const _IDX_ATTR = 'pixidx';
 
