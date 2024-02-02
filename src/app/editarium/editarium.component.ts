@@ -2,15 +2,17 @@ import { Component, ViewEncapsulation, Input, Output, EventEmitter } from '@angu
 import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { FramesService } from '../frames/frames.service';
+import { LocaleService } from '../locale/locale.service';
 
 const _IDX_ATTR = 'pixidx';
 
 @Component({
   selector: 'pix-editarium',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, NgIf],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule, NgIf],
   templateUrl: './editarium.component.html',
   styleUrl: './editarium.component.css',
   encapsulation: ViewEncapsulation.None,
@@ -25,10 +27,11 @@ export class EditariumComponent {
   _cells: Array<HTMLElement> = [];
   _colorMap: { [color: string]: Array<number> } = {};
   _grid: HTMLElement | null = null;
-  @Output() nextFrame = new EventEmitter<any>;
-  @Output() previousFrame = new EventEmitter<any>;
 
-  constructor(public framesService: FramesService) {}
+  constructor(
+    public framesService: FramesService,
+    public locale: LocaleService,
+  ) {}
 
   createGrid(cols:number=20, rows:number=20){
     const grid = document.createElement('table');
@@ -143,14 +146,6 @@ export class EditariumComponent {
     document.getElementById(this.containerId)?.append(grid.grid);
     this._grid = grid.grid;
     this._cells = grid.cells;
-  }
-
-  switch(direction: string){
-    if(direction === 'next'){
-      this.nextFrame.emit();
-    } else if(direction === 'previous'){
-      this.previousFrame.emit();
-    }
   }
 
   remove(){

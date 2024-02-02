@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Frame } from './frames';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,6 +23,11 @@ export class FramesService {
     }
     
     this.reindex(index - 1);
+  }
+
+  removeAll(): void {
+    this.frames = [];
+    this.currentFrameIndex = -1;
   }
 
   stepBack(): void {
