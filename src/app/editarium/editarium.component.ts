@@ -16,7 +16,7 @@ const _IDX_ATTR = 'pixidx';
   encapsulation: ViewEncapsulation.None,
 })
 export class EditariumComponent {
-  containerId: string = `grid${+ new Date()}`;
+  @Input() containerId: string = '';
   @Input() index: number = 0;
   @Input() color: string = '#000000';
   @Input() isLast: boolean = false;
@@ -154,7 +154,7 @@ export class EditariumComponent {
   }
 
   remove(){
-    this.framesService.removeIndex(this.index);
+    this.framesService.remove(this.containerId);
   }
 
   ngAfterViewInit(){

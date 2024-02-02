@@ -5,28 +5,24 @@ import { Frame } from './frames';
   providedIn: 'root'
 })
 export class FramesService {
-  frames:number[] = [];
+  frames:string[] = [];
   currentFrameIndex:number = -1;
 
   constructor() { }
 
   add(): void {
-    this.frames.push(1);
+    this.frames.push(`${+ new Date()}`);
     this.stepForward();
   }
 
-  removeIndex(index: number): void {
-    this.frames.splice(index, 1);
-    this.stepBack();
+  remove(frameId: string): void {
+    const index = this.frames.indexOf(frameId);
+    if(index !== -1){
+      this.frames.splice(index, 1);
+    }
     
-  } 
-
-  /* remove(frame: Frame): void {
-    this.frames.splice(
-      this.frames.indexOf(frame),
-      1
-    );
-  } */
+    this.reindex(index - 1);
+  }
 
   stepBack(): void {
     this.currentFrameIndex--;
@@ -36,12 +32,16 @@ export class FramesService {
     this.currentFrameIndex++;
   }
 
-  _reindex(): void {
-    const hasFrames = this.frames.length > 0;
-    if(this.currentFrameIndex === 0){
-      if(hasFrames){
-        
-      }
+  private reindex(index: number): void {
+    const fl = this.frames.length;
+    let newIndex = -1;
+
+    if(index < 0 && fl){
+      newIndex = index + 1;
+    } else {
+      newIndex = index;
     }
+
+    this.currentFrameIndex = newIndex;
   }
 }
