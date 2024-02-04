@@ -1,5 +1,5 @@
-import { FormControlName } from "@angular/forms";
 import { ColorMap } from "./colormap";
+import { FrameCommandsChain } from "../services/commands_chain/frame-commands-chain.service";
 
 export interface GridInterface {
     cells: HTMLElement[];
@@ -10,6 +10,7 @@ export interface GridInterface {
 export interface DrawableGrid extends GridInterface {
     drawingMode: boolean;
     color: string;
+    frameCommandsChain: FrameCommandsChain;
     toColorMap(color: string, cellIndex: number): void;
     fromColorMap(color: string, cellIndex: number): void;
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { DrawableGrid, GridInterface } from '../../interfaces/grid';
 import { ColorMap } from '../../interfaces/colormap';
+import { ColorAPixel, ClearAPixel } from '../../commands/drawing';
 
 
 @Injectable({
@@ -21,8 +22,9 @@ export class GridService {
     grid.addEventListener('click', function(e: Event){
         const target = e.target as HTMLElement;
         if(target.tagName !== 'TD') return;
-
-        target.style.backgroundColor = editor.color;
+        const command = new ColorAPixel([target, editor.color]);
+        command.do();
+        editor.frameCommandsChain.add(command.getUndoCommand([]));
         editor.toColorMap(editor.color, _this.extractIndex(target));
     });
 
@@ -31,7 +33,8 @@ export class GridService {
       const target = e.target as HTMLElement;
       if(target.tagName !== 'TD') return;
 
-      target.style.backgroundColor = '';
+      const command = new ClearAPixel([target, editor.color]);
+      command.do();
       editor.fromColorMap(editor.color, _this.extractIndex(target));
     });
 

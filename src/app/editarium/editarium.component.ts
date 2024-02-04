@@ -9,6 +9,7 @@ import { FramesService } from '../services/frames/frames.service';
 import { LocaleService } from '../services/locale/locale.service';
 import { GridService } from '../services/grid/grid.service';
 import { ColorMap } from '../interfaces/colormap';
+import { FrameCommandsChain } from '../services/commands_chain/frame-commands-chain.service';
 
 @Component({
   selector: 'pix-editarium',
@@ -17,6 +18,7 @@ import { ColorMap } from '../interfaces/colormap';
   templateUrl: './editarium.component.html',
   styleUrl: './editarium.component.css',
   encapsulation: ViewEncapsulation.None,
+  providers: [FrameCommandsChain],
 })
 export class EditariumComponent implements DrawableGrid {
   @Input() frameId: string = '';
@@ -34,6 +36,7 @@ export class EditariumComponent implements DrawableGrid {
     public framesService: FramesService,
     public locale: LocaleService,
     public gridService: GridService,
+    public frameCommandsChain: FrameCommandsChain,
   ) {}
 
   createGrid(cols:number=20, rows:number=20){

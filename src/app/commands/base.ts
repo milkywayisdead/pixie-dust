@@ -1,17 +1,17 @@
-import { BaseCommand } from "../interfaces/command";
+export class BaseCommand {
+    undoCommand: new (...args: any[]) => any;
+    args: any[];
 
-export class Command implements BaseCommand {
-    undoCommand: BaseCommand | null;
-
-    constructor(args: any[], undoCommand: BaseCommand){
-        this.undoCommand = undoCommand;
+    constructor(args: any[] = []) {
+        this.undoCommand = BaseCommand;
+        this.args = args;
     }
 
     do(): void {
-
+        console.log(this.args)
     }
 
-    undo(args: any[]): void {
-        
+    getUndoCommand(args: any[]): BaseCommand {
+        return new this.undoCommand(args);
     }
 }
