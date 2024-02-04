@@ -53,6 +53,14 @@ export class FramesService {
     }
   }
 
+  toLastFrame(): void {
+    this.currentFrameIndex = this.frames.length - 1;
+  }
+
+  toFirstFrame(): void {
+    this.currentFrameIndex = 0;
+  }
+
   private reindex(index: number): void {
     const fl = this.frames.length;
     let newIndex = -1;
