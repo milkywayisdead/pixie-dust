@@ -19,9 +19,10 @@ import { ColorMap } from '../interfaces/colormap';
   encapsulation: ViewEncapsulation.None,
 })
 export class EditariumComponent implements DrawableGrid {
-  @Input() containerId: string = '';
+  @Input() frameId: string = '';
   @Input() index: number = 0;
   @Input() color: string = '#000000';
+  @Input() isFirst: boolean = false;
   @Input() isLast: boolean = false;
   @Input() active: boolean = false;
   drawingMode: boolean = false;
@@ -74,18 +75,18 @@ export class EditariumComponent implements DrawableGrid {
     rows = rows > 0 ? rows : 20;
     cols = cols > 0 ? cols : 20;
     const grid = this.createGrid(cols, rows);
-    document.getElementById(this.containerId)?.append(grid.grid);
+    document.getElementById(this.frameId)?.append(grid.grid);
     this.grid = grid.grid;
     this.cells = grid.cells;
   }
 
   remove(){
-    this.framesService.remove(this.containerId);
+    this.framesService.remove(this.frameId);
   }
 
   ngAfterViewInit(){
     const grid = this.createGrid();
-    document.getElementById(this.containerId)?.append(grid.grid);
+    document.getElementById(this.frameId)?.append(grid.grid);
     this.grid = grid.grid;
     this.cells = grid.cells;
   }
@@ -105,5 +106,13 @@ export class EditariumComponent implements DrawableGrid {
     if(idx !== -1){
       cells.splice(idx, 1);
     }
+  }
+
+  moveBack(): void {
+    this.framesService.moveFrameBack(this.frameId);
+  }
+
+  moveForward(): void {
+    this.framesService.moveFrameForward(this.frameId);
   }
 }
