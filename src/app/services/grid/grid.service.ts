@@ -24,8 +24,14 @@ export class GridService {
         if(target.tagName !== 'TD') return;
         const command = new ColorAPixel([target, editor.color]);
         command.do();
-        editor.frameCommandsChain.add(command.getUndoCommand([]));
-        editor.toColorMap(editor.color, _this.extractIndex(target));
+        const cellIndex: number = _this.extractIndex(target);
+        editor.toColorMap(editor.color, cellIndex);
+        const undoCommand = command.getUndoCommand([
+          target,
+          editor,
+          cellIndex
+        ]);
+        editor.frameCommandsChain.add(undoCommand, command);
     });
 
     grid.addEventListener('contextmenu', function(e: Event){

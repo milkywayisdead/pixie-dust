@@ -1,8 +1,10 @@
-export interface BaseCommand {
+export interface BaseCommandInterface {
     do(): void;
-    getUndoCommand(args: any[]): BaseCommand;
+    getUndoCommand(args: any[]): BaseCommandInterface;
 }
 
 export interface CommandsChain {
-
+    commands: BaseCommandInterface[];
+    currentCommandIndex: number | null;  
+    add(undoCommand: BaseCommandInterface, redoCommand: BaseCommandInterface): void;
 }

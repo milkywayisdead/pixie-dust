@@ -1,4 +1,6 @@
-export class BaseCommand {
+import { BaseCommandInterface } from "../interfaces/command";
+
+export class BaseCommand implements BaseCommandInterface {
     undoCommand: new (...args: any[]) => any;
     args: any[];
 

@@ -20,12 +20,14 @@
         </button>
         <button mat-icon-button
             [disabled]="false"
-            [matTooltip]="locale.currentLocale['actions']['undo']">
+            [matTooltip]="locale.currentLocale['actions']['undo']"
+            (click)="frameCommandsChain.undo()">
             <mat-icon fontIcon="undo"></mat-icon>
         </button>
         <button mat-icon-button
             [disabled]="false"
-            [matTooltip]="locale.currentLocale['actions']['redo']">
+            [matTooltip]="locale.currentLocale['actions']['redo']"
+            (click)="frameCommandsChain.redo()">
             <mat-icon fontIcon="redo"></mat-icon>
         </button>
         <button mat-icon-button

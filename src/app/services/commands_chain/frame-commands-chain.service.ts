@@ -6,12 +6,24 @@ import { BaseCommand } from '../../commands/base';
   providedIn: 'root'
 })
 export class FrameCommandsChain implements CommandsChain {
-  private commands: BaseCommand[] = [];
-  currentCommandIndex: number | null = null;
+  commands: BaseCommand[] = [];
+  currentCommandIndex: number = -1;
 
   constructor() { }
 
-  add(command: BaseCommand): void {
-    this.commands.push(command);
+  add(undoCommand: BaseCommand, redoCommand: BaseCommand): void {
+    this.commands.push(redoCommand, undoCommand);
+    this.currentCommandIndex += 2;
+    console.log(this)
+  }
+
+  undo(): void {
+    this.commands[this.currentCommandIndex].do();
+    this.currentCommandIndex--;
+  }
+
+  redo(): void {
+    this.commands[this.currentCommandIndex].do();
+    this.currentCommandIndex++;
   }
 }
