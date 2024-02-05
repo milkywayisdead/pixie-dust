@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { DrawableGrid, GridInterface } from '../../interfaces/grid';
+import { FrameCanvas, GridInterface } from '../../interfaces/grid';
 import { ColorMap } from '../../interfaces/colormap';
+import { ColorAPixel, ClearAPixel } from '../../commands/drawing';
 
 
 @Injectable({
@@ -11,8 +12,8 @@ export class GridService {
   private IDX_ATTR = 'pixidx';
 
   constructor() { }
-
-  createGrid(cols:number=20, rows:number=20, editor: DrawableGrid){
+  
+  createGrid(cols: number=20, rows: number=20, editor: FrameCanvas){
     const grid = document.createElement('table');
     grid.classList.add('grid');
     const cellsList = [];
@@ -22,8 +23,12 @@ export class GridService {
         const target = e.target as HTMLElement;
         if(target.tagName !== 'TD') return;
 
-        target.style.backgroundColor = editor.color;
-        editor.toColorMap(editor.color, _this.extractIndex(target));
+        const cellIndex: number = _this.extractIndex(target);
+        const command = new ColorAPixel([target, editor.color, editor, cellIndex]);
+        command.do();
+        const undoCommand = new ClearAPixel([target, editor.color, editor, cellIndex]);
+        editor.frameCommandsChain.addCommand(command);
+        editor.frameCommandsChain.addCommand(undoCommand);
     });
 
     grid.addEventListener('contextmenu', function(e: Event){
@@ -31,13 +36,24 @@ export class GridService {
       const target = e.target as HTMLElement;
       if(target.tagName !== 'TD') return;
 
-      target.style.backgroundColor = '';
-      editor.fromColorMap(editor.color, _this.extractIndex(target));
+      const cellIndex: number = _this.extractIndex(target);
+      const currentColor = target.style.backgroundColor;
+      const command = new ClearAPixel([target, '', editor, cellIndex]);
+      command.do();
+      
+      if(currentColor !== ''){
+        const undoCommand = new ColorAPixel([target, currentColor, editor, cellIndex]);
+        editor.frameCommandsChain.addCommand(command);
+        editor.frameCommandsChain.addCommand(undoCommand);
+      }
     });
 
     grid.addEventListener('mousedown', function(e: Event){
       e.preventDefault();
-      editor.drawingMode = true;
+
+      if((e as MouseEvent).button === 0){
+        editor.drawingMode = true;
+      }
     });
     grid.addEventListener('mouseup', function(e: Event){
       editor.drawingMode = false;
