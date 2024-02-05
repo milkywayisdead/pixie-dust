@@ -26,7 +26,6 @@ export class GridService {
         const cellIndex: number = _this.extractIndex(target);
         const command = new ColorAPixel([target, editor.color, editor, cellIndex]);
         command.do();
-        //editor.toColorMap(editor.color, cellIndex);
         const undoCommand = new ClearAPixel([target, editor.color, editor, cellIndex]);
         editor.frameCommandsChain.addCommand(command);
         editor.frameCommandsChain.addCommand(undoCommand);
@@ -41,14 +40,20 @@ export class GridService {
       const currentColor = target.style.backgroundColor;
       const command = new ClearAPixel([target, '', editor, cellIndex]);
       command.do();
-      const undoCommand = new ColorAPixel([target, currentColor, editor, cellIndex]);
-      editor.frameCommandsChain.addCommand(command);
-      editor.frameCommandsChain.addCommand(undoCommand);
+      
+      if(currentColor !== ''){
+        const undoCommand = new ColorAPixel([target, currentColor, editor, cellIndex]);
+        editor.frameCommandsChain.addCommand(command);
+        editor.frameCommandsChain.addCommand(undoCommand);
+      }
     });
 
     grid.addEventListener('mousedown', function(e: Event){
       e.preventDefault();
-      editor.drawingMode = true;
+
+      if((e as MouseEvent).button === 0){
+        editor.drawingMode = true;
+      }
     });
     grid.addEventListener('mouseup', function(e: Event){
       editor.drawingMode = false;

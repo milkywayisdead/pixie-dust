@@ -7,14 +7,12 @@ import { CommandsChainLink } from './link';
   providedIn: 'root'
 })
 export class FrameCommandsChain implements CommandsChain {
-  head: CommandsChainLink | null = null;
   current: CommandsChainLink | null = null;
   undoable: boolean = false;
   redoable: boolean = false;
 
-  constructor() { 
-    this.head = new CommandsChainLink();
-    this.current = this.head;
+  constructor() {
+    this.current = new CommandsChainLink();
   }
 
   addCommand(command: BaseCommand): void {

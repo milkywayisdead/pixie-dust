@@ -6,7 +6,6 @@ export interface BaseCommandInterface {
 }
 
 export interface CommandsChain {
-    head: CommandsChainLinkInterface | null;
     current: CommandsChainLinkInterface | null;
     undo(): void;
     redo(): void;

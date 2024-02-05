@@ -49,7 +49,6 @@ export class EditariumComponent implements FrameCanvas {
 
   compileFrame(){
     const compiled = this.gridService.compileFrame(this.colorMap);
-    console.log(compiled);
     return compiled;
   }
 
