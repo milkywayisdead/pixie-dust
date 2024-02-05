@@ -15,16 +15,13 @@ export class FrameCommandsChain implements CommandsChain {
     this.current = new CommandsChainLink();
   }
 
-  addCommand(command: BaseCommand): void {
+  addCommand(rCommand: BaseCommand, uCommand: BaseCommand): void {
     const current = this.current;
-    if(current?.hasRedo()){
-      const newLink = new CommandsChainLink(command);
-      current!.next = newLink;
-      newLink.previous = current;
-      this.current = newLink;
-    } else {
-      current?.setRedo(command);
-    }
+    current?.setRedo(rCommand);
+    const newLink = new CommandsChainLink(uCommand);
+    current!.next = newLink;
+    newLink.previous = current;
+    this.current = newLink;
 
     this.updateFlags();
   }

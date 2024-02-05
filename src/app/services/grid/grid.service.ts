@@ -27,8 +27,7 @@ export class GridService {
         const command = new ColorAPixel([target, editor.color, editor, cellIndex]);
         command.do();
         const undoCommand = new ClearAPixel([target, editor.color, editor, cellIndex]);
-        editor.frameCommandsChain.addCommand(command);
-        editor.frameCommandsChain.addCommand(undoCommand);
+        editor.frameCommandsChain.addCommand(command, undoCommand);
     });
 
     grid.addEventListener('contextmenu', function(e: Event){
@@ -43,8 +42,7 @@ export class GridService {
       
       if(currentColor !== ''){
         const undoCommand = new ColorAPixel([target, currentColor, editor, cellIndex]);
-        editor.frameCommandsChain.addCommand(command);
-        editor.frameCommandsChain.addCommand(undoCommand);
+        editor.frameCommandsChain.addCommand(command, undoCommand);
       }
     });
 
