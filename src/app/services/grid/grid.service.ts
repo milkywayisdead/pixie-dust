@@ -12,7 +12,7 @@ export class GridService {
   private IDX_ATTR = 'pixidx';
 
   constructor() { }
-
+  
   createGrid(cols: number=20, rows: number=20, editor: FrameCanvas){
     const grid = document.createElement('table');
     grid.classList.add('grid');
