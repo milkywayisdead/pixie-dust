@@ -9,6 +9,8 @@ import { CommandsChainLink } from './link';
 export class FrameCommandsChain implements CommandsChain {
   head: CommandsChainLink | null = null;
   current: CommandsChainLink | null = null;
+  undoable: boolean = false;
+  redoable: boolean = false;
 
   constructor() { 
     this.head = new CommandsChainLink();
@@ -25,6 +27,8 @@ export class FrameCommandsChain implements CommandsChain {
     } else {
       current?.setRedo(command);
     }
+
+    this.updateFlags();
   }
 
   undo(): void {
@@ -33,6 +37,8 @@ export class FrameCommandsChain implements CommandsChain {
     if(this.current?.previous){
       this.current = this.current!.previous;
     }
+
+    this.updateFlags();
   }
 
   redo(): void {
@@ -41,5 +47,12 @@ export class FrameCommandsChain implements CommandsChain {
     if(this.current?.next){
       this.current = this.current!.next;
     }
+
+    this.updateFlags();
+  }
+
+  private updateFlags(): void {
+    this.undoable = !!this.current?.hasUndo();
+    this.redoable = !!this.current?.hasRedo();
   }
 }
