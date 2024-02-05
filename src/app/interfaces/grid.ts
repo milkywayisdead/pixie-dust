@@ -7,7 +7,7 @@ export interface GridInterface {
     grid: HTMLElement | null;
 }
 
-export interface DrawableGrid extends GridInterface {
+export interface FrameCanvas extends GridInterface {
     drawingMode: boolean;
     color: string;
     frameCommandsChain: FrameCommandsChain;

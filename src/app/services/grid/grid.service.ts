@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { DrawableGrid, GridInterface } from '../../interfaces/grid';
+import { FrameCanvas, GridInterface } from '../../interfaces/grid';
 import { ColorMap } from '../../interfaces/colormap';
 import { ColorAPixel, ClearAPixel } from '../../commands/drawing';
 
@@ -13,7 +13,7 @@ export class GridService {
 
   constructor() { }
 
-  createGrid(cols:number=20, rows:number=20, editor: DrawableGrid){
+  createGrid(cols: number=20, rows: number=20, editor: FrameCanvas){
     const grid = document.createElement('table');
     grid.classList.add('grid');
     const cellsList = [];
@@ -22,16 +22,14 @@ export class GridService {
     grid.addEventListener('click', function(e: Event){
         const target = e.target as HTMLElement;
         if(target.tagName !== 'TD') return;
-        const command = new ColorAPixel([target, editor.color]);
-        command.do();
+
         const cellIndex: number = _this.extractIndex(target);
-        editor.toColorMap(editor.color, cellIndex);
-        const undoCommand = command.getUndoCommand([
-          target,
-          editor,
-          cellIndex
-        ]);
-        editor.frameCommandsChain.add(undoCommand, command);
+        const command = new ColorAPixel([target, editor.color, editor, cellIndex]);
+        command.do();
+        //editor.toColorMap(editor.color, cellIndex);
+        const undoCommand = new ClearAPixel([target, editor.color, editor, cellIndex]);
+        editor.frameCommandsChain.addCommand(command);
+        editor.frameCommandsChain.addCommand(undoCommand);
     });
 
     grid.addEventListener('contextmenu', function(e: Event){
@@ -39,9 +37,13 @@ export class GridService {
       const target = e.target as HTMLElement;
       if(target.tagName !== 'TD') return;
 
-      const command = new ClearAPixel([target, editor.color]);
+      const cellIndex: number = _this.extractIndex(target);
+      const currentColor = target.style.backgroundColor;
+      const command = new ClearAPixel([target, '', editor, cellIndex]);
       command.do();
-      editor.fromColorMap(editor.color, _this.extractIndex(target));
+      const undoCommand = new ColorAPixel([target, currentColor, editor, cellIndex]);
+      editor.frameCommandsChain.addCommand(command);
+      editor.frameCommandsChain.addCommand(undoCommand);
     });
 
     grid.addEventListener('mousedown', function(e: Event){

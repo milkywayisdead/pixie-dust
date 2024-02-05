@@ -1,10 +1,13 @@
+import { CommandsChainLinkInterface } from "../services/commands_chain/link";
+
 export interface BaseCommandInterface {
+    args: any[];
     do(): void;
-    getUndoCommand(args: any[]): BaseCommandInterface;
 }
 
 export interface CommandsChain {
-    commands: BaseCommandInterface[];
-    currentCommandIndex: number | null;  
-    add(undoCommand: BaseCommandInterface, redoCommand: BaseCommandInterface): void;
+    head: CommandsChainLinkInterface | null;
+    current: CommandsChainLinkInterface | null;
+    undo(): void;
+    redo(): void;
 }

@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { DrawableGrid } from '../interfaces/grid';
+import { FrameCanvas } from '../interfaces/grid';
 import { FramesService } from '../services/frames/frames.service';
 import { LocaleService } from '../services/locale/locale.service';
 import { GridService } from '../services/grid/grid.service';
@@ -20,7 +20,7 @@ import { FrameCommandsChain } from '../services/commands_chain/frame-commands-ch
   encapsulation: ViewEncapsulation.None,
   providers: [FrameCommandsChain],
 })
-export class EditariumComponent implements DrawableGrid {
+export class EditariumComponent implements FrameCanvas {
   @Input() frameId: string = '';
   @Input() index: number = 0;
   @Input() color: string = '#000000';

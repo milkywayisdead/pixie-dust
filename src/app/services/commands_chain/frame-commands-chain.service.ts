@@ -1,29 +1,45 @@
 import { Injectable } from '@angular/core';
-import { CommandsChain } from '../../interfaces/command';
 import { BaseCommand } from '../../commands/base';
+import { CommandsChain } from '../../interfaces/command';
+import { CommandsChainLink } from './link';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FrameCommandsChain implements CommandsChain {
-  commands: BaseCommand[] = [];
-  currentCommandIndex: number = -1;
+  head: CommandsChainLink | null = null;
+  current: CommandsChainLink | null = null;
 
-  constructor() { }
+  constructor() { 
+    this.head = new CommandsChainLink();
+    this.current = this.head;
+  }
 
-  add(undoCommand: BaseCommand, redoCommand: BaseCommand): void {
-    this.commands.push(redoCommand, undoCommand);
-    this.currentCommandIndex += 2;
-    console.log(this)
+  addCommand(command: BaseCommand): void {
+    const current = this.current;
+    if(current?.hasRedo()){
+      const newLink = new CommandsChainLink(command);
+      current!.next = newLink;
+      newLink.previous = current;
+      this.current = newLink;
+    } else {
+      current?.setRedo(command);
+    }
   }
 
   undo(): void {
-    this.commands[this.currentCommandIndex].do();
-    this.currentCommandIndex--;
+    this.current?.undo();
+
+    if(this.current?.previous){
+      this.current = this.current!.previous;
+    }
   }
 
   redo(): void {
-    this.commands[this.currentCommandIndex].do();
-    this.currentCommandIndex++;
+    this.current?.redo();
+    
+    if(this.current?.next){
+      this.current = this.current!.next;
+    }
   }
 }
