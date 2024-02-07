@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { FrameCanvas, GridInterface } from '../../interfaces/grid';
 import { ColorMap } from '../../interfaces/colormap';
-import { ColorAPixel, ClearAPixel } from '../../commands/drawing';
+import { ColorAPixel, ClearAPixel, ColorMany, ClearMany } from '../../commands/drawing';
 
 
 @Injectable({
@@ -36,6 +36,7 @@ export class GridService {
       if(target.tagName !== 'TD') return;
 
       const cellIndex: number = _this.extractIndex(target);
+      console.log(target.style.backgroundColor)
       const currentColor = target.style.backgroundColor;
       const command = new ClearAPixel([target, '', editor, cellIndex]);
       command.do();
@@ -46,26 +47,76 @@ export class GridService {
       }
     });
 
+    let drawingStartingPoint: HTMLElement | null = null;
+    let coveredCells: HTMLElement[] = [];
+    let currentColors: string[] = [];
     grid.addEventListener('mousedown', function(e: Event){
       e.preventDefault();
+      const me = e as MouseEvent;
 
-      if((e as MouseEvent).button === 0){
-        editor.drawingMode = true;
+      const btnIndex = me.button;
+      if([0, 2].includes(btnIndex)){
+        if(btnIndex){
+          editor.clearing = true;
+        } else {
+          editor.drawingMode = true;
+        }
+
+        const target = (me.target as HTMLElement);
+        if(target.tagName === 'TD'){
+          drawingStartingPoint = target;
+        }
       }
     });
+
     grid.addEventListener('mouseup', function(e: Event){
+      if(coveredCells.length > 0){
+        /* if(drawingStartingPoint){
+          coveredCells.unshift(drawingStartingPoint);
+          currentColors.push(drawingStartingPoint);
+        } */
+
+        let command = new ColorMany([editor, currentColors.map(c => editor.color), coveredCells.map(c => c)]);
+        let undoCommand = new ClearMany([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+        if(editor.clearing){
+          command = new ClearMany([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
+          undoCommand = new ColorMany([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+        }
+        editor.frameCommandsChain.addCommand(command, undoCommand);
+      }
       editor.drawingMode = false;
+      editor.clearing = false;
+      coveredCells = [];
+      drawingStartingPoint = null;
+      currentColors = [];
     });
+
     grid.addEventListener('mouseover', function(e: Event){
       const target = e.target as HTMLElement;
       if(target.tagName !== 'TD') return;
+
+      const cellIndex: number = _this.extractIndex(target);
+      const bgColor = target.style.backgroundColor;
+      const alreadyProcessed: boolean = coveredCells.some(c => _this.extractIndex(c) === cellIndex);
+      if(alreadyProcessed) return;
+
       if(editor.drawingMode){
+        currentColors.push(bgColor);
         target.style.backgroundColor = editor.color;
-        editor.toColorMap(editor.color, _this.extractIndex(target));
+        editor.toColorMap(editor.color, cellIndex);
+        coveredCells.push(target);
+      } else if(editor.clearing){
+        currentColors.push(bgColor);
+        target.style.backgroundColor = '';
+        editor.fromColorMap('', cellIndex);
+        coveredCells.push(target);
       }
     });
+
     grid.addEventListener('mouseleave', function(e: Event){
       editor.drawingMode = false;
+      editor.clearing = false;
+      drawingStartingPoint = null;
     });
 
     for(let r=0;r<rows;r++){
@@ -120,6 +171,10 @@ export class GridService {
         cells[cellIndex].style.backgroundColor = color;
       }
     }
+  }
+
+  colorMany(canvas: FrameCanvas, cellsIndices: number[], color: string): void {
+
   }
 
   private extractIndex(cell: HTMLElement){

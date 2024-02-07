@@ -1,6 +1,9 @@
 import { BaseCommand } from "./base";
 import { FrameCanvas } from "../interfaces/grid";
 
+function extractIndex(target: HTMLElement): number {
+    return Number(target.getAttribute('pixix'));
+} 
 
 export class ColorAPixel extends BaseCommand {
     constructor(args: any[]){
@@ -29,5 +32,43 @@ export class ClearAPixel extends BaseCommand {
         const cellIndex: number = this.args[3];
         element.style.backgroundColor = '';
         editor.fromColorMap(color, cellIndex);
+    }
+}
+
+export class ColorMany extends BaseCommand {
+    constructor(args: any[]){
+        super(args);
+    }
+
+    do(): void {
+        const editor: FrameCanvas = this.args[0];
+        const colors = this.args[1];
+        const cells = this.args[2];
+
+        cells.forEach((cell: HTMLElement, index: number) => {
+            const color = colors[index];
+            cell.style.backgroundColor = color;
+            const cellIndex = extractIndex(cell);
+            editor.toColorMap(color, cellIndex);
+        });
+    }
+}
+
+export class ClearMany extends BaseCommand {
+    constructor(args: any[]){
+        super(args);
+    }
+
+    do(): void {
+        const editor: FrameCanvas = this.args[0];
+        const colors = this.args[1];
+        const cells = this.args[2];
+
+        cells.forEach((cell: HTMLElement, index: number) => {
+            const color = colors[index];
+            cell.style.backgroundColor = color;
+            const cellIndex = extractIndex(cell);
+            editor.fromColorMap(color, cellIndex);
+        });
     }
 }

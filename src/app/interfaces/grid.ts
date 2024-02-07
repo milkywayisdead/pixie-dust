@@ -9,6 +9,7 @@ export interface GridInterface {
 
 export interface FrameCanvas extends GridInterface {
     drawingMode: boolean;
+    clearing: boolean;
     color: string;
     frameCommandsChain: FrameCommandsChain;
     toColorMap(color: string, cellIndex: number): void;

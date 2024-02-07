@@ -28,6 +28,7 @@ export class EditariumComponent implements FrameCanvas {
   @Input() isLast: boolean = false;
   @Input() active: boolean = false;
   drawingMode: boolean = false;
+  clearing: boolean = false;
   cells: HTMLElement[] = [];
   colorMap: ColorMap = {};
   grid: HTMLElement|null = null;
