@@ -36,7 +36,6 @@ export class GridService {
       if(target.tagName !== 'TD') return;
 
       const cellIndex: number = _this.extractIndex(target);
-      console.log(target.style.backgroundColor)
       const currentColor = target.style.backgroundColor;
       const command = new ClearAPixel([target, '', editor, cellIndex]);
       command.do();
@@ -71,11 +70,6 @@ export class GridService {
 
     grid.addEventListener('mouseup', function(e: Event){
       if(coveredCells.length > 0){
-        /* if(drawingStartingPoint){
-          coveredCells.unshift(drawingStartingPoint);
-          currentColors.push(drawingStartingPoint);
-        } */
-
         let command = new ColorMany([editor, currentColors.map(c => editor.color), coveredCells.map(c => c)]);
         let undoCommand = new ClearMany([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         if(editor.clearing){
@@ -114,9 +108,20 @@ export class GridService {
     });
 
     grid.addEventListener('mouseleave', function(e: Event){
+      if(coveredCells.length > 0){
+        let command = new ColorMany([editor, currentColors.map(c => editor.color), coveredCells.map(c => c)]);
+        let undoCommand = new ClearMany([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+        if(editor.clearing){
+          command = new ClearMany([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
+          undoCommand = new ColorMany([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+        }
+        editor.frameCommandsChain.addCommand(command, undoCommand);
+      }
       editor.drawingMode = false;
       editor.clearing = false;
+      coveredCells = [];
       drawingStartingPoint = null;
+      currentColors = [];
     });
 
     for(let r=0;r<rows;r++){
