@@ -40,7 +40,7 @@ export class EditariumComponent implements FrameCanvas {
     public frameCommandsChain: FrameCommandsChain,
   ) {}
 
-  createGrid(cols:number=20, rows:number=20){
+  createGrid(cols: number=20, rows: number=20){
     return this.gridService.createGrid(cols, rows, this);
   }
 
@@ -117,5 +117,9 @@ export class EditariumComponent implements FrameCanvas {
 
   moveForward(): void {
     this.framesService.moveFrameForward(this.frameId);
+  }
+
+  copy(): void {
+    this.framesService.copyFrame(this);
   }
 }

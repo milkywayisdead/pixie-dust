@@ -6,10 +6,6 @@ function extractIndex(target: HTMLElement): number {
 } 
 
 export class ColorAPixel extends BaseCommand {
-    constructor(args: any[]){
-        super(args);
-    }
-
     do(): void {
         const element: HTMLElement = this.args[0];
         const color: string = this.args[1];
@@ -21,10 +17,6 @@ export class ColorAPixel extends BaseCommand {
 }
 
 export class ClearAPixel extends BaseCommand {
-    constructor(args: any[]){
-        super(args);
-    }
-
     do(): void {
         const element: HTMLElement = this.args[0];
         const color: string = this.args[1];
@@ -36,10 +28,6 @@ export class ClearAPixel extends BaseCommand {
 }
 
 export class ColorMany extends BaseCommand {
-    constructor(args: any[]){
-        super(args);
-    }
-
     do(): void {
         const editor: FrameCanvas = this.args[0];
         const colors = this.args[1];
@@ -55,10 +43,6 @@ export class ColorMany extends BaseCommand {
 }
 
 export class ClearMany extends BaseCommand {
-    constructor(args: any[]){
-        super(args);
-    }
-
     do(): void {
         const editor: FrameCanvas = this.args[0];
         const colors = this.args[1];

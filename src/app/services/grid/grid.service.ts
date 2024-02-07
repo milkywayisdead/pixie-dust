@@ -150,7 +150,7 @@ export class GridService {
     return str;
   }
 
-  parse(frameStr: string){
+  parse(frameStr: string): ColorMap {
     const colorList = frameStr.split('[')[1].replace(']', '').split('|');
     const colorMap: ColorMap = {};
     for(const cl of colorList){
@@ -165,7 +165,7 @@ export class GridService {
     return colorMap;
   }
 
-  draw(colorMap: ColorMap, cells: HTMLElement[]){
+  draw(colorMap: ColorMap, cells: HTMLElement[]): void {
     for(const [color, cellsIndices] of Object.entries(colorMap)){
       for(const cellIndex of cellsIndices){
         cells[cellIndex].style.backgroundColor = color;
@@ -173,11 +173,7 @@ export class GridService {
     }
   }
 
-  colorMany(canvas: FrameCanvas, cellsIndices: number[], color: string): void {
-
-  }
-
-  private extractIndex(cell: HTMLElement){
+  private extractIndex(cell: HTMLElement): number {
     return Number(cell.getAttribute(this.IDX_ATTR));
   }
 }

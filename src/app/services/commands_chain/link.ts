@@ -1,14 +1,4 @@
-import { BaseCommandInterface } from "../../interfaces/command";
-import { BaseCommand } from "../../commands/base";
-
-export interface CommandsChainLinkInterface {
-    next: CommandsChainLinkInterface | null;
-    previous: CommandsChainLinkInterface | null;
-    setUndo(command: BaseCommandInterface): void;
-    setRedo(command: BaseCommandInterface): void;
-    undo(): void;
-    redo(): void;
-}
+import { CommandsChainLinkInterface, BaseCommandInterface } from "../../interfaces/command";
 
 export class CommandsChainLink implements CommandsChainLinkInterface {
     next: CommandsChainLink | null = null;
@@ -27,11 +17,11 @@ export class CommandsChainLink implements CommandsChainLinkInterface {
         return this.redoCommand !== null;
     }
 
-    setUndo(command: BaseCommand): void {
+    setUndo(command: BaseCommandInterface): void {
         this.undoCommand = command;
     };
 
-    setRedo(command: BaseCommand): void {
+    setRedo(command: BaseCommandInterface): void {
         this.redoCommand = command;
     };
 

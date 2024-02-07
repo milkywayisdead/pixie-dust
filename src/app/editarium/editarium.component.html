@@ -7,6 +7,11 @@
             <mat-icon fontIcon="crop_square"></mat-icon>
         </button>
         <button mat-icon-button
+            [matTooltip]="locale.currentLocale['actions']['copyFrame']"
+            (click)="copy()">
+            <mat-icon fontIcon="content_copy"></mat-icon>
+        </button>
+        <button mat-icon-button
             [disabled]="isFirst"
             [matTooltip]="locale.currentLocale['actions']['previousFrame']"
             (click)="framesService.stepBack()">

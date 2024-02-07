@@ -16,6 +16,7 @@ const ru: Locale = {
         moveFrameBack: 'Сместить фрейм назад',
         toFirstFrame: 'К первому фрейму',
         toLastFrame: 'К последнему фрейму',
+        copyFrame: 'Копировать фрейм',
     }
 }
 
