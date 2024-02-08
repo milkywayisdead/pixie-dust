@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { FrameCanvas, GridInterface } from '../../interfaces/grid';
 import { ColorMap } from '../../interfaces/colormap';
 import { ColorAPixel, ClearAPixel, ColorMany, ClearMany } from '../../commands/drawing';
-
+import { ClearCanvas, DrawOnCanvas, CopyFrame } from '../../commands/frames';
 
 @Injectable({
   providedIn: 'root'
@@ -137,13 +137,18 @@ export class GridService {
     return {grid: grid, cells: cellsList};
   }
 
-  clearGrid(editor: GridInterface){
-    const cells = editor.cells;
-    for(const indices of Object.values(editor.colorMap)){
-      indices.forEach(idx => {
-        cells[idx].style.backgroundColor = '';
-      });
+  clearGrid(canvas: FrameCanvas): void {
+    if(canvas.isClear()) return
+
+    const colorMapCopy: ColorMap = {}
+    for(const [color, cells] of Object.entries(canvas.colorMap)){
+        colorMapCopy[color] = cells.map(c => c);
     }
+
+    const command = new ClearCanvas([canvas]);
+    const undoCommand = new DrawOnCanvas([canvas, colorMapCopy]);
+    command.do();
+    canvas.frameCommandsChain.addCommand(command, undoCommand);
   }
 
   compileFrame(colorMap: ColorMap){

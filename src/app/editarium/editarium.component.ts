@@ -94,14 +94,14 @@ export class EditariumComponent implements FrameCanvas {
     this.cells = grid.cells;
   }
 
-  toColorMap(color: string, cellIndex: number){
+  toColorMap(color: string, cellIndex: number): void {
     if(!this.colorMap[color]){
       this.colorMap[color] = [];
     }
     this.colorMap[color].push(cellIndex);
   }
 
-  fromColorMap(color: string, cellIndex: number){
+  fromColorMap(color: string, cellIndex: number): void {
     const cells = this.colorMap[color];
     if(!cells) return;
 
@@ -121,5 +121,9 @@ export class EditariumComponent implements FrameCanvas {
 
   copy(): void {
     this.framesService.copyFrame(this);
+  }
+
+  isClear(): boolean {
+    return Object.keys(this.colorMap).length === 0;
   }
 }

@@ -2,7 +2,7 @@ import { BaseCommand } from "./base";
 import { FrameCanvas } from "../interfaces/grid";
 
 function extractIndex(target: HTMLElement): number {
-    return Number(target.getAttribute('pixix'));
+    return Number(target.getAttribute('pixidx'));
 } 
 
 export class ColorAPixel extends BaseCommand {
@@ -50,9 +50,10 @@ export class ClearMany extends BaseCommand {
 
         cells.forEach((cell: HTMLElement, index: number) => {
             const color = colors[index];
+            const currentColor = cell.style.backgroundColor;
             cell.style.backgroundColor = color;
             const cellIndex = extractIndex(cell);
-            editor.fromColorMap(color, cellIndex);
+            editor.fromColorMap(currentColor, cellIndex);
         });
     }
 }
