@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FrameCanvas } from '../../interfaces/grid';
 
 
 @Injectable({
@@ -73,6 +74,10 @@ export class FramesService {
 
     this.currentFrameIndex = newIndex;
   }
+
+  copyFrame(frame: FrameCanvas): void {
+
+  } 
 
   private moveFrame(frameIndex: number, step: number = 0): void {
     const movingFrame = this.frames.splice(frameIndex, 1)[0];

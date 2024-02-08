@@ -28,6 +28,7 @@ export class EditariumComponent implements FrameCanvas {
   @Input() isLast: boolean = false;
   @Input() active: boolean = false;
   drawingMode: boolean = false;
+  clearing: boolean = false;
   cells: HTMLElement[] = [];
   colorMap: ColorMap = {};
   grid: HTMLElement|null = null;
@@ -39,7 +40,7 @@ export class EditariumComponent implements FrameCanvas {
     public frameCommandsChain: FrameCommandsChain,
   ) {}
 
-  createGrid(cols:number=20, rows:number=20){
+  createGrid(cols: number=20, rows: number=20){
     return this.gridService.createGrid(cols, rows, this);
   }
 
@@ -93,14 +94,14 @@ export class EditariumComponent implements FrameCanvas {
     this.cells = grid.cells;
   }
 
-  toColorMap(color: string, cellIndex: number){
+  toColorMap(color: string, cellIndex: number): void {
     if(!this.colorMap[color]){
       this.colorMap[color] = [];
     }
     this.colorMap[color].push(cellIndex);
   }
 
-  fromColorMap(color: string, cellIndex: number){
+  fromColorMap(color: string, cellIndex: number): void {
     const cells = this.colorMap[color];
     if(!cells) return;
 
@@ -116,5 +117,13 @@ export class EditariumComponent implements FrameCanvas {
 
   moveForward(): void {
     this.framesService.moveFrameForward(this.frameId);
+  }
+
+  copy(): void {
+    this.framesService.copyFrame(this);
+  }
+
+  isClear(): boolean {
+    return Object.keys(this.colorMap).length === 0;
   }
 }

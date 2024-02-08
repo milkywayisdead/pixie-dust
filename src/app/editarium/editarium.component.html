@@ -1,10 +1,15 @@
 <div [hidden]="!active">
-    <div [id]="frameId" style="width:100%;overflow:auto;"></div>
+    <div [id]="frameId" class="frame-grid-container"></div>
     <div>
         <button mat-icon-button
             [matTooltip]="locale.currentLocale['actions']['clear']"
             (click)="clear()">
             <mat-icon fontIcon="crop_square"></mat-icon>
+        </button>
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['actions']['copyFrame']"
+            (click)="copy()">
+            <mat-icon fontIcon="content_copy"></mat-icon>
         </button>
         <button mat-icon-button
             [disabled]="isFirst"
