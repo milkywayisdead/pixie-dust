@@ -2,14 +2,23 @@ import { Injectable } from '@angular/core';
 
 import { FrameCanvas, GridInterface } from '../../interfaces/grid';
 import { ColorMap } from '../../interfaces/colormap';
-import { ColorAPixel, ClearAPixel, ColorMany, ClearMany } from '../../commands/drawing';
-import { ClearCanvas, DrawOnCanvas, CopyFrame } from '../../commands/frames';
+import { 
+  ColorAPixelCommand,
+  ClearAPixelCommand,
+  ColorManyCommand,
+  ClearManyCommand } from '../../commands/drawing';
+import {
+  ClearCanvasCommand,
+  DrawOnCanvasCommand,
+  CopyFrameCommand 
+} from '../../commands/frames';
+import { extractIndex, IDX_ATTR } from '../../utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GridService {
-  private IDX_ATTR = 'pixidx';
+  private IDX_ATTR = IDX_ATTR;
 
   constructor() { }
   
@@ -24,9 +33,9 @@ export class GridService {
         if(target.tagName !== 'TD') return;
 
         const cellIndex: number = _this.extractIndex(target);
-        const command = new ColorAPixel([target, editor.color, editor, cellIndex]);
+        const command = new ColorAPixelCommand([target, editor.color, editor, cellIndex]);
         command.do();
-        const undoCommand = new ClearAPixel([target, editor.color, editor, cellIndex]);
+        const undoCommand = new ClearAPixelCommand([target, editor.color, editor, cellIndex]);
         editor.frameCommandsChain.addCommand(command, undoCommand);
     });
 
@@ -37,11 +46,11 @@ export class GridService {
 
       const cellIndex: number = _this.extractIndex(target);
       const currentColor = target.style.backgroundColor;
-      const command = new ClearAPixel([target, '', editor, cellIndex]);
+      const command = new ClearAPixelCommand([target, '', editor, cellIndex]);
       command.do();
       
       if(currentColor !== ''){
-        const undoCommand = new ColorAPixel([target, currentColor, editor, cellIndex]);
+        const undoCommand = new ColorAPixelCommand([target, currentColor, editor, cellIndex]);
         editor.frameCommandsChain.addCommand(command, undoCommand);
       }
     });
@@ -70,11 +79,11 @@ export class GridService {
 
     grid.addEventListener('mouseup', function(e: Event){
       if(coveredCells.length > 0){
-        let command = new ColorMany([editor, currentColors.map(c => editor.color), coveredCells.map(c => c)]);
-        let undoCommand = new ClearMany([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+        let command = new ColorManyCommand([editor, currentColors.map(c => editor.color), coveredCells.map(c => c)]);
+        let undoCommand = new ClearManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         if(editor.clearing){
-          command = new ClearMany([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
-          undoCommand = new ColorMany([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+          command = new ClearManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
+          undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         }
         editor.frameCommandsChain.addCommand(command, undoCommand);
       }
@@ -109,11 +118,11 @@ export class GridService {
 
     grid.addEventListener('mouseleave', function(e: Event){
       if(coveredCells.length > 0){
-        let command = new ColorMany([editor, currentColors.map(c => editor.color), coveredCells.map(c => c)]);
-        let undoCommand = new ClearMany([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+        let command = new ColorManyCommand([editor, currentColors.map(c => editor.color), coveredCells.map(c => c)]);
+        let undoCommand = new ClearManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         if(editor.clearing){
-          command = new ClearMany([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
-          undoCommand = new ColorMany([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+          command = new ClearManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
+          undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         }
         editor.frameCommandsChain.addCommand(command, undoCommand);
       }
@@ -145,8 +154,8 @@ export class GridService {
         colorMapCopy[color] = cells.map(c => c);
     }
 
-    const command = new ClearCanvas([canvas]);
-    const undoCommand = new DrawOnCanvas([canvas, colorMapCopy]);
+    const command = new ClearCanvasCommand([canvas]);
+    const undoCommand = new DrawOnCanvasCommand([canvas, colorMapCopy]);
     command.do();
     canvas.frameCommandsChain.addCommand(command, undoCommand);
   }
@@ -184,6 +193,6 @@ export class GridService {
   }
 
   private extractIndex(cell: HTMLElement): number {
-    return Number(cell.getAttribute(this.IDX_ATTR));
+    return extractIndex(cell);
   }
 }
