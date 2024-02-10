@@ -10,6 +10,7 @@ import { LocaleService } from '../services/locale/locale.service';
 import { GridService } from '../services/grid/grid.service';
 import { ColorMap } from '../interfaces/colormap';
 import { FrameCommandsChain } from '../services/commands_chain/frame-commands-chain.service';
+import { FrameObject } from '../interfaces/frame';
 
 @Component({
   selector: 'pix-editarium',
@@ -21,12 +22,14 @@ import { FrameCommandsChain } from '../services/commands_chain/frame-commands-ch
   providers: [FrameCommandsChain],
 })
 export class EditariumComponent implements FrameCanvas {
-  @Input() frameId: string = '';
   @Input() index: number = 0;
   @Input() color: string = '#000000';
   @Input() isFirst: boolean = false;
   @Input() isLast: boolean = false;
   @Input() active: boolean = false;
+  @Input() frame!: FrameObject;
+  @Input() nRows: number = 0;
+  @Input() nCols: number = 0;
   drawingMode: boolean = false;
   clearing: boolean = false;
   cells: HTMLElement[] = [];
@@ -72,26 +75,18 @@ export class EditariumComponent implements FrameCanvas {
     this.colorMap = {};
   }
 
-  create(cols: number|string, rows: number|string){
-    rows = Number(rows);
-    cols = Number(cols);
-    rows = rows > 0 ? rows : 20;
-    cols = cols > 0 ? cols : 20;
-    const grid = this.createGrid(cols, rows);
-    document.getElementById(this.frameId)?.append(grid.grid);
-    this.grid = grid.grid;
-    this.cells = grid.cells;
-  }
-
   remove(){
-    this.framesService.remove(this.frameId);
+    this.framesService.remove(this.frame.id);
   }
 
   ngAfterViewInit(){
-    const grid = this.createGrid();
-    document.getElementById(this.frameId)?.append(grid.grid);
+    const grid = this.createGrid(this.nCols, this.nRows);
+    document.getElementById(this.frame.id)?.append(grid.grid);
     this.grid = grid.grid;
     this.cells = grid.cells;
+
+    this.colorMap = this.frame.colorMap;
+    this.gridService.applyColorMap(this);
   }
 
   toColorMap(color: string, cellIndex: number): void {
@@ -112,11 +107,11 @@ export class EditariumComponent implements FrameCanvas {
   }
 
   moveBack(): void {
-    this.framesService.moveFrameBack(this.frameId);
+    this.framesService.moveFrameBack(this.frame.id);
   }
 
   moveForward(): void {
-    this.framesService.moveFrameForward(this.frameId);
+    this.framesService.moveFrameForward(this.frame.id);
   }
 
   copy(): void {

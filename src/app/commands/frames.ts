@@ -13,7 +13,7 @@ export class ClearCanvasCommand extends BaseCommand {
     }
 }
 
-export class DrawOnCanvasCommand extends BaseCommand {
+export class ApplyColorMapCommand extends BaseCommand {
     do(): void {
         const canvas: FrameCanvas = this.args[0];
         const colorMap: ColorMap = this.args[1];
@@ -27,10 +27,4 @@ export class DrawOnCanvasCommand extends BaseCommand {
 
         canvas.colorMap = colorMap;
     } 
-}
-
-export class CopyFrameCommand extends BaseCommand {
-    do(): void {
-
-    }
 }
