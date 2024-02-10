@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>{{ locale.currentLocale['frame']['shape'] }}</h2>
+<mat-dialog-content>
+    <form>
+        <mat-form-field style="width:100%">
+          <mat-label>{{ locale.currentLocale['frame']['rows'] }}</mat-label>
+          <input matInput [(ngModel)]="frameShape.rows" type="number" min="1" name="rows">
+        </mat-form-field>
+        <mat-form-field style="width:100%">
+            <mat-label>{{ locale.currentLocale['frame']['cols'] }}</mat-label>
+            <input matInput [(ngModel)]="frameShape.cols" type="number" min="1" name="cols">
+          </mat-form-field>
+      </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="close()">{{ locale.currentLocale['actions']['cancel'] }}</button>
+    <button mat-raised-button (click)="addFrame()">{{ locale.currentLocale['actions']['add'] }}</button>
+</mat-dialog-actions>
