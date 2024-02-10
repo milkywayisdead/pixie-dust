@@ -9,7 +9,7 @@ import {
   ClearManyCommand } from '../../commands/drawing';
 import {
   ClearCanvasCommand,
-  DrawOnCanvasCommand,
+  ApplyColorMapCommand,
   CopyFrameCommand 
 } from '../../commands/frames';
 import { extractIndex, IDX_ATTR } from '../../utils';
@@ -146,6 +146,11 @@ export class GridService {
     return {grid: grid, cells: cellsList};
   }
 
+  applyColorMap(canvas: FrameCanvas): void {
+    const command = new ApplyColorMapCommand([canvas, canvas.colorMap]);
+    command.do();
+  }
+
   clearGrid(canvas: FrameCanvas): void {
     if(canvas.isClear()) return
 
@@ -155,7 +160,7 @@ export class GridService {
     }
 
     const command = new ClearCanvasCommand([canvas]);
-    const undoCommand = new DrawOnCanvasCommand([canvas, colorMapCopy]);
+    const undoCommand = new ApplyColorMapCommand([canvas, colorMapCopy]);
     command.do();
     canvas.frameCommandsChain.addCommand(command, undoCommand);
   }

@@ -10,8 +10,8 @@ import { FrameObject } from '../../interfaces/frame';
 export class FramesService {
   frames: FrameObject[] = [];
   currentFrameIndex: number = -1;
-  nCols: number = 0;
-  nRows: number = 0;
+  nCols: number = 20;
+  nRows: number = 20;
 
   constructor() { }
 
