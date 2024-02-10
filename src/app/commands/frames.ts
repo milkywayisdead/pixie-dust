@@ -28,9 +28,3 @@ export class ApplyColorMapCommand extends BaseCommand {
         canvas.colorMap = colorMap;
     } 
 }
-
-export class CopyFrameCommand extends BaseCommand {
-    do(): void {
-
-    }
-}

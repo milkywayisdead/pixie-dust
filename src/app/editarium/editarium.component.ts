@@ -82,7 +82,6 @@ export class EditariumComponent implements FrameCanvas {
   ngAfterViewInit(){
     const grid = this.createGrid(this.nCols, this.nRows);
     document.getElementById(this.frame.id)?.append(grid.grid);
-
     this.grid = grid.grid;
     this.cells = grid.cells;
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FrameCanvas } from '../../interfaces/grid';
-import { ColorMap } from '../../interfaces/colormap';
 import { FrameObject } from '../../interfaces/frame';
+import { ColorMap } from '../../interfaces/colormap';
 
 
 @Injectable({
@@ -80,8 +80,21 @@ export class FramesService {
     this.currentFrameIndex = newIndex;
   }
 
-  copyFrame(frame: FrameCanvas): void {
+  copyFrame(canvas: FrameCanvas): void {
+    const newFrameId = `${+ new Date()}`;
+    const currentColorMap = canvas.colorMap;
+    const newFrameColorMap: ColorMap = {}
 
+    for(const [color, cells] of Object.entries(currentColorMap)){
+      newFrameColorMap[color] = cells.map(cell => cell);
+    }
+
+    const newFrame: FrameObject = {
+      id: newFrameId,
+      colorMap: newFrameColorMap
+    }
+    this.frames.push(newFrame);
+    this.currentFrameIndex = this.frames.length - 1;
   } 
 
   private moveFrame(frameIndex: number, step: number = 0): void {

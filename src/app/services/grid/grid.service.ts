@@ -9,8 +9,7 @@ import {
   ClearManyCommand } from '../../commands/drawing';
 import {
   ClearCanvasCommand,
-  ApplyColorMapCommand,
-  CopyFrameCommand 
+  ApplyColorMapCommand
 } from '../../commands/frames';
 import { extractIndex, IDX_ATTR } from '../../utils';
 
