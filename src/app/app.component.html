@@ -1,6 +1,7 @@
 <mat-toolbar>
   <button mat-icon-button
-    [matTooltip]="locale.currentLocale['actions']['open']">
+    [matTooltip]="locale.currentLocale['actions']['open']"
+    (click)="dialogService.openProfileSelectDialog()">
     <mat-icon fontIcon="folder_open"></mat-icon>
   </button>
   <button mat-icon-button
