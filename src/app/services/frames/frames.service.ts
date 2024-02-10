@@ -1,28 +1,33 @@
 import { Injectable } from '@angular/core';
 import { FrameCanvas } from '../../interfaces/grid';
+import { ColorMap } from '../../interfaces/colormap';
+import { FrameObject } from '../../interfaces/frame';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class FramesService {
-  frames:string[] = [];
-  currentFrameIndex:number = -1;
+  frames: FrameObject[] = [];
+  currentFrameIndex: number = -1;
+  nCols: number = 0;
+  nRows: number = 0;
 
   constructor() { }
 
   add(): void {
-    this.frames.push(`${+ new Date()}`);
+    const frameId = `${+ new Date()}`;
+    const frame: FrameObject = {id: frameId, colorMap: {}}
+    this.frames.push(frame);
     this.stepForward();
   }
 
   remove(frameId: string): void {
-    const index = this.frames.indexOf(frameId);
-    if(index !== -1){
-      this.frames.splice(index, 1);
+    const frameIndex = this.getFrameIndex(frameId);
+    if(frameIndex !== -1){
+      this.frames.splice(frameIndex, 1);
+      this.reindex(frameIndex - 1);
     }
-    
-    this.reindex(index - 1);
   }
 
   removeAll(): void {
@@ -39,7 +44,7 @@ export class FramesService {
   }
 
   moveFrameBack(frameId: string): void {
-    const frameIndex = this.frames.indexOf(frameId);
+    const frameIndex = this.getFrameIndex(frameId);
     if(frameIndex !== -1){
       this.moveFrame(frameIndex, -1);
       this.currentFrameIndex--;
@@ -47,7 +52,7 @@ export class FramesService {
   }
 
   moveFrameForward(frameId: string): void {
-    const frameIndex = this.frames.indexOf(frameId);
+    const frameIndex = this.getFrameIndex(frameId);
     if(frameIndex !== -1){
       this.moveFrame(frameIndex, 1);
       this.currentFrameIndex++;
@@ -82,5 +87,20 @@ export class FramesService {
   private moveFrame(frameIndex: number, step: number = 0): void {
     const movingFrame = this.frames.splice(frameIndex, 1)[0];
     this.frames.splice(frameIndex + step, 0, movingFrame);
+  }
+
+  private getFrameById(frameId: string): FrameObject | undefined {
+    const frame = this.frames.find(frame => frame.id === frameId);
+    return frame;
+  }
+
+  private getFrameIndex(frameId: string): number {
+    let frameIndex = -1;
+    const frame = this.getFrameById(frameId);
+    if(frame){
+      frameIndex = this.frames.indexOf(frame);
+    }
+
+    return frameIndex;
   }
 }

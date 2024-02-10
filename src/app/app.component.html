@@ -23,7 +23,7 @@
 <div style="width:50%">
   <pix-editarium #grids
     *ngFor="let frameId of framesService.frames; index as i"
-    [frameId]="frameId"
+    [frameId]="frameId.id"
     [index]="i"
     [isLast]="i + 1 === framesService.frames.length"
     [isFirst]="i === 0"
