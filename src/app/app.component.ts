@@ -1,29 +1,34 @@
 import { Component, ViewChildren } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
 
 import { EditariumComponent } from './editarium/editarium.component';
 import { FramesService } from './services/frames/frames.service';
 import { LocaleService } from './services/locale/locale.service';
+import { DialogService } from './services/dialog/dialog.service';
+import { FrameSizeDialogComponent } from './dialogs/frame-size-dialog/frame-size-dialog.component';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet,
-    NgFor,
     NgIf,
+    NgFor,
+    RouterOutlet,
     MatIconModule,
     MatGridListModule,
     MatButtonModule,
     MatToolbarModule,
     EditariumComponent,
     MatTooltipModule,
+    FrameSizeDialogComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -37,10 +42,12 @@ export class AppComponent {
   constructor(
     public framesService: FramesService,
     public locale: LocaleService,
+    public dialog: MatDialog,
+    public dialogService: DialogService,
   ) {}
 
   @ViewChildren('grids')
-  editariums: EditariumComponent[]|undefined;
+  editariums: EditariumComponent[] | undefined;
 
   save(){
   }
@@ -49,19 +56,17 @@ export class AppComponent {
     this.color = value;
   }
 
-  createGrid(cols: number|string, rows: number|string){
-    //this.grid?.create(cols, rows);
-  }
-
-  clearGrid(){
-    //this.grid?.clear();
-  }
-
-  destroyGrid(){
-    //this.grid?.destroy();
-  }
-
   ngOnInit(){
     this.locale.setLocale('ru');
+  }
+
+  addFrameOrOpenDialog(): void {
+    if(this.framesService.frames.length === 0){
+      this.dialogService.openFrameSizeDialog({
+        data: this.framesService.getShape()
+      });
+    } else {
+      this.framesService.add();
+    }
   }
 }

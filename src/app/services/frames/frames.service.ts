@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FrameCanvas } from '../../interfaces/grid';
 import { FrameObject } from '../../interfaces/frame';
 import { ColorMap } from '../../interfaces/colormap';
+import { FrameShape } from '../../interfaces/frame';
 
 
 @Injectable({
@@ -65,6 +66,18 @@ export class FramesService {
 
   toFirstFrame(): void {
     this.currentFrameIndex = 0;
+  }
+
+  getShape(): FrameShape {
+    return {
+      rows: this.nRows,
+      cols: this.nCols,
+    }
+  }
+
+  setShape(shape: FrameShape): void {
+    this.nRows = shape.rows;
+    this.nCols = shape.cols;
   }
 
   private reindex(index: number): void {
