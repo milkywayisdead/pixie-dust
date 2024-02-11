@@ -2,6 +2,13 @@
     <div [id]="frame.id" class="frame-grid-container"></div>
     <div>
         <button mat-icon-button
+            (click)="triggerColorPicker()"
+            [style.color]="color"
+            [matTooltip]="locale.currentLocale['actions']['colorpick']">
+            <mat-icon fontIcon="brush"></mat-icon>
+            <input [id]="frame.id + '-cp'" [(ngModel)]="color" type="color" style="display:none"/>
+        </button>
+        <button mat-icon-button
             [matTooltip]="locale.currentLocale['actions']['clear']"
             (click)="clear()">
             <mat-icon fontIcon="crop_square"></mat-icon>

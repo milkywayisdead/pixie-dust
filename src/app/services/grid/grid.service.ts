@@ -32,9 +32,10 @@ export class GridService {
         if(target.tagName !== 'TD') return;
 
         const cellIndex: number = _this.extractIndex(target);
+        const currentColor = target.style.backgroundColor;
         const command = new ColorAPixelCommand([target, editor.color, editor, cellIndex]);
         command.do();
-        const undoCommand = new ClearAPixelCommand([target, editor.color, editor, cellIndex]);
+        const undoCommand = new ColorAPixelCommand([target, currentColor, editor, cellIndex]);
         editor.frameCommandsChain.addCommand(command, undoCommand);
     });
 

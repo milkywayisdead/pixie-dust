@@ -20,6 +20,7 @@ const ru: Locale = {
         add: 'Добавить',
         cancel: 'Отмена',
         close: 'Закрыть',
+        colorpick: 'Выбор цвета',
     },
     frame: {
         shape: 'Размеры фрейма',
