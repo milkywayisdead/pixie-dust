@@ -3,6 +3,7 @@ import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormsModule } from '@angular/forms';
 
 import { FrameCanvas } from '../interfaces/grid';
 import { FramesService } from '../services/frames/frames.service';
@@ -15,7 +16,13 @@ import { FrameObject } from '../interfaces/frame';
 @Component({
   selector: 'pix-editarium',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatTooltipModule, NgIf],
+  imports: [
+    NgIf,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    FormsModule,
+  ],
   templateUrl: './editarium.component.html',
   styleUrl: './editarium.component.css',
   encapsulation: ViewEncapsulation.None,
@@ -120,5 +127,9 @@ export class EditariumComponent implements FrameCanvas {
 
   isClear(): boolean {
     return Object.keys(this.colorMap).length === 0;
+  }
+
+  triggerColorPicker(): void {
+    document.getElementById(`${this.frame.id}-cp`)?.click();
   }
 }
