@@ -1,16 +1,84 @@
-.grid {
+table.grid {
     border: 1px solid black;
     width: auto;
     border-collapse: collapse;
     border-spacing: 0;
+}
+
+.grid.gs4 {
+    background-image:
+        linear-gradient(to right, grey 0.1px, transparent 1px),
+        linear-gradient(to bottom, grey 0.1px, transparent 1px);
+    background-size: 4px 4px;
+    
+    td {
+        width: 4px!important;
+        height: 4px!important;
+        padding: 0px;
+    }
+}
+
+.grid.gs8 {
+    background-image:
+        linear-gradient(to right, grey 0.1px, transparent 1px),
+        linear-gradient(to bottom, grey 0.1px, transparent 1px);
+    background-size: 8px 8px;
+    
+    td {
+        width: 8px!important;
+        height: 8px!important;
+        padding: 0px;
+    }
+}
+
+.grid.gs10 {
+    background-image:
+        linear-gradient(to right, grey 0.1px, transparent 1px),
+        linear-gradient(to bottom, grey 0.1px, transparent 1px);
+    background-size: 10px 10px;
+    
+    td {
+        width: 10px!important;
+        height: 10px!important;
+        padding: 0px;
+    }
+}
+
+.grid.gs14 {
+    background-image:
+        linear-gradient(to right, grey 0.1px, transparent 1px),
+        linear-gradient(to bottom, grey 0.1px, transparent 1px);
+    background-size: 14px 14px;
+    
+    td {
+        width: 14px!important;
+        height: 14px!important;
+        padding: 0px;
+    }
+}
+
+.grid.gs18 {
+    background-image:
+        linear-gradient(to right, grey 0.1px, transparent 1px),
+        linear-gradient(to bottom, grey 0.1px, transparent 1px);
+    background-size: 18px 18px;
+    
+    td {
+        width: 18px!important;
+        height: 18px!important;
+        padding: 0px;
+    }
+}
+
+.grid.gs20 {
     background-image:
         linear-gradient(to right, grey 0.1px, transparent 1px),
         linear-gradient(to bottom, grey 0.1px, transparent 1px);
     background-size: 20px 20px;
-}
-
-.grid td {
-    width: 20px!important;
-    height: 20px!important;
-    padding: 0px;
+    
+    td {
+        width: 20px!important;
+        height: 20px!important;
+        padding: 0px;
+    }
 }

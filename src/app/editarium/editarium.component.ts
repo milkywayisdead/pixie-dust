@@ -42,6 +42,8 @@ export class EditariumComponent implements FrameCanvas {
   cells: HTMLElement[] = [];
   colorMap: ColorMap = {};
   grid: HTMLElement|null = null;
+  scales: number[] = [4, 8, 10, 14, 18, 20];
+  scaleIndex: number = 3;
 
   constructor(
     public framesService: FramesService,
@@ -131,5 +133,23 @@ export class EditariumComponent implements FrameCanvas {
 
   triggerColorPicker(): void {
     document.getElementById(`${this.frame.id}-cp`)?.click();
+  }
+
+  zoomIn(): void {
+    const currentClass = `gs${this.scales[this.scaleIndex]}`;
+    this.scaleIndex++;
+    const newClass = `gs${this.scales[this.scaleIndex]}`;
+
+    this.grid?.classList.remove(currentClass);
+    this.grid?.classList.add(newClass);
+  }
+
+  zoomOut(): void {
+    const currentClass = `gs${this.scales[this.scaleIndex]}`;
+    this.scaleIndex--;
+    const newClass = `gs${this.scales[this.scaleIndex]}`;
+
+    this.grid?.classList.remove(currentClass);
+    this.grid?.classList.add(newClass);
   }
 }
