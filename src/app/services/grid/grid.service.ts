@@ -24,6 +24,7 @@ export class GridService {
   createGrid(cols: number=20, rows: number=20, editor: FrameCanvas){
     const grid = document.createElement('table');
     grid.classList.add('grid');
+    grid.classList.add('gs14');
     const cellsList = [];
     const _this = this;
 

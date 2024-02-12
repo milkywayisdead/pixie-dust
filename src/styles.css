@@ -4,7 +4,5 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .frame-grid-container {
-    width: 100%;
-    overflow: auto;
-    padding-left: 10px
+    padding: 15px;
 }

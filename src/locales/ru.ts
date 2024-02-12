@@ -21,6 +21,8 @@ const ru: Locale = {
         cancel: 'Отмена',
         close: 'Закрыть',
         colorpick: 'Выбор цвета',
+        zoomIn: 'Увеличить',
+        zoomOut: 'Уменьшить',
     },
     frame: {
         shape: 'Размеры фрейма',
