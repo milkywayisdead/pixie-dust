@@ -99,6 +99,8 @@ export class EditariumComponent implements FrameCanvas {
   }
 
   toColorMap(color: string, cellIndex: number): void {
+    if(!color) return;
+
     if(!this.colorMap[color]){
       this.colorMap[color] = [];
     }

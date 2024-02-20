@@ -11,7 +11,7 @@ import {
   ClearCanvasCommand,
   ApplyColorMapCommand
 } from '../../commands/frames';
-import { extractIndex, IDX_ATTR } from '../../utils';
+import { extractIndex, IDX_ATTR, setColor, getColor } from '../../utils';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,9 @@ export class GridService {
         if(target.tagName !== 'TD') return;
 
         const cellIndex: number = _this.extractIndex(target);
-        const currentColor = target.style.backgroundColor;
+        const currentColor = getColor(target); // target.style.backgroundColor;
+        if(currentColor === editor.color) return;
+
         const command = new ColorAPixelCommand([target, editor.color, editor, cellIndex]);
         command.do();
         const undoCommand = new ColorAPixelCommand([target, currentColor, editor, cellIndex]);
@@ -46,8 +48,8 @@ export class GridService {
       if(target.tagName !== 'TD') return;
 
       const cellIndex: number = _this.extractIndex(target);
-      const currentColor = target.style.backgroundColor;
-      const command = new ClearAPixelCommand([target, '', editor, cellIndex]);
+      const currentColor = getColor(target); //target.style.backgroundColor;
+      const command = new ClearAPixelCommand([target, currentColor, editor, cellIndex]);
       command.do();
       
       if(currentColor !== ''){
@@ -100,18 +102,20 @@ export class GridService {
       if(target.tagName !== 'TD') return;
 
       const cellIndex: number = _this.extractIndex(target);
-      const bgColor = target.style.backgroundColor;
+      const bgColor = getColor(target); //target.style.backgroundColor;
       const alreadyProcessed: boolean = coveredCells.some(c => _this.extractIndex(c) === cellIndex);
       if(alreadyProcessed) return;
 
       if(editor.drawingMode){
         currentColors.push(bgColor);
-        target.style.backgroundColor = editor.color;
+        //target.style.backgroundColor = editor.color;
+        setColor(target, editor.color);
         editor.toColorMap(editor.color, cellIndex);
         coveredCells.push(target);
       } else if(editor.clearing){
         currentColors.push(bgColor);
-        target.style.backgroundColor = '';
+        //target.style.backgroundColor = '';
+        setColor(target, '');
         editor.fromColorMap('', cellIndex);
         coveredCells.push(target);
       }
@@ -193,7 +197,8 @@ export class GridService {
   draw(colorMap: ColorMap, cells: HTMLElement[]): void {
     for(const [color, cellsIndices] of Object.entries(colorMap)){
       for(const cellIndex of cellsIndices){
-        cells[cellIndex].style.backgroundColor = color;
+        //cells[cellIndex].style.backgroundColor = color;
+        setColor(cells[cellIndex], color);
       }
     }
   }
