@@ -1,4 +1,5 @@
 import { Component, Inject } from '@angular/core';
+import { ApiService } from '../../services/api/api.service';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -37,6 +38,7 @@ export class OpenProfileDialogComponent {
       public dialogRef: MatDialogRef<OpenProfileDialogComponent>,
       public locale: LocaleService,
       public frameService: FramesService,
+      private api: ApiService,
     ) {}
   
     close(): void {
@@ -45,5 +47,11 @@ export class OpenProfileDialogComponent {
   
     openProfile(): void {
       this.close();
+    }
+
+    ngAfterViewInit(){
+      this.api.getProfiles()
+        .subscribe(result => {
+        });
     }
 }
