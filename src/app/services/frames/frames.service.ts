@@ -68,6 +68,10 @@ export class FramesService {
     this.currentFrameIndex = 0;
   }
 
+  compileFrames(): string[] {
+    return [];
+  }
+
   getShape(): FrameShape {
     return {
       rows: this.nRows,

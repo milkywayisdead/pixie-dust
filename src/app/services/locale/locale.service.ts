@@ -8,7 +8,9 @@ import { locales, Locale } from '../../../locales/locales';
 export class LocaleService {
   currentLocale: Locale = {};
 
-  constructor() { }
+  constructor() { 
+    this.setLocale('ru');
+  }
 
   private getLocale(localeName: string): Locale {
     return locales[localeName];

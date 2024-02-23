@@ -1,10 +1,10 @@
 export interface ContextInterface {
-    id: number;
+    id: string;
     name: string;
 }
 
 export interface ResponseContextInterface {
-    id: number;
+    _id: string;
     name: string;
     frames: string[];
 }

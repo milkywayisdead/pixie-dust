@@ -31,6 +31,7 @@ const ru: Locale = {
     },
     profile: {
         open: 'Открыть профиль',
+        untitled: 'Безымянный',
     }
 }
 

@@ -1,5 +1,14 @@
 <h2 mat-dialog-title>{{ locale.currentLocale['profile']['open'] }}</h2>
 <mat-dialog-content>
+    <mat-list>
+        <mat-list-item *ngFor="let profile of profilesList">
+            <span (click)="openProfile(profile._id)">{{ profile.name }}</span>
+            <button mat-icon-button
+                (click)="deleteProfile(profile._id)">
+                <mat-icon fontIcon="delete_forever"></mat-icon>
+            </button>
+        </mat-list-item>
+    </mat-list>
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-button (click)="close()">{{ locale.currentLocale['actions']['cancel'] }}</button>

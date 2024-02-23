@@ -9,6 +9,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 
 import { EditariumComponent } from './editarium/editarium.component';
+import { ApiService } from './services/api/api.service';
 import { FramesService } from './services/frames/frames.service';
 import { LocaleService } from './services/locale/locale.service';
 import { DialogService } from './services/dialog/dialog.service';
@@ -44,12 +45,14 @@ export class AppComponent {
     public locale: LocaleService,
     public dialog: MatDialog,
     public dialogService: DialogService,
+    public api: ApiService,
   ) {}
 
   @ViewChildren('grids')
   editariums: EditariumComponent[] | undefined;
 
   save(){
+    this.api.updateProfile();
   }
 
   setColor(value: string):void{
