@@ -83,9 +83,11 @@ export class GridService {
     grid.addEventListener('mouseup', function(e: Event){
       if(coveredCells.length > 0){
         let command = new ColorManyCommand([editor, currentColors.map(c => editor.color), coveredCells.map(c => c)]);
-        let undoCommand = new ClearManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+        let undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+        //let undoCommand = new ClearManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         if(editor.clearing){
-          command = new ClearManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
+          command = new ColorManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
+          //command = new ClearManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
           undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         }
         editor.frameCommandsChain.addCommand(command, undoCommand);
@@ -107,6 +109,7 @@ export class GridService {
       if(alreadyProcessed) return;
 
       if(editor.drawingMode){
+        editor.fromColorMap(bgColor, cellIndex);
         currentColors.push(bgColor);
         //target.style.backgroundColor = editor.color;
         setColor(target, editor.color);
@@ -116,7 +119,7 @@ export class GridService {
         currentColors.push(bgColor);
         //target.style.backgroundColor = '';
         setColor(target, '');
-        editor.fromColorMap('', cellIndex);
+        editor.fromColorMap(bgColor, cellIndex);
         coveredCells.push(target);
       }
     });
@@ -124,9 +127,11 @@ export class GridService {
     grid.addEventListener('mouseleave', function(e: Event){
       if(coveredCells.length > 0){
         let command = new ColorManyCommand([editor, currentColors.map(c => editor.color), coveredCells.map(c => c)]);
-        let undoCommand = new ClearManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+        //let undoCommand = new ClearManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+        let undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         if(editor.clearing){
-          command = new ClearManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
+          command = new ColorManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
+          //command = new ClearManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
           undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         }
         editor.frameCommandsChain.addCommand(command, undoCommand);

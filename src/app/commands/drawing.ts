@@ -34,10 +34,13 @@ export class ColorManyCommand extends BaseCommand {
         const cells = this.args[2];
 
         cells.forEach((cell: HTMLElement, index: number) => {
+            const cellIndex = extractIndex(cell);
+            const currentColor = getColor(cell);
+            editor.fromColorMap(currentColor, cellIndex);
             const color = colors[index];
             //cell.style.backgroundColor = color;
+            console.log(cell, color)
             setColor(cell, color);
-            const cellIndex = extractIndex(cell);
             editor.toColorMap(color, cellIndex);
         });
     }
@@ -51,11 +54,11 @@ export class ClearManyCommand extends BaseCommand {
 
         cells.forEach((cell: HTMLElement, index: number) => {
             const color = colors[index];
-            const currentColor = getColor(cell); //cell.style.backgroundColor;
+            //const currentColor = getColor(cell); //cell.style.backgroundColor;
             //cell.style.backgroundColor = color;
-            setColor(cell, color);
+            //setColor(cell, color);
             const cellIndex = extractIndex(cell);
-            editor.fromColorMap(currentColor, cellIndex);
+            editor.fromColorMap(color, cellIndex);
         });
     }
 }
