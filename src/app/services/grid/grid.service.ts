@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { FrameCanvas, GridInterface } from '../../interfaces/grid';
 import { ColorMap } from '../../interfaces/colormap';
+import { FrameObject } from '../../interfaces/frame';
 import { 
   ColorAPixelCommand,
   ClearAPixelCommand,
@@ -170,16 +170,18 @@ export class GridService {
     canvas.frameCommandsChain.addCommand(command, undoCommand);
   }
 
-  compileFrame(colorMap: ColorMap){
-    let str = '20,20[';
+  compileFrame(nRows: number, nCols: number, colorMap: ColorMap): string {
+    let str = `${nRows},${nCols}[`;
     for(const [color, cells] of Object.entries(colorMap)){
+      if(!cells.length) continue;
       str += `${color}:${cells.join(',')}|`;
     }
     str += ']';
     return str;
   }
 
-  parse(frameStr: string): ColorMap {
+  parse(frameId: string, frameStr: string): FrameObject {
+    const shape = frameStr.split('[')[0].split(',');
     const colorList = frameStr.split('[')[1].replace(']', '').split('|');
     const colorMap: ColorMap = {};
     for(const cl of colorList){
@@ -191,7 +193,12 @@ export class GridService {
       colorMap[color] = cells;
     }
 
-    return colorMap;
+    return {
+      id: frameId,
+      colorMap: colorMap,
+      rows: Number(shape[0]),
+      cols: Number(shape[1]),
+    } as FrameObject;
   }
 
   draw(colorMap: ColorMap, cells: HTMLElement[]): void {

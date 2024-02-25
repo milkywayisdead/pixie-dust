@@ -39,6 +39,7 @@ export class ContextService {
   fromResponse(responseContext: ResponseContextInterface): void {
     this.context.id = responseContext._id;
     this.context.name = responseContext.name;
+    this.framesService.parse(responseContext.frames)
     this.setDocTitle();
   }
 

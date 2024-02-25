@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FrameCanvas } from '../../interfaces/grid';
-import { FrameObject } from '../../interfaces/frame';
+import { FrameObject, CompiledFrames } from '../../interfaces/frame';
 import { ColorMap } from '../../interfaces/colormap';
 import { FrameShape } from '../../interfaces/frame';
+import { GridService } from '../grid/grid.service';
 
 
 @Injectable({
@@ -13,12 +14,18 @@ export class FramesService {
   currentFrameIndex: number = -1;
   nCols: number = 20;
   nRows: number = 20;
+  currentFrames: { [name: string]: FrameCanvas } = {}
 
-  constructor() { }
+  constructor(private gridService: GridService) { }
 
   add(): void {
     const frameId = `${+ new Date()}`;
-    const frame: FrameObject = {id: frameId, colorMap: {}}
+    const frame: FrameObject = {
+      id: frameId,
+      colorMap: {},
+      cols: this.nCols,
+      rows: this.nRows,
+    }
     this.frames.push(frame);
     this.stepForward();
   }
@@ -68,8 +75,26 @@ export class FramesService {
     this.currentFrameIndex = 0;
   }
 
-  compileFrames(): string[] {
-    return [];
+  compileFrames(): CompiledFrames {
+    const compiled = {} as CompiledFrames;
+    for(const [frameId, frame] of Object.entries(this.currentFrames)){
+      const _compiled = this.gridService.compileFrame(
+        frame.nRows, frame.nCols, frame.colorMap,
+      );
+      compiled[frameId] = _compiled;
+    }
+    return compiled;
+  }
+
+  parse(compiled: CompiledFrames): void {
+    const frames: FrameObject[] = [];
+    for(const [frameId, frameStr] of Object.entries(compiled)){
+      frames.push(this.gridService.parse(frameId, frameStr));
+    }
+    this.frames = frames;
+    if(this.frames.length){
+      this.currentFrameIndex = 0;
+    }
   }
 
   getShape(): FrameShape {
@@ -108,7 +133,9 @@ export class FramesService {
 
     const newFrame: FrameObject = {
       id: newFrameId,
-      colorMap: newFrameColorMap
+      colorMap: newFrameColorMap,
+      cols: canvas.nCols,
+      rows: canvas.nRows,
     }
     this.frames.push(newFrame);
     this.currentFrameIndex = this.frames.length - 1;
@@ -132,5 +159,13 @@ export class FramesService {
     }
 
     return frameIndex;
+  }
+
+  addCurrentFrame(canvas: FrameCanvas): void {
+    this.currentFrames[canvas.frame.id] = canvas;
+  }
+
+  removeFromCurrent(canvasId: string): void {
+    delete this.currentFrames[canvasId];
   }
 }

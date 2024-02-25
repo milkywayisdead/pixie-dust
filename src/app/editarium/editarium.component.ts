@@ -60,15 +60,6 @@ export class EditariumComponent implements FrameCanvas {
     this.gridService.clearGrid(this);
   }
 
-  compileFrame(){
-    const compiled = this.gridService.compileFrame(this.colorMap);
-    return compiled;
-  }
-
-  parse(frameStr: string){
-    return this.gridService.parse(frameStr);
-  }
-
   draw(colorMap: ColorMap){
     this.colorMap = colorMap;
     this.gridService.draw(
@@ -96,6 +87,12 @@ export class EditariumComponent implements FrameCanvas {
 
     this.colorMap = this.frame.colorMap;
     this.gridService.applyColorMap(this);
+
+    this.framesService.addCurrentFrame(this);
+  }
+
+  ngOnDestroy(){
+    this.framesService.removeFromCurrent(this.frame.id);
   }
 
   toColorMap(color: string, cellIndex: number): void {
