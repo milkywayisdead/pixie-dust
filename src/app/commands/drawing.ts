@@ -21,7 +21,6 @@ export class ClearAPixelCommand extends BaseCommand {
         const color: string = this.args[1];
         const editor: FrameCanvas = this.args[2];
         const cellIndex: number = this.args[3];
-        //element.style.backgroundColor = '';
         setColor(element, '');
         editor.fromColorMap(color, cellIndex);
     }
@@ -38,8 +37,6 @@ export class ColorManyCommand extends BaseCommand {
             const currentColor = getColor(cell);
             editor.fromColorMap(currentColor, cellIndex);
             const color = colors[index];
-            //cell.style.backgroundColor = color;
-            console.log(cell, color)
             setColor(cell, color);
             editor.toColorMap(color, cellIndex);
         });

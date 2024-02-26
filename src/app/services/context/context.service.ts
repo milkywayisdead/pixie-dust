@@ -8,7 +8,6 @@ import { ContextInterface, ResponseContextInterface } from '../../interfaces/con
   providedIn: 'root'
 })
 export class ContextService {
-  id: number = -1;
   context: ContextInterface  = {
     id: '',
     name: '',

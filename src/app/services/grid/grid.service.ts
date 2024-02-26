@@ -33,7 +33,7 @@ export class GridService {
         if(target.tagName !== 'TD') return;
 
         const cellIndex: number = _this.extractIndex(target);
-        const currentColor = getColor(target); // target.style.backgroundColor;
+        const currentColor = getColor(target);
         if(currentColor === editor.color) return;
 
         const command = new ColorAPixelCommand([target, editor.color, editor, cellIndex]);
@@ -48,7 +48,7 @@ export class GridService {
       if(target.tagName !== 'TD') return;
 
       const cellIndex: number = _this.extractIndex(target);
-      const currentColor = getColor(target); //target.style.backgroundColor;
+      const currentColor = getColor(target);
       const command = new ClearAPixelCommand([target, currentColor, editor, cellIndex]);
       command.do();
       
@@ -84,10 +84,8 @@ export class GridService {
       if(coveredCells.length > 0){
         let command = new ColorManyCommand([editor, currentColors.map(c => editor.color), coveredCells.map(c => c)]);
         let undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
-        //let undoCommand = new ClearManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         if(editor.clearing){
           command = new ColorManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
-          //command = new ClearManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
           undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         }
         editor.frameCommandsChain.addCommand(command, undoCommand);
@@ -100,24 +98,25 @@ export class GridService {
     });
 
     grid.addEventListener('mouseover', function(e: Event){
+      if(!editor.drawingMode && !editor.clearing) return;
+
       const target = e.target as HTMLElement;
       if(target.tagName !== 'TD') return;
 
       const cellIndex: number = _this.extractIndex(target);
-      const bgColor = getColor(target); //target.style.backgroundColor;
-      const alreadyProcessed: boolean = coveredCells.some(c => _this.extractIndex(c) === cellIndex);
+      const bgColor = getColor(target);
+      const alreadyProcessed = editor.clearing ? bgColor === '' : bgColor === editor.color;
+      //const alreadyProcessed: boolean = coveredCells.some(c => _this.extractIndex(c) === cellIndex);
       if(alreadyProcessed) return;
 
       if(editor.drawingMode){
         editor.fromColorMap(bgColor, cellIndex);
         currentColors.push(bgColor);
-        //target.style.backgroundColor = editor.color;
         setColor(target, editor.color);
         editor.toColorMap(editor.color, cellIndex);
         coveredCells.push(target);
       } else if(editor.clearing){
         currentColors.push(bgColor);
-        //target.style.backgroundColor = '';
         setColor(target, '');
         editor.fromColorMap(bgColor, cellIndex);
         coveredCells.push(target);
@@ -127,11 +126,9 @@ export class GridService {
     grid.addEventListener('mouseleave', function(e: Event){
       if(coveredCells.length > 0){
         let command = new ColorManyCommand([editor, currentColors.map(c => editor.color), coveredCells.map(c => c)]);
-        //let undoCommand = new ClearManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         let undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         if(editor.clearing){
           command = new ColorManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
-          //command = new ClearManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
           undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
         }
         editor.frameCommandsChain.addCommand(command, undoCommand);
@@ -209,7 +206,6 @@ export class GridService {
   draw(colorMap: ColorMap, cells: HTMLElement[]): void {
     for(const [color, cellsIndices] of Object.entries(colorMap)){
       for(const cellIndex of cellsIndices){
-        //cells[cellIndex].style.backgroundColor = color;
         setColor(cells[cellIndex], color);
       }
     }
