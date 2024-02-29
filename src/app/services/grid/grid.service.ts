@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { FrameCanvas, GridInterface } from '../../interfaces/grid';
 import { ColorMap } from '../../interfaces/colormap';
 import { FrameObject } from '../../interfaces/frame';
-import { 
-  ColorAPixelCommand,
-  ClearAPixelCommand,
+import {
   ColorManyCommand,
-  ClearManyCommand } from '../../commands/drawing';
+  ClearManyCommand
+} from '../../commands/drawing';
 import {
   ClearCanvasCommand,
   ApplyColorMapCommand
@@ -28,7 +27,7 @@ export class GridService {
     const cellsList = [];
     const _this = this;
 
-    grid.addEventListener('click', function(e: Event){
+    /*grid.addEventListener('click', function(e: Event){
         const target = e.target as HTMLElement;
         if(target.tagName !== 'TD') return;
 
@@ -40,11 +39,11 @@ export class GridService {
         command.do();
         const undoCommand = new ColorAPixelCommand([target, currentColor, editor, cellIndex]);
         editor.frameCommandsChain.addCommand(command, undoCommand);
-    });
+    });*/
 
     grid.addEventListener('contextmenu', function(e: Event){
       e.preventDefault();
-      const target = e.target as HTMLElement;
+      /*const target = e.target as HTMLElement;
       if(target.tagName !== 'TD') return;
 
       const cellIndex: number = _this.extractIndex(target);
@@ -55,28 +54,36 @@ export class GridService {
       if(currentColor !== ''){
         const undoCommand = new ColorAPixelCommand([target, currentColor, editor, cellIndex]);
         editor.frameCommandsChain.addCommand(command, undoCommand);
-      }
+      }*/
     });
 
-    let drawingStartingPoint: HTMLElement | null = null;
     let coveredCells: HTMLElement[] = [];
     let currentColors: string[] = [];
     grid.addEventListener('mousedown', function(e: Event){
       e.preventDefault();
       const me = e as MouseEvent;
+      const target = me.target as HTMLElement;
+      if(target.tagName !== 'TD') return;
 
       const btnIndex = me.button;
       if([0, 2].includes(btnIndex)){
+        const cellColor = getColor(target);
+        const cellIndex = _this.extractIndex(target);
+        currentColors.push(cellColor);
+
         if(btnIndex){
           editor.clearing = true;
+          setColor(target, '');
+          editor.fromColorMap(cellColor, cellIndex);
         } else {
+          const editorColor = editor.color;
           editor.drawingMode = true;
+          setColor(target, editorColor);
+          editor.fromColorMap(cellColor, cellIndex);
+          editor.toColorMap(editorColor, cellIndex);
         }
 
-        const target = (me.target as HTMLElement);
-        if(target.tagName === 'TD'){
-          drawingStartingPoint = target;
-        }
+        coveredCells.push(target);
       }
     });
 
@@ -93,7 +100,6 @@ export class GridService {
       editor.drawingMode = false;
       editor.clearing = false;
       coveredCells = [];
-      drawingStartingPoint = null;
       currentColors = [];
     });
 
@@ -136,7 +142,6 @@ export class GridService {
       editor.drawingMode = false;
       editor.clearing = false;
       coveredCells = [];
-      drawingStartingPoint = null;
       currentColors = [];
     });
 

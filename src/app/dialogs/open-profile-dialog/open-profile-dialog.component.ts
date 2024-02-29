@@ -57,6 +57,7 @@ export class OpenProfileDialogComponent {
     }
   
     openProfile(profileId: string): void {
+      this.frameService.reset();
       this.api.getProfile(profileId)
         .subscribe(result => {
           this.contextService.fromResponse(result);
@@ -67,7 +68,6 @@ export class OpenProfileDialogComponent {
     deleteProfile(profileId: string): void {
       this.api.deleteProfile(profileId)
         .subscribe(result => {
-          console.log(result)
           this.profilesList = this.profilesList.filter(profile => profile._id !== result.id);
         });
     }

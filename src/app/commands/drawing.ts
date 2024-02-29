@@ -2,7 +2,7 @@ import { BaseCommand } from "./base";
 import { FrameCanvas } from "../interfaces/grid";
 import { extractIndex, setColor, getColor } from "../utils";
 
-export class ColorAPixelCommand extends BaseCommand {
+/*export class ColorAPixelCommand extends BaseCommand {
     do(): void {
         const element: HTMLElement = this.args[0];
         const color: string = this.args[1];
@@ -24,7 +24,7 @@ export class ClearAPixelCommand extends BaseCommand {
         setColor(element, '');
         editor.fromColorMap(color, cellIndex);
     }
-}
+}*/
 
 export class ColorManyCommand extends BaseCommand {
     do(): void {

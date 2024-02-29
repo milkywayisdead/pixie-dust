@@ -80,6 +80,7 @@ export class EditariumComponent implements FrameCanvas {
   }
 
   ngAfterViewInit(){
+    console.log(this.frame)
     const grid = this.createGrid(this.nCols, this.nRows);
     document.getElementById(this.frame.id)?.append(grid.grid);
     this.grid = grid.grid;
@@ -87,12 +88,6 @@ export class EditariumComponent implements FrameCanvas {
 
     this.colorMap = this.frame.colorMap;
     this.gridService.applyColorMap(this);
-
-    this.framesService.addCurrentFrame(this);
-  }
-
-  ngOnDestroy(){
-    this.framesService.removeFromCurrent(this.frame.id);
   }
 
   toColorMap(color: string, cellIndex: number): void {

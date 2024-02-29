@@ -14,7 +14,6 @@ export class FramesService {
   currentFrameIndex: number = -1;
   nCols: number = 20;
   nRows: number = 20;
-  currentFrames: { [name: string]: FrameCanvas } = {}
 
   constructor(private gridService: GridService) { }
 
@@ -77,9 +76,10 @@ export class FramesService {
 
   compileFrames(): CompiledFrames {
     const compiled = {} as CompiledFrames;
-    for(const [frameId, frame] of Object.entries(this.currentFrames)){
+    for(const frame of this.frames){
+      const frameId = frame.id;
       const _compiled = this.gridService.compileFrame(
-        frame.nRows, frame.nCols, frame.colorMap,
+        frame.rows, frame.cols, frame.colorMap,
       );
       compiled[frameId] = _compiled;
     }
@@ -91,7 +91,7 @@ export class FramesService {
     for(const [frameId, frameStr] of Object.entries(compiled)){
       frames.push(this.gridService.parse(frameId, frameStr));
     }
-    this.frames = frames;
+    this.frames = frames.map(f => f);
     if(this.frames.length){
       this.currentFrameIndex = 0;
     }
@@ -107,6 +107,11 @@ export class FramesService {
   setShape(shape: FrameShape): void {
     this.nRows = shape.rows;
     this.nCols = shape.cols;
+  }
+
+  reset(): void {
+    this.frames = [];
+    this.currentFrameIndex = -1;
   }
 
   private reindex(index: number): void {
@@ -159,13 +164,5 @@ export class FramesService {
     }
 
     return frameIndex;
-  }
-
-  addCurrentFrame(canvas: FrameCanvas): void {
-    this.currentFrames[canvas.frame.id] = canvas;
-  }
-
-  removeFromCurrent(canvasId: string): void {
-    delete this.currentFrames[canvasId];
   }
 }
