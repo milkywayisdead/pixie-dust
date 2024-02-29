@@ -1,5 +1,4 @@
 <div [hidden]="!active">
-    <div [id]="frame.id" class="frame-grid-container"></div>
     <div>
         <button mat-icon-button
             (click)="triggerColorPicker()"
@@ -30,6 +29,14 @@
             (click)="copy()">
             <mat-icon fontIcon="content_copy"></mat-icon>
         </button>
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['actions']['remove']"
+            (click)="remove()">
+            <mat-icon fontIcon="delete_forever"></mat-icon>
+        </button>        
+    </div>
+    <div [id]="frame.id" class="frame-grid-container"></div>
+    <div>
         <button mat-icon-button
             [disabled]="isFirst"
             [matTooltip]="locale.currentLocale['actions']['previousFrame']"
@@ -77,11 +84,6 @@
             [matTooltip]="locale.currentLocale['actions']['moveFrameForward']"
             (click)="moveForward()">
             <mat-icon fontIcon="arrow_forward_alt"></mat-icon>
-        </button>
-        <button mat-icon-button
-            [matTooltip]="locale.currentLocale['actions']['remove']"
-            (click)="remove()">
-            <mat-icon fontIcon="delete_forever"></mat-icon>
         </button>
     </div>
 </div>
