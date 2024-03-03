@@ -5,7 +5,6 @@ export interface FrameObject {
     colorMap: ColorMap;
     cols: number;
     rows: number;
-    group: string;
 }
 
 export interface FrameShape {

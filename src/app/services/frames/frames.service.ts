@@ -17,24 +17,23 @@ export class FramesService {
   canvases: { [name: string]: FrameCanvas } = {};
   scales: number[] = [4, 8, 10, 14, 18, 20];
   scaleIndex: number = 3;
-  currentGroup: null | string = null;
+  currentGroup: string | null = null;
 
-  constructor(private gridService: GridService) { }
+  constructor(
+    private gridService: GridService,
+  ) { }
 
-  add(group: null | string = null): void {
+  add(): void {
     const frameId = `${+ new Date()}`;
-    const groupId = group ?? `g${+ new Date()}`;
+    const groupId = this.currentGroup ?? `g${+ new Date()}`;
     const frame: FrameObject = {
       id: frameId,
       colorMap: {},
       cols: this.nCols,
       rows: this.nRows,
-      group: groupId,
     }
     this.frames.push(frame);
     this.stepForward();
-
-    this.currentGroup = groupId;
   }
 
   remove(frameId: string): void {
@@ -151,7 +150,6 @@ export class FramesService {
       colorMap: newFrameColorMap,
       cols: canvas.nCols,
       rows: canvas.nRows,
-      group: this.currentGroup!,
     }
     this.frames.push(newFrame);
     this.currentFrameIndex = this.frames.length - 1;

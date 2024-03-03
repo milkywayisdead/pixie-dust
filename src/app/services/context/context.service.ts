@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FramesService } from '../frames/frames.service';
 import { LocaleService } from '../locale/locale.service';
-import { ContextInterface, ResponseContextInterface } from '../../interfaces/context';
+import { ContextFramesGroup, ContextInterface, ResponseContextInterface } from '../../interfaces/context';
 
 
 @Injectable({
@@ -11,6 +11,7 @@ export class ContextService {
   context: ContextInterface  = {
     id: '',
     name: '',
+    frames: {},
   }
 
   constructor(
@@ -44,5 +45,10 @@ export class ContextService {
 
   private setDocTitle(): void {
     document.title = this.context.name;
+  }
+
+  addGroup(groupName: string): void {
+    if(this.context.frames[groupName]) return;
+    this.context.frames[groupName] = {} as ContextFramesGroup;
   }
 }
