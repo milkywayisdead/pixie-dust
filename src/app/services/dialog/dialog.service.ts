@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FrameSizeDialogComponent } from '../../dialogs/frame-size-dialog/frame-size-dialog.component';
-import { OpenProfileDialogComponent } from '../../dialogs/open-profile-dialog/open-profile-dialog.component';
+import { FrameSizeDialogComponent } from '../../components/dialogs/frame-size-dialog/frame-size-dialog.component';
+import { OpenProfileDialogComponent } from '../../components/dialogs/open-profile-dialog/open-profile-dialog.component';
 
 @Injectable({
   providedIn: 'root'

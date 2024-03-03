@@ -11,10 +11,10 @@ import { MatInputModule }  from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import { FrameShape } from '../../interfaces/frame';
+import { FrameShape } from '../../../interfaces/frame';
 
-import { LocaleService } from '../../services/locale/locale.service';
-import { FramesService } from '../../services/frames/frames.service';
+import { LocaleService } from '../../../services/locale/locale.service';
+import { FramesService } from '../../../services/frames/frames.service';
 
 
 @Component({

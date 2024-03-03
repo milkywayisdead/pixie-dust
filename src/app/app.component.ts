@@ -8,12 +8,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 
-import { EditariumComponent } from './editarium/editarium.component';
+import { EditariumComponent } from './components/editarium/editarium.component';
 import { ApiService } from './services/api/api.service';
 import { FramesService } from './services/frames/frames.service';
 import { LocaleService } from './services/locale/locale.service';
 import { DialogService } from './services/dialog/dialog.service';
-import { FrameSizeDialogComponent } from './dialogs/frame-size-dialog/frame-size-dialog.component';
+import { FrameSizeDialogComponent } from './components/dialogs/frame-size-dialog/frame-size-dialog.component';
 
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgFor } from '@angular/common';
-import { ApiService } from '../../services/api/api.service';
+import { ApiService } from '../../../services/api/api.service';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -16,10 +16,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 
-import { LocaleService } from '../../services/locale/locale.service';
-import { FramesService } from '../../services/frames/frames.service';
-import { ContextService } from '../../services/context/context.service';
-import { ResponseContextInterface } from '../../interfaces/context';
+import { LocaleService } from '../../../services/locale/locale.service';
+import { FramesService } from '../../../services/frames/frames.service';
+import { ContextService } from '../../../services/context/context.service';
+import { ResponseContextInterface } from '../../../interfaces/context';
 
 
 @Component({

@@ -5,13 +5,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 
-import { FrameCanvas } from '../interfaces/grid';
-import { FramesService } from '../services/frames/frames.service';
-import { LocaleService } from '../services/locale/locale.service';
-import { GridService } from '../services/grid/grid.service';
-import { ColorMap } from '../interfaces/colormap';
-import { FrameCommandsChain } from '../services/commands_chain/frame-commands-chain.service';
-import { FrameObject } from '../interfaces/frame';
+import { FrameCanvas } from '../../interfaces/grid';
+import { FramesService } from '../../services/frames/frames.service';
+import { LocaleService } from '../../services/locale/locale.service';
+import { GridService } from '../../services/grid/grid.service';
+import { ColorMap } from '../../interfaces/colormap';
+import { FrameCommandsChain } from '../../services/commands_chain/frame-commands-chain.service';
+import { FrameObject } from '../../interfaces/frame';
 
 @Component({
   selector: 'pix-editarium',
