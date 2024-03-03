@@ -8,13 +8,13 @@
             <input [id]="frame.id + '-cp'" [(ngModel)]="color" type="color" style="display:none"/>
         </button>
         <button mat-icon-button
-            [disabled]="!(scaleIndex - 1 >= 0)"
+            [disabled]="!(framesService.scaleIndex - 1 >= 0)"
             (click)="zoomOut()"
             [matTooltip]="locale.currentLocale['actions']['zoomOut']">
             <mat-icon fontIcon="zoom_out"></mat-icon>
         </button>
         <button mat-icon-button
-            [disabled]="!(scaleIndex + 1 < scales.length)"
+            [disabled]="!(framesService.scaleIndex + 1 < framesService.scales.length)"
             (click)="zoomIn()"
             [matTooltip]="locale.currentLocale['actions']['zoomIn']">
             <mat-icon fontIcon="zoom_in"></mat-icon>

@@ -14,6 +14,9 @@ export class FramesService {
   currentFrameIndex: number = -1;
   nCols: number = 20;
   nRows: number = 20;
+  canvases: { [name: string]: FrameCanvas } = {};
+  scales: number[] = [4, 8, 10, 14, 18, 20];
+  scaleIndex: number = 3;
 
   constructor(private gridService: GridService) { }
 
@@ -112,6 +115,8 @@ export class FramesService {
   reset(): void {
     this.frames = [];
     this.currentFrameIndex = -1;
+    this.canvases = {}
+    this.scaleIndex = 3;
   }
 
   private reindex(index: number): void {
@@ -164,5 +169,33 @@ export class FramesService {
     }
 
     return frameIndex;
+  }
+
+  addCanvas(canvas: FrameCanvas): void {
+    this.canvases[canvas.frame.id] = canvas;
+  }
+
+  removeCanvas(id: string): void {
+    delete this.canvases[id];
+  }
+
+  zoomIn(): void {
+    const currentClass = `gs${this.scales[this.scaleIndex]}`;
+    this.scaleIndex++;
+    const newClass = `gs${this.scales[this.scaleIndex]}`;
+
+    Object.values(this.canvases).forEach(canvas => {
+      canvas.setScaleClass(newClass, currentClass);
+    });
+  }
+
+    zoomOut(): void {
+    const currentClass = `gs${this.scales[this.scaleIndex]}`;
+    this.scaleIndex--;
+    const newClass = `gs${this.scales[this.scaleIndex]}`;
+
+    Object.values(this.canvases).forEach(canvas => {
+      canvas.setScaleClass(newClass, currentClass);
+    });
   }
 }

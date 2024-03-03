@@ -42,8 +42,6 @@ export class EditariumComponent implements FrameCanvas {
   cells: HTMLElement[] = [];
   colorMap: ColorMap = {};
   grid: HTMLElement|null = null;
-  scales: number[] = [4, 8, 10, 14, 18, 20];
-  scaleIndex: number = 3;
 
   constructor(
     public framesService: FramesService,
@@ -79,7 +77,7 @@ export class EditariumComponent implements FrameCanvas {
     this.framesService.remove(this.frame.id);
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit(): void {
     const grid = this.createGrid(this.nCols, this.nRows);
     document.getElementById(this.frame.id)?.append(grid.grid);
     this.grid = grid.grid;
@@ -87,6 +85,12 @@ export class EditariumComponent implements FrameCanvas {
 
     this.colorMap = this.frame.colorMap;
     this.gridService.applyColorMap(this);
+
+    this.framesService.addCanvas(this);
+  }
+
+  ngOnDestroy(): void {
+    this.framesService.removeCanvas(this.frame.id);
   }
 
   toColorMap(color: string, cellIndex: number): void {
@@ -129,20 +133,15 @@ export class EditariumComponent implements FrameCanvas {
   }
 
   zoomIn(): void {
-    const currentClass = `gs${this.scales[this.scaleIndex]}`;
-    this.scaleIndex++;
-    const newClass = `gs${this.scales[this.scaleIndex]}`;
-
-    this.grid?.classList.remove(currentClass);
-    this.grid?.classList.add(newClass);
+    this.framesService.zoomIn();
   }
 
   zoomOut(): void {
-    const currentClass = `gs${this.scales[this.scaleIndex]}`;
-    this.scaleIndex--;
-    const newClass = `gs${this.scales[this.scaleIndex]}`;
+    this.framesService.zoomOut();
+  }
 
-    this.grid?.classList.remove(currentClass);
-    this.grid?.classList.add(newClass);
+  setScaleClass(scaleClass: string, classToRemove: string): void {
+    this.grid?.classList.remove(classToRemove);
+    this.grid?.classList.add(scaleClass);
   }
 }
