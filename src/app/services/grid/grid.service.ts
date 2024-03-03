@@ -27,34 +27,8 @@ export class GridService {
     const cellsList = [];
     const _this = this;
 
-    /*grid.addEventListener('click', function(e: Event){
-        const target = e.target as HTMLElement;
-        if(target.tagName !== 'TD') return;
-
-        const cellIndex: number = _this.extractIndex(target);
-        const currentColor = getColor(target);
-        if(currentColor === editor.color) return;
-
-        const command = new ColorAPixelCommand([target, editor.color, editor, cellIndex]);
-        command.do();
-        const undoCommand = new ColorAPixelCommand([target, currentColor, editor, cellIndex]);
-        editor.frameCommandsChain.addCommand(command, undoCommand);
-    });*/
-
     grid.addEventListener('contextmenu', function(e: Event){
       e.preventDefault();
-      /*const target = e.target as HTMLElement;
-      if(target.tagName !== 'TD') return;
-
-      const cellIndex: number = _this.extractIndex(target);
-      const currentColor = getColor(target);
-      const command = new ClearAPixelCommand([target, currentColor, editor, cellIndex]);
-      command.do();
-      
-      if(currentColor !== ''){
-        const undoCommand = new ColorAPixelCommand([target, currentColor, editor, cellIndex]);
-        editor.frameCommandsChain.addCommand(command, undoCommand);
-      }*/
     });
 
     let coveredCells: HTMLElement[] = [];

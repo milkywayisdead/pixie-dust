@@ -21,15 +21,21 @@
   </button>
 </mat-toolbar>
 
-<div style="width:50%;overflow:auto">
-  <pix-editarium #grids
-    *ngFor="let frame of framesService.frames; index as i"
-    [frame]="frame"
-    [nCols]="framesService.nCols"
-    [nRows]="framesService.nRows"
-    [index]="i"
-    [isLast]="i + 1 === framesService.frames.length"
-    [isFirst]="i === 0"
-    [active]="i === framesService.currentFrameIndex"
-  ></pix-editarium>
+<div>
+  <div style="float:left;width:15%;margin-right:20px">
+    <pix-frameslist />
+  </div>
+
+  <div style="width:50%;overflow:auto;float:left">
+    <pix-editarium #grids
+      *ngFor="let frame of framesService.frames; index as i"
+      [frame]="frame"
+      [nCols]="framesService.nCols"
+      [nRows]="framesService.nRows"
+      [index]="i"
+      [isLast]="i + 1 === framesService.frames.length"
+      [isFirst]="i === 0"
+      [active]="i === framesService.currentFrameIndex"
+    ></pix-editarium>
+  </div>
 </div>

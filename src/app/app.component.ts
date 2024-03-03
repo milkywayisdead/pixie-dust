@@ -8,6 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 
+import { FrameslistComponent } from './components/frameslist/frameslist.component';
 import { EditariumComponent } from './components/editarium/editarium.component';
 import { ApiService } from './services/api/api.service';
 import { FramesService } from './services/frames/frames.service';
@@ -30,6 +31,7 @@ import { FrameSizeDialogComponent } from './components/dialogs/frame-size-dialog
     EditariumComponent,
     MatTooltipModule,
     FrameSizeDialogComponent,
+    FrameslistComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
