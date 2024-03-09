@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FrameCanvas, GridInterface } from '../../interfaces/grid';
 import { ColorMap } from '../../interfaces/colormap';
-import { FrameObject } from '../../interfaces/frame';
+import { FrameObject, CompiledFrames } from '../../interfaces/frame';
 import {
   ColorManyCommand,
   ClearManyCommand

@@ -4,7 +4,7 @@ import { CompiledFrames, FrameObject } from './frame';
 export interface ContextFramesGroup {
     id: string;
     name: string;
-    frames: { [name: string] : FrameObject };
+    frames: FrameObject[];
 }
 
 export interface CompiledFramesGroup {

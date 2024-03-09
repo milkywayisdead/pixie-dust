@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
-import { FramesService } from '../frames/frames.service';
 import { LocaleService } from '../locale/locale.service';
-import { ContextFramesGroup, ContextInterface, ResponseContextInterface } from '../../interfaces/context';
+import { GridService } from '../grid/grid.service';
+import { FrameObject, CompiledFrames } from '../../interfaces/frame';
+import {
+  CompiledFramesGroup,
+  ContextFramesGroup,
+  ContextInterface,
+  ResponseContextInterface
+} from '../../interfaces/context';
 
 
 @Injectable({
@@ -13,10 +19,11 @@ export class ContextService {
     name: '',
     frames: {},
   }
+  framesList: string[] = [];
 
   constructor(
-    public framesService: FramesService,
-    public locale: LocaleService
+    public locale: LocaleService,
+    public gridService: GridService,
   ) { 
     this.context.name = this.locale.currentLocale['profile']['untitled'];
     this.setDocTitle();
@@ -26,7 +33,7 @@ export class ContextService {
     return {
       id: this.context.id,
       name: this.context.name,
-      frames: this.framesService.compileFrames(),
+      frames: this.compileFrames(),
     }
   }
 
@@ -39,16 +46,80 @@ export class ContextService {
   fromResponse(responseContext: ResponseContextInterface): void {
     this.context.id = responseContext._id;
     this.context.name = responseContext.name;
-    this.framesService.parse(responseContext.frames);
+    //this.framesService.parse(responseContext.frames);
+
+    const groups: { [name: string]: ContextFramesGroup } = {}
+    for(let group of Object.values(responseContext.frames)){
+      const frames: FrameObject[] = [];
+      for(let [frameId, frameStr] of Object.entries(group.frames)){
+        frames.push(this.gridService.parse(frameId, frameStr));
+      }
+      groups[group.id] = {
+        id: group.id,
+        name: group.name,
+        frames: frames,
+      }
+    }
+    this.context.frames = groups;
     this.setDocTitle();
+    console.log(this.context)
+    this.framesList = Object.values(this.context.frames).map(f => f.name);
   }
 
   private setDocTitle(): void {
     document.title = this.context.name;
   }
 
-  addGroup(groupName: string): void {
-    if(this.context.frames[groupName]) return;
-    this.context.frames[groupName] = {} as ContextFramesGroup;
+  addFrameToGroup(frame: FrameObject, groupId: string, groupName: string): void {
+    this.addGroup(groupId, groupName);
+    const group = this.context.frames[groupId];
+    group.frames.push(frame);
+  }
+
+  private addGroup(groupId: string, groupName: string): void {
+    if(this.context.frames[groupId]) return;
+    this.context.frames[groupId] = {
+      id: groupId,
+      name: groupName,
+      frames: [], 
+    } as ContextFramesGroup;
+  }
+
+  getGroup(groupId: string | null): ContextFramesGroup | null {
+    if(!groupId) return null;
+    return this.context.frames[groupId];
+  }
+
+  removeFrame(groupId: string, frameId: string): void {
+    const group = this.context.frames[groupId];
+    const frame = group.frames.find(f => f.id === frameId);
+    if(!frame) return;
+    const frameIndex = group.frames.indexOf(frame);
+    if(frameIndex !== -1){
+      group.frames.splice(frameIndex, 1);
+    }
+  }
+
+  compileFrames(): { [name: string]: CompiledFramesGroup } {
+    const compiled =  {} as { [name: string]: CompiledFramesGroup };
+    for(let group of Object.values(this.context.frames)){
+      const compiledGroup = {
+        id: group.id,
+        name: group.name,
+        frames: {} as CompiledFrames,
+      } 
+      const compiledFrames = {} as CompiledFrames;
+      for(let frame of group.frames){
+        const cf = this.gridService.compileFrame(
+          frame.rows, frame.cols, frame.colorMap,
+        );
+        compiledFrames[frame.id] = cf;
+      }
+
+      compiledGroup.frames = compiledFrames;
+      compiled[group.id] = compiledGroup;
+    }
+    
+    return compiled;
   }
 }

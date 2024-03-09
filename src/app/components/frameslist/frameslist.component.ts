@@ -18,8 +18,6 @@ import { MatListModule } from '@angular/material/list';
   styleUrl: './frameslist.component.css'
 })
 export class FrameslistComponent {
-  frames: Array<any> = [];
-
   constructor(
     public framesService: FramesService,
     public context: ContextService,

@@ -4,6 +4,7 @@ import { FrameObject, CompiledFrames } from '../../interfaces/frame';
 import { ColorMap } from '../../interfaces/colormap';
 import { FrameShape } from '../../interfaces/frame';
 import { GridService } from '../grid/grid.service';
+import { ContextService } from '../context/context.service';
 
 
 @Injectable({
@@ -20,8 +21,9 @@ export class FramesService {
   currentGroup: string | null = null;
 
   constructor(
+    public context: ContextService,
     private gridService: GridService,
-  ) { }
+  ) {}
 
   add(): void {
     const frameId = `${+ new Date()}`;
@@ -32,7 +34,10 @@ export class FramesService {
       cols: this.nCols,
       rows: this.nRows,
     }
-    this.frames.push(frame);
+    //this.frames.push(frame);
+    this.context.addFrameToGroup(frame, groupId, groupId);
+    this.currentGroup = groupId;
+    this.bindFrames();
     this.stepForward();
   }
 
@@ -42,6 +47,7 @@ export class FramesService {
       this.frames.splice(frameIndex, 1);
       this.reindex(frameIndex - 1);
     }
+    this.context.removeFrame(this.currentGroup!, frameId);
   }
 
   removeAll(): void {
@@ -201,5 +207,13 @@ export class FramesService {
     Object.values(this.canvases).forEach(canvas => {
       canvas.setScaleClass(newClass, currentClass);
     });
+  }
+
+  bindFrames(): void {
+    if(!this.currentGroup) return;
+    const group = this.context.getGroup(this.currentGroup);
+    if(group){
+      this.frames = group.frames;
+    }
   }
 }
