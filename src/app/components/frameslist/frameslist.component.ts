@@ -4,6 +4,7 @@ import { ContextService } from '../../services/context/context.service';
 import { TabsService } from '../../services/tabs/tabs.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
+import { FramesGroup } from '../../interfaces/frame';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class FrameslistComponent {
     public tabsService: TabsService,
   ) {}
 
-  openFramesGroup(groupId: string): void {
-    this.tabsService.addTab(groupId);
+  openFramesGroup(group: FramesGroup): void {
+    this.tabsService.addTab(group);
   }
 }

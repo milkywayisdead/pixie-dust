@@ -30,6 +30,11 @@
             <mat-icon fontIcon="content_copy"></mat-icon>
         </button>
         <button mat-icon-button
+            [matTooltip]="locale.currentLocale['actions']['addFrame']"
+            (click)="framesService.add()">
+            <mat-icon fontIcon="add_box"></mat-icon>
+        </button>
+        <button mat-icon-button
             [matTooltip]="locale.currentLocale['actions']['remove']"
             (click)="remove()">
             <mat-icon fontIcon="delete_forever"></mat-icon>

@@ -67,13 +67,9 @@ export class AppComponent {
     this.locale.setLocale('ru');
   }
 
-  addFrameOrOpenDialog(): void {
-    if(this.framesService.frames.length === 0){
-      this.dialogService.openFrameSizeDialog({
-        data: this.framesService.getShape()
-      });
-    } else {
-      this.framesService.add();
-    }
+  addFrameGroup(): void {
+    this.dialogService.openFrameSizeDialog({
+      data: this.framesService.getShape()
+    });
   }
 }

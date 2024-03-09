@@ -9,6 +9,7 @@ const ru: Locale = {
         nextFrame: 'Следующий фрейм',
         previousFrame: 'Предыдущий фрейм',
         addFrame: 'Добавить фрейм',
+        addFrameGroup: 'Добавить группу фреймов',
         removeFrames: 'Удалить фреймы',
         redo: 'Повторить',
         undo: 'Отменить',
@@ -28,6 +29,7 @@ const ru: Locale = {
         shape: 'Размеры фрейма',
         cols: 'Количество столбцов',
         rows: 'Количество строк',
+        groupName: 'Название группы',
     },
     profile: {
         open: 'Открыть профиль',

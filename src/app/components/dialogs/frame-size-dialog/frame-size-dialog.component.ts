@@ -15,6 +15,7 @@ import { FrameShape } from '../../../interfaces/frame';
 
 import { LocaleService } from '../../../services/locale/locale.service';
 import { FramesService } from '../../../services/frames/frames.service';
+import { ContextService } from '../../../services/context/context.service';
 
 
 @Component({
@@ -34,11 +35,14 @@ import { FramesService } from '../../../services/frames/frames.service';
   styleUrl: './frame-size-dialog.component.css'
 })
 export class FrameSizeDialogComponent {
+  groupName: string = '';
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public frameShape: FrameShape,
     public dialogRef: MatDialogRef<FrameSizeDialogComponent>,
     public locale: LocaleService,
     public frameService: FramesService,
+    public context: ContextService,
   ) {}
 
   close(): void {
@@ -47,7 +51,16 @@ export class FrameSizeDialogComponent {
 
   addFrame(): void {
     this.frameService.setShape(this.frameShape);
-    this.frameService.add();
+    //this.frameService.add();
+    const frame = {
+      id: `${+ new Date()}`,
+      colorMap: {},
+      cols: this.frameShape.cols,
+      rows: this.frameShape.rows,
+    }
+    const groupId = `g${+ new Date()}`;
+    const groupName = this.groupName;
+    this.context.addFrameToGroup(frame, groupId, groupName);
     this.close();
   }
 }

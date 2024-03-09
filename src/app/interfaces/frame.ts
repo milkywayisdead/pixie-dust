@@ -15,3 +15,8 @@ export interface FrameShape {
 export interface CompiledFrames {
     [name: string]: string;
 }
+
+export interface FramesGroup {
+  id: string;
+  name: string;
+}

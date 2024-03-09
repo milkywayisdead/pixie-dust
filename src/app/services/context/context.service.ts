@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocaleService } from '../locale/locale.service';
 import { GridService } from '../grid/grid.service';
-import { FrameObject, CompiledFrames } from '../../interfaces/frame';
+import { FrameObject, CompiledFrames, FramesGroup } from '../../interfaces/frame';
 import {
   CompiledFramesGroup,
   ContextFramesGroup,
@@ -19,7 +19,7 @@ export class ContextService {
     name: '',
     frames: {},
   }
-  framesList: string[] = [];
+  framesList: FramesGroup[] = [];
 
   constructor(
     public locale: LocaleService,
@@ -61,7 +61,7 @@ export class ContextService {
     }
     this.context.frames = groups;
     this.setDocTitle();
-    this.framesList = Object.values(this.context.frames).map(f => f.name);
+    this.updateFramesList();
   }
 
   private setDocTitle(): void {
@@ -72,6 +72,7 @@ export class ContextService {
     this.addGroup(groupId, groupName);
     const group = this.context.frames[groupId];
     group.frames.push(frame);
+    this.updateFramesList();
   }
 
   private addGroup(groupId: string, groupName: string): void {
@@ -119,5 +120,14 @@ export class ContextService {
     }
     
     return compiled;
+  }
+
+  private updateFramesList(): void {
+    this.framesList = Object.values(this.context.frames).map(f => {
+      return {
+        id: f.id,
+        name: f.name,
+      } as FramesGroup
+    });
   }
 }

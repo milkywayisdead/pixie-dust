@@ -1,11 +1,11 @@
-<mat-tab-group>
-  <mat-tab *ngFor="let tab of tabsService.tabs" [label]="tab">
+<mat-tab-group preserveContent>
+  <mat-tab *ngFor="let tab of tabsService.tabs" [label]="tab.name">
     <ng-template mat-tab-label>
-      {{ tab }}
-      <mat-icon (click)="closeTab(tab)">close</mat-icon>
+      {{ tab.name }}
+      <mat-icon (click)="closeTab(tab.id)">close</mat-icon>
     </ng-template>
     <ng-template matTabContent>
-      <frame-tab-content [frameId]="tab" />
+      <frame-tab-content [frameId]="tab.id" />
     </ng-template>
   </mat-tab>
 </mat-tab-group>
