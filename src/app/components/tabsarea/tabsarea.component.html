@@ -4,5 +4,8 @@
       {{ tab }}
       <mat-icon (click)="closeTab(tab)">close</mat-icon>
     </ng-template>
+    <ng-template matTabContent>
+      <frame-tab-content [frameId]="tab" />
+    </ng-template>
   </mat-tab>
 </mat-tab-group>

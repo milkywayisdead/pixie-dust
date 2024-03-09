@@ -42,9 +42,9 @@ export class EditariumComponent implements FrameCanvas {
   cells: HTMLElement[] = [];
   colorMap: ColorMap = {};
   grid: HTMLElement|null = null;
+  @Input() framesService!: FramesService;
 
   constructor(
-    public framesService: FramesService,
     public locale: LocaleService,
     public gridService: GridService,
     public frameCommandsChain: FrameCommandsChain,
@@ -78,6 +78,8 @@ export class EditariumComponent implements FrameCanvas {
   }
 
   ngAfterViewInit(): void {
+    this.nCols = this.frame.cols;
+    this.nRows = this.frame.rows;
     const grid = this.createGrid(this.nCols, this.nRows);
     document.getElementById(this.frame.id)?.append(grid.grid);
     this.grid = grid.grid;
