@@ -5,7 +5,7 @@
   <mat-card-content>
     <mat-list role="list">
 	  <mat-list-item role="listitem" *ngFor="let frame of context.framesList">
-	  	{{ frame }}
+	  	<span (click)="openFramesGroup(frame)">{{ frame }}</span>
 	  </mat-list-item>
 	</mat-list>
   </mat-card-content>

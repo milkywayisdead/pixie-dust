@@ -1,0 +1,8 @@
+<mat-tab-group>
+  <mat-tab *ngFor="let tab of tabsService.tabs" [label]="tab">
+    <ng-template mat-tab-label>
+      {{ tab }}
+      <mat-icon (click)="closeTab(tab)">close</mat-icon>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

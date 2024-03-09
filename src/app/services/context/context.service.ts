@@ -46,7 +46,6 @@ export class ContextService {
   fromResponse(responseContext: ResponseContextInterface): void {
     this.context.id = responseContext._id;
     this.context.name = responseContext.name;
-    //this.framesService.parse(responseContext.frames);
 
     const groups: { [name: string]: ContextFramesGroup } = {}
     for(let group of Object.values(responseContext.frames)){
@@ -62,7 +61,6 @@ export class ContextService {
     }
     this.context.frames = groups;
     this.setDocTitle();
-    console.log(this.context)
     this.framesList = Object.values(this.context.frames).map(f => f.name);
   }
 

@@ -87,29 +87,6 @@ export class FramesService {
     this.currentFrameIndex = 0;
   }
 
-  compileFrames(): CompiledFrames {
-    const compiled = {} as CompiledFrames;
-    for(const frame of this.frames){
-      const frameId = frame.id;
-      const _compiled = this.gridService.compileFrame(
-        frame.rows, frame.cols, frame.colorMap,
-      );
-      compiled[frameId] = _compiled;
-    }
-    return compiled;
-  }
-
-  parse(compiled: CompiledFrames): void {
-    const frames: FrameObject[] = [];
-    for(const [frameId, frameStr] of Object.entries(compiled)){
-      frames.push(this.gridService.parse(frameId, frameStr));
-    }
-    this.frames = frames.map(f => f);
-    if(this.frames.length){
-      this.currentFrameIndex = 0;
-    }
-  }
-
   getShape(): FrameShape {
     return {
       rows: this.nRows,

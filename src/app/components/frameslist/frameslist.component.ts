@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgFor } from '@angular/common';
-import { FramesService } from '../../services/frames/frames.service';
 import { ContextService } from '../../services/context/context.service';
+import { TabsService } from '../../services/tabs/tabs.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 
@@ -19,7 +19,11 @@ import { MatListModule } from '@angular/material/list';
 })
 export class FrameslistComponent {
   constructor(
-    public framesService: FramesService,
     public context: ContextService,
+    public tabsService: TabsService,
   ) {}
+
+  openFramesGroup(groupId: string): void {
+    this.tabsService.addTab(groupId);
+  }
 }

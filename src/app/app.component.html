@@ -27,7 +27,8 @@
   </div>
 
   <div style="width:50%;overflow:auto;float:left">
-    <pix-editarium #grids
+    <pix-tabsarea />
+    <!-- <pix-editarium #grids
       *ngFor="let frame of framesService.frames; index as i"
       [frame]="frame"
       [nCols]="framesService.nCols"
@@ -36,6 +37,6 @@
       [isLast]="i + 1 === framesService.frames.length"
       [isFirst]="i === 0"
       [active]="i === framesService.currentFrameIndex"
-    ></pix-editarium>
+    ></pix-editarium> -->
   </div>
 </div>

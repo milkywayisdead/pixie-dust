@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { FrameslistComponent } from './components/frameslist/frameslist.component';
 import { EditariumComponent } from './components/editarium/editarium.component';
+import { TabsareaComponent } from './components/tabsarea/tabsarea.component';
 import { ApiService } from './services/api/api.service';
 import { FramesService } from './services/frames/frames.service';
 import { LocaleService } from './services/locale/locale.service';
@@ -32,6 +33,7 @@ import { FrameSizeDialogComponent } from './components/dialogs/frame-size-dialog
     MatTooltipModule,
     FrameSizeDialogComponent,
     FrameslistComponent,
+    TabsareaComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
