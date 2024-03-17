@@ -169,20 +169,30 @@ export class FramesService {
   zoomIn(): void {
     const currentClass = `gs${this.scales[this.scaleIndex]}`;
     this.scaleIndex++;
-    const newClass = `gs${this.scales[this.scaleIndex]}`;
+    const newScaleNumber = this.scales[this.scaleIndex];
+    const newClass = `gs${newScaleNumber}`;
 
     Object.values(this.canvases).forEach(canvas => {
       canvas.setScaleClass(newClass, currentClass);
+      this.changeTableWidth(
+        canvas.grid,
+        this.nCols*newScaleNumber
+      );
     });
   }
 
     zoomOut(): void {
     const currentClass = `gs${this.scales[this.scaleIndex]}`;
     this.scaleIndex--;
-    const newClass = `gs${this.scales[this.scaleIndex]}`;
+    const newScaleNumber = this.scales[this.scaleIndex];
+    const newClass = `gs${newScaleNumber}`;
 
     Object.values(this.canvases).forEach(canvas => {
       canvas.setScaleClass(newClass, currentClass);
+      this.changeTableWidth(
+        canvas.grid,
+        this.nCols*newScaleNumber
+      );
     });
   }
 
@@ -193,4 +203,8 @@ export class FramesService {
       this.frames = group.frames;
     }
   }
+
+  private changeTableWidth(table: HTMLElement | null, width: number): void {
+    table!.style.width = `${width}px`;
+  } 
 }

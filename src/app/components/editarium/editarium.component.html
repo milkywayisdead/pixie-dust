@@ -38,21 +38,6 @@
             [matTooltip]="locale.currentLocale['actions']['remove']"
             (click)="remove()">
             <mat-icon fontIcon="delete_forever"></mat-icon>
-        </button>        
-    </div>
-    <div [id]="frame.id" class="frame-grid-container"></div>
-    <div>
-        <button mat-icon-button
-            [disabled]="isFirst"
-            [matTooltip]="locale.currentLocale['actions']['previousFrame']"
-            (click)="framesService.stepBack()">
-            <mat-icon fontIcon="arrow_left"></mat-icon>
-        </button>
-        <button mat-icon-button
-            [disabled]="isLast"
-            [matTooltip]="locale.currentLocale['actions']['nextFrame']"
-            (click)="framesService.stepForward()">
-            <mat-icon fontIcon="arrow_right"></mat-icon>
         </button>
         <button mat-icon-button
             [disabled]="!frameCommandsChain.undoable"
@@ -65,6 +50,20 @@
             [matTooltip]="locale.currentLocale['actions']['redo']"
             (click)="frameCommandsChain.redo()">
             <mat-icon fontIcon="redo"></mat-icon>
+        </button>        
+    </div>
+    <div>
+        <button mat-icon-button
+            [disabled]="isFirst"
+            [matTooltip]="locale.currentLocale['actions']['previousFrame']"
+            (click)="framesService.stepBack()">
+            <mat-icon fontIcon="arrow_left"></mat-icon>
+        </button>
+        <button mat-icon-button
+            [disabled]="isLast"
+            [matTooltip]="locale.currentLocale['actions']['nextFrame']"
+            (click)="framesService.stepForward()">
+            <mat-icon fontIcon="arrow_right"></mat-icon>
         </button>
         <button mat-icon-button
             [disabled]="isFirst"
@@ -91,4 +90,5 @@
             <mat-icon fontIcon="arrow_forward_alt"></mat-icon>
         </button>
     </div>
+    <div [id]="frame.id" class="frame-grid-container"></div>
 </div>

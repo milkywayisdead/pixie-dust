@@ -24,6 +24,7 @@ export class GridService {
     const grid = document.createElement('table');
     grid.classList.add('grid');
     grid.classList.add('gs14');
+    grid.style.width = `${cols*14}px`;
     const cellsList = [];
     const _this = this;
 

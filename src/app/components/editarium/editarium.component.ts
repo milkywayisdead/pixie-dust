@@ -13,6 +13,15 @@ import { ColorMap } from '../../interfaces/colormap';
 import { FrameCommandsChain } from '../../services/commands_chain/frame-commands-chain.service';
 import { FrameObject } from '../../interfaces/frame';
 
+
+const changeContainerHeight = (containerId: string) => {
+  const container = document.getElementById(containerId)!;
+  const rect = container.getBoundingClientRect();
+  const height = window.innerHeight - rect.y - 75;
+  container.style.height = height + 'px';
+}
+
+
 @Component({
   selector: 'pix-editarium',
   standalone: true,
@@ -89,9 +98,23 @@ export class EditariumComponent implements FrameCanvas {
     this.gridService.applyColorMap(this);
 
     this.framesService.addCanvas(this);
+    this.framesService.setShape({
+      rows: this.nRows,
+      cols: this.nCols
+    });
+
+    const containerId = this.frame.id;
+    addEventListener('resize', function(){
+      changeContainerHeight(containerId);
+    });
+    changeContainerHeight(containerId);
   }
 
   ngOnDestroy(): void {
+    const containerId = this.frame.id;
+    removeEventListener('resize', function(){
+      changeContainerHeight(containerId);
+    });
     this.framesService.removeCanvas(this.frame.id);
   }
 

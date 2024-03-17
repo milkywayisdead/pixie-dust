@@ -1,8 +1,8 @@
 table.grid {
-    border: 1px solid black;
-    width: auto;
+    border: 1px solid #00000040;
     border-collapse: collapse;
     border-spacing: 0;
+    table-layout: fixed;
 }
 
 .grid.gs4 {
