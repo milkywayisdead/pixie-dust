@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>{{ locale.currentLocale['frame']['framesGroupDeletion'] }}</h2>
+<mat-dialog-content>
+	<p>{{ locale.currentLocale['frame']['framesGroupDeletionMessage'] }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="close()">{{ locale.currentLocale['actions']['cancel'] }}</button>
+    <button mat-button (click)="removeGroup()">{{ locale.currentLocale['actions']['remove'] }}</button>
+</mat-dialog-actions>

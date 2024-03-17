@@ -9,6 +9,7 @@ import { FrameCanvas } from '../../interfaces/grid';
 import { FramesService } from '../../services/frames/frames.service';
 import { LocaleService } from '../../services/locale/locale.service';
 import { GridService } from '../../services/grid/grid.service';
+import { DialogService } from '../../services/dialog/dialog.service';
 import { ColorMap } from '../../interfaces/colormap';
 import { FrameCommandsChain } from '../../services/commands_chain/frame-commands-chain.service';
 import { FrameObject } from '../../interfaces/frame';
@@ -57,6 +58,7 @@ export class EditariumComponent implements FrameCanvas {
     public locale: LocaleService,
     public gridService: GridService,
     public frameCommandsChain: FrameCommandsChain,
+    public dialog: DialogService,
   ) {}
 
   createGrid(cols: number=20, rows: number=20){
@@ -83,12 +85,28 @@ export class EditariumComponent implements FrameCanvas {
   }
 
   remove(){
-    this.framesService.remove(this.frame.id);
-    this.framesService.removeGroupIfEmpty();
+    //this.framesService.remove(this.frame.id);
+    //this.framesService.removeGroupIfEmpty();
+    const data = {
+      callback: () => {
+        this.framesService.remove(this.frame.id);
+        this.framesService.removeGroupIfEmpty();
+      }
+    }
+    this.dialog.openFrameDeletionConfirmationDialog({
+      data: data,
+    });
   }
 
   removeFramesGroup(): void {
-    this.framesService.removeGroup();
+    const data = {
+      callback: () => {
+        this.framesService.removeGroup()
+      }
+    }
+    this.dialog.openGroupDeletionConfirmationDialog({
+      data: data,
+    });
   }
 
   ngAfterViewInit(): void {

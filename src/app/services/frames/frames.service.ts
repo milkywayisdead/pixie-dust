@@ -36,7 +36,7 @@ export class FramesService {
       cols: this.nCols,
       rows: this.nRows,
     }
-    //this.frames.push(frame);
+
     this.context.addFrameToGroup(frame, groupId, groupId);
     this.currentGroup = groupId;
     this.bindFrames();

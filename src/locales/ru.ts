@@ -30,6 +30,11 @@ const ru: Locale = {
         cols: 'Количество столбцов',
         rows: 'Количество строк',
         groupName: 'Название группы',
+        framesGroupDeletion: 'Удаление группы фреймов',
+        framesGroupDeletionMessage: 'Вы уверены, что хотите удалить группу фреймов?',
+        frameDeletion: 'Удаление фрейма',
+        frameDeletionMessage: 'Вы уверены, что хотите удалить фрейм?',
+        frameDeletionMessageExtra: 'Если это последний фрейм группы, то группа также будет удалена.',
     },
     profile: {
         open: 'Открыть профиль',
