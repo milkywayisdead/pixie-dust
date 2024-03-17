@@ -122,6 +122,11 @@ export class ContextService {
     return compiled;
   }
 
+  removeGroup(groupId: string): void {
+    delete this.context.frames[groupId];
+    this.updateFramesList();
+  }
+
   private updateFramesList(): void {
     this.framesList = Object.values(this.context.frames).map(f => {
       return {

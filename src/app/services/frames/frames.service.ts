@@ -5,6 +5,7 @@ import { ColorMap } from '../../interfaces/colormap';
 import { FrameShape } from '../../interfaces/frame';
 import { GridService } from '../grid/grid.service';
 import { ContextService } from '../context/context.service';
+import { TabsService } from '../../services/tabs/tabs.service';
 
 
 @Injectable({
@@ -23,6 +24,7 @@ export class FramesService {
   constructor(
     public context: ContextService,
     private gridService: GridService,
+    public tabsService: TabsService,
   ) {}
 
   add(): void {
@@ -166,6 +168,12 @@ export class FramesService {
     delete this.canvases[id];
   }
 
+  removeGroup(): void {
+    const groupId = this.currentGroup!;
+    this.tabsService.closeTab(groupId);
+    this.context.removeGroup(groupId);
+  }
+
   zoomIn(): void {
     const currentClass = `gs${this.scales[this.scaleIndex]}`;
     this.scaleIndex++;
@@ -181,7 +189,7 @@ export class FramesService {
     });
   }
 
-    zoomOut(): void {
+  zoomOut(): void {
     const currentClass = `gs${this.scales[this.scaleIndex]}`;
     this.scaleIndex--;
     const newScaleNumber = this.scales[this.scaleIndex];
@@ -206,5 +214,11 @@ export class FramesService {
 
   private changeTableWidth(table: HTMLElement | null, width: number): void {
     table!.style.width = `${width}px`;
-  } 
+  }
+
+  removeGroupIfEmpty(): void {
+    if(!this.frames.length){
+      this.removeGroup();
+    }
+  }
 }

@@ -84,6 +84,11 @@ export class EditariumComponent implements FrameCanvas {
 
   remove(){
     this.framesService.remove(this.frame.id);
+    this.framesService.removeGroupIfEmpty();
+  }
+
+  removeFramesGroup(): void {
+    this.framesService.removeGroup();
   }
 
   ngAfterViewInit(): void {
@@ -103,11 +108,7 @@ export class EditariumComponent implements FrameCanvas {
       cols: this.nCols
     });
 
-    const containerId = this.frame.id;
-    addEventListener('resize', function(){
-      changeContainerHeight(containerId);
-    });
-    changeContainerHeight(containerId);
+    this.setUpContainerHeightAndResizeListener();
   }
 
   ngOnDestroy(): void {
@@ -168,5 +169,13 @@ export class EditariumComponent implements FrameCanvas {
   setScaleClass(scaleClass: string, classToRemove: string): void {
     this.grid?.classList.remove(classToRemove);
     this.grid?.classList.add(scaleClass);
+  }
+
+  private setUpContainerHeightAndResizeListener(): void {
+    const containerId = this.frame.id;
+    addEventListener('resize', function(){
+      changeContainerHeight(containerId);
+    });
+    changeContainerHeight(containerId);
   }
 }

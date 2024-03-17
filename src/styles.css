@@ -5,6 +5,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .frame-grid-container {
     padding: 15px;
-    border: 1px solid black;
+    border: 1px solid #0000007a;
     overflow: scroll;
+    border-radius: 4px;
 }
