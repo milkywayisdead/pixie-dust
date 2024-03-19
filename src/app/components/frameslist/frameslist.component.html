@@ -1,6 +1,13 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>{{ context.context.name }}</mat-card-title>
+    <mat-card-title>
+      <span>{{ context.context.name }}</span>
+      <button mat-icon-button
+        (click)="openProfileInfoDialog()"
+        [matTooltip]="locale.currentLocale['profile']['openInfo']">
+        <mat-icon fontIcon="settings"></mat-icon>
+      </button>
+    </mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <mat-list role="list">

@@ -14,6 +14,9 @@ import {
 import { 
   ProfileDeletionConfirmationDialogComponent
 } from '../../components/dialogs/profile-deletion-confirmation-dialog/profile-deletion-confirmation-dialog.component';
+import { 
+  ProfileInfoDialogComponent
+} from '../../components/dialogs/profile-info-dialog/profile-info-dialog.component';
 import { CallbackInterface } from '../../interfaces/dialogs';
 
 
@@ -59,6 +62,13 @@ export class DialogService {
   openProfileDeletionConfirmationDialog(data: Object): void {
     this.dialog.open(
       ProfileDeletionConfirmationDialogComponent,
+      data
+    );
+  }
+
+  openProfileInfoDialog(data: Object): void {
+    this.dialog.open(
+      ProfileInfoDialogComponent,
       data
     );
   }

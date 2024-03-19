@@ -85,8 +85,6 @@ export class EditariumComponent implements FrameCanvas {
   }
 
   remove(){
-    //this.framesService.remove(this.frame.id);
-    //this.framesService.removeGroupIfEmpty();
     const data = {
       callback: () => {
         this.framesService.remove(this.frame.id);

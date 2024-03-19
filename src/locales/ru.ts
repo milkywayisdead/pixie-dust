@@ -38,6 +38,9 @@ const ru: Locale = {
     },
     profile: {
         open: 'Открыть профиль',
+        name: 'Название профиля',
+        openInfo: 'Открыть параметры профиля',
+        profileInfo: 'Параметры профиля',
         untitled: 'Безымянный',
         delete: 'Удалить профиль',
         openProfileConfirmation: 'Подтверждение открытия профиля',

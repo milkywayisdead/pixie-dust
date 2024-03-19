@@ -53,6 +53,15 @@ export class ContextService {
     this.context.id = id;
   }
 
+  setProfileName(name: string): void {
+    this.context.name = name;
+    this.setDocTitle();
+  }
+
+  getProfileName(): string {
+    return this.context.name;
+  }
+
   fromResponse(responseContext: ResponseContextInterface): void {
     this.context.id = responseContext._id;
     this.context.name = responseContext.name;
