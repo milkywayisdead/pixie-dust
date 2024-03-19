@@ -25,4 +25,8 @@ export class TabsService {
       this.tabs.splice(tabIndex, 1);
     }
   }
+
+  closeAll(): void {
+    this.tabs = [];
+  }
 }

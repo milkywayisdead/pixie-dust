@@ -37,7 +37,17 @@ export class ContextService {
     }
   }
 
-  clear(): void {}
+  clear(): void {
+    this.context.id = '';
+    this.context.name = this.locale.currentLocale['profile']['untitled'];
+    this.context.frames = {}
+    this.updateFramesList();
+    this.setDocTitle();
+  }
+
+  getId(): string {
+    return this.context.id;
+  }
 
   setId(id: string): void {
     this.context.id = id;

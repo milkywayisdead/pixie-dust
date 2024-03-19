@@ -39,7 +39,12 @@ const ru: Locale = {
     profile: {
         open: 'Открыть профиль',
         untitled: 'Безымянный',
-    }
+        delete: 'Удалить профиль',
+        openProfileConfirmation: 'Подтверждение открытия профиля',
+        openProfileConfirmationMessage: 'Несохранённые изменения в текущем профиле будут утеряны. Открыть этот профиль?',
+        profileDeletionConfirmation: 'Подтверждение удаления профиля',
+        profileDeletionConfirmationMessage: 'Вы уверены, что хотите удалить этот профиль?',
+    },
 }
 
 export default ru;

@@ -16,6 +16,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 
+import { DialogService } from '../../../services/dialog/dialog.service';
+import { TabsService } from '../../../services/tabs/tabs.service';
 import { LocaleService } from '../../../services/locale/locale.service';
 import { FramesService } from '../../../services/frames/frames.service';
 import { ContextService } from '../../../services/context/context.service';
@@ -50,6 +52,8 @@ export class OpenProfileDialogComponent {
       public frameService: FramesService,
       public contextService: ContextService,
       private api: ApiService,
+      public dialog: DialogService,
+      public tabs: TabsService,
     ) {}
   
     close(): void {
@@ -57,19 +61,39 @@ export class OpenProfileDialogComponent {
     }
   
     openProfile(profileId: string): void {
-      this.frameService.reset();
-      this.api.getProfile(profileId)
-        .subscribe(result => {
-          this.contextService.fromResponse(result);
-          this.close();
-        });
+      const callback = () => {
+        this.tabs.closeAll();
+        this.api.getProfile(profileId)
+          .subscribe(result => {
+            this.contextService.fromResponse(result);
+            this.close();
+          });
+      }
+
+      this.dialog.openProfileConfirmationDialog({
+        data: {
+          callback: callback,
+        }
+      });
     }
 
     deleteProfile(profileId: string): void {
-      this.api.deleteProfile(profileId)
-        .subscribe(result => {
-          this.profilesList = this.profilesList.filter(profile => profile._id !== result.id);
-        });
+      const callback = () => {
+        this.api.deleteProfile(profileId)
+          .subscribe(result => {
+            const deletedProfileId: string = result.id;
+            this.clearStuffIfDeletedCurrentProfile(deletedProfileId);
+            this.profilesList = this.profilesList.filter(profile => profile._id !== deletedProfileId);
+          });
+      }
+        
+      this.dialog.openProfileDeletionConfirmationDialog({
+        data: {
+          callback: callback,
+        }
+      });
+
+
     }
 
     ngAfterViewInit(){
@@ -77,5 +101,12 @@ export class OpenProfileDialogComponent {
         .subscribe(result => {
           this.profilesList = result;
         });
+    }
+
+    clearStuffIfDeletedCurrentProfile(deletedProfileId: string): void {
+      if(this.contextService.getId() === deletedProfileId){
+        this.tabs.closeAll();
+        this.contextService.clear();
+      }
     }
 }

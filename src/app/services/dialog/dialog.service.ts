@@ -8,6 +8,12 @@ import {
 import { 
   FrameDeletionConfirmationDialogComponent 
 } from '../../components/dialogs/frame-deletion-confirmation-dialog/frame-deletion-confirmation-dialog.component';
+import { 
+  OpenProfileConfirmationDialogComponent
+} from '../../components/dialogs/open-profile-confirmation-dialog/open-profile-confirmation-dialog.component';
+import { 
+  ProfileDeletionConfirmationDialogComponent
+} from '../../components/dialogs/profile-deletion-confirmation-dialog/profile-deletion-confirmation-dialog.component';
 import { CallbackInterface } from '../../interfaces/dialogs';
 
 
@@ -39,6 +45,20 @@ export class DialogService {
   openFrameDeletionConfirmationDialog(data: Object): void {
     this.dialog.open(
       FrameDeletionConfirmationDialogComponent,
+      data
+    );
+  }
+
+  openProfileConfirmationDialog(data: Object): void {
+    this.dialog.open(
+      OpenProfileConfirmationDialogComponent,
+      data
+    );
+  }
+
+  openProfileDeletionConfirmationDialog(data: Object): void {
+    this.dialog.open(
+      ProfileDeletionConfirmationDialogComponent,
       data
     );
   }
