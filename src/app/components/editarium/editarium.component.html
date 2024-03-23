@@ -55,7 +55,17 @@
             [matTooltip]="locale.currentLocale['actions']['redo']"
             (click)="frameCommandsChain.redo()">
             <mat-icon fontIcon="redo"></mat-icon>
-        </button>        
+        </button>    
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['actions']['saveFrame']"
+            (click)="saveFrame()">
+            <mat-icon fontIcon="save_as"></mat-icon>
+        </button>
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['actions']['saveFramesGroup']"
+            (click)="framesService.saveFramesGroup()">
+            <mat-icon fontIcon="save"></mat-icon>
+        </button>    
     </div>
     <div>
         <button mat-icon-button

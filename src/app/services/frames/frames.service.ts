@@ -19,7 +19,7 @@ export class FramesService {
   canvases: { [name: string]: FrameCanvas } = {};
   scales: number[] = [4, 8, 10, 14, 18, 20];
   scaleIndex: number = 3;
-  currentGroup: string | null = null;
+  currentGroup: string = '';
 
   constructor(
     public context: ContextService,
@@ -208,8 +208,22 @@ export class FramesService {
     if(!this.currentGroup) return;
     const group = this.context.getGroup(this.currentGroup);
     if(group){
-      this.frames = group.frames;
+      //this.frames = group.frames;
+      const strigngifiedGroup = JSON.stringify(group.frames);
+      this.frames = JSON.parse(strigngifiedGroup);
     }
+  }
+
+  saveFrame(frameId: string, stringifiedColorMap: string): void {
+    const group = this.context.getGroup(this.currentGroup)!;
+    const frame = group.frames.find(frame => frame.id === frameId)!;
+    frame.colorMap = JSON.parse(stringifiedColorMap);
+  }
+
+  saveFramesGroup(): void {
+    const strigngifiedGroup = JSON.stringify(this.frames);
+    const group = JSON.parse(strigngifiedGroup);
+    this.context.saveFramesGroup(this.currentGroup, group);
   }
 
   private changeTableWidth(table: HTMLElement | null, width: number): void {

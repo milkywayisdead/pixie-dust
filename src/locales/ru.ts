@@ -24,6 +24,8 @@ const ru: Locale = {
         colorpick: 'Выбор цвета',
         zoomIn: 'Увеличить',
         zoomOut: 'Уменьшить',
+        saveFrame: 'Сохранить фрейм',
+        saveFramesGroup: 'Сохранить группу',
     },
     frame: {
         shape: 'Размеры фрейма',

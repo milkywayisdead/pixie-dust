@@ -103,9 +103,13 @@ export class ContextService {
     } as ContextFramesGroup;
   }
 
-  getGroup(groupId: string | null): ContextFramesGroup | null {
-    if(!groupId) return null;
+  getGroup(groupId: string): ContextFramesGroup {
     return this.context.frames[groupId];
+  }
+
+  saveFramesGroup(groupId: string, frames: FrameObject[]): void {
+    const group = this.getGroup(groupId)!;
+    group.frames = frames;
   }
 
   removeFrame(groupId: string, frameId: string): void {

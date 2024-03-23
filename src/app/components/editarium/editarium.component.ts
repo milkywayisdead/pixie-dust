@@ -166,6 +166,11 @@ export class EditariumComponent implements FrameCanvas {
     this.framesService.copyFrame(this);
   }
 
+  saveFrame(): void {
+    const stringifiedColorMap = JSON.stringify(this.colorMap);
+    this.framesService.saveFrame(this.frame.id, stringifiedColorMap);
+  }
+
   isClear(): boolean {
     return Object.keys(this.colorMap).length === 0;
   }
