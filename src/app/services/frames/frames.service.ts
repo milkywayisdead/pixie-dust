@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { FrameCanvas } from '../../interfaces/grid';
-import { FrameObject } from '../../interfaces/frame';
+import { FrameObject, CompiledFrames } from '../../interfaces/frame';
 import { ColorMap } from '../../interfaces/colormap';
 import { FrameShape } from '../../interfaces/frame';
+import { GridService } from '../grid/grid.service';
+import { ContextService } from '../context/context.service';
+import { TabsService } from '../../services/tabs/tabs.service';
 
 
 @Injectable({
@@ -13,13 +16,30 @@ export class FramesService {
   currentFrameIndex: number = -1;
   nCols: number = 20;
   nRows: number = 20;
+  canvases: { [name: string]: FrameCanvas } = {};
+  scales: number[] = [4, 8, 10, 14, 18, 20];
+  scaleIndex: number = 3;
+  currentGroup: string = '';
 
-  constructor() { }
+  constructor(
+    public context: ContextService,
+    private gridService: GridService,
+    public tabsService: TabsService,
+  ) {}
 
   add(): void {
     const frameId = `${+ new Date()}`;
-    const frame: FrameObject = {id: frameId, colorMap: {}}
-    this.frames.push(frame);
+    const groupId = this.currentGroup ?? `g${+ new Date()}`;
+    const frame: FrameObject = {
+      id: frameId,
+      colorMap: {},
+      cols: this.nCols,
+      rows: this.nRows,
+    }
+
+    this.context.addFrameToGroup(frame, groupId, groupId);
+    this.currentGroup = groupId;
+    this.bindFrames();
     this.stepForward();
   }
 
@@ -29,6 +49,7 @@ export class FramesService {
       this.frames.splice(frameIndex, 1);
       this.reindex(frameIndex - 1);
     }
+    this.context.removeFrame(this.currentGroup!, frameId);
   }
 
   removeAll(): void {
@@ -80,6 +101,13 @@ export class FramesService {
     this.nCols = shape.cols;
   }
 
+  reset(): void {
+    this.frames = [];
+    this.currentFrameIndex = -1;
+    this.canvases = {}
+    this.scaleIndex = 3;
+  }
+
   private reindex(index: number): void {
     const fl = this.frames.length;
     let newIndex = -1;
@@ -104,7 +132,9 @@ export class FramesService {
 
     const newFrame: FrameObject = {
       id: newFrameId,
-      colorMap: newFrameColorMap
+      colorMap: newFrameColorMap,
+      cols: canvas.nCols,
+      rows: canvas.nRows,
     }
     this.frames.push(newFrame);
     this.currentFrameIndex = this.frames.length - 1;
@@ -128,5 +158,81 @@ export class FramesService {
     }
 
     return frameIndex;
+  }
+
+  addCanvas(canvas: FrameCanvas): void {
+    this.canvases[canvas.frame.id] = canvas;
+  }
+
+  removeCanvas(id: string): void {
+    delete this.canvases[id];
+  }
+
+  removeGroup(): void {
+    const groupId = this.currentGroup!;
+    this.tabsService.closeTab(groupId);
+    this.context.removeGroup(groupId);
+  }
+
+  zoomIn(): void {
+    const currentClass = `gs${this.scales[this.scaleIndex]}`;
+    this.scaleIndex++;
+    const newScaleNumber = this.scales[this.scaleIndex];
+    const newClass = `gs${newScaleNumber}`;
+
+    Object.values(this.canvases).forEach(canvas => {
+      canvas.setScaleClass(newClass, currentClass);
+      this.changeTableWidth(
+        canvas.grid,
+        this.nCols*newScaleNumber
+      );
+    });
+  }
+
+  zoomOut(): void {
+    const currentClass = `gs${this.scales[this.scaleIndex]}`;
+    this.scaleIndex--;
+    const newScaleNumber = this.scales[this.scaleIndex];
+    const newClass = `gs${newScaleNumber}`;
+
+    Object.values(this.canvases).forEach(canvas => {
+      canvas.setScaleClass(newClass, currentClass);
+      this.changeTableWidth(
+        canvas.grid,
+        this.nCols*newScaleNumber
+      );
+    });
+  }
+
+  bindFrames(): void {
+    if(!this.currentGroup) return;
+    const group = this.context.getGroup(this.currentGroup);
+    if(group){
+      //this.frames = group.frames;
+      const strigngifiedGroup = JSON.stringify(group.frames);
+      this.frames = JSON.parse(strigngifiedGroup);
+    }
+  }
+
+  saveFrame(frameId: string, stringifiedColorMap: string): void {
+    const group = this.context.getGroup(this.currentGroup)!;
+    const frame = group.frames.find(frame => frame.id === frameId)!;
+    frame.colorMap = JSON.parse(stringifiedColorMap);
+  }
+
+  saveFramesGroup(): void {
+    const strigngifiedGroup = JSON.stringify(this.frames);
+    const group = JSON.parse(strigngifiedGroup);
+    this.context.saveFramesGroup(this.currentGroup, group);
+  }
+
+  private changeTableWidth(table: HTMLElement | null, width: number): void {
+    table!.style.width = `${width}px`;
+  }
+
+  removeGroupIfEmpty(): void {
+    if(!this.frames.length){
+      this.removeGroup();
+    }
   }
 }

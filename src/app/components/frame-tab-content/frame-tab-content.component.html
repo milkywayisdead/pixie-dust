@@ -1,0 +1,8 @@
+<pix-editarium *ngFor="let frame of framesService.frames; index as i"
+	[framesService]="framesService"
+	[frame]="frame"
+	[index]="i"
+	[isLast]="i + 1 === framesService.frames.length"
+	[isFirst]="i === 0"
+	[active]="i === framesService.currentFrameIndex"
+/>

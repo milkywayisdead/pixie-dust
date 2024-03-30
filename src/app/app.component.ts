@@ -8,11 +8,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 
-import { EditariumComponent } from './editarium/editarium.component';
+import { FrameslistComponent } from './components/frameslist/frameslist.component';
+import { EditariumComponent } from './components/editarium/editarium.component';
+import { TabsareaComponent } from './components/tabsarea/tabsarea.component';
+import { ApiService } from './services/api/api.service';
 import { FramesService } from './services/frames/frames.service';
 import { LocaleService } from './services/locale/locale.service';
 import { DialogService } from './services/dialog/dialog.service';
-import { FrameSizeDialogComponent } from './dialogs/frame-size-dialog/frame-size-dialog.component';
+import { FrameSizeDialogComponent } from './components/dialogs/frame-size-dialog/frame-size-dialog.component';
 
 
 @Component({
@@ -29,6 +32,8 @@ import { FrameSizeDialogComponent } from './dialogs/frame-size-dialog/frame-size
     EditariumComponent,
     MatTooltipModule,
     FrameSizeDialogComponent,
+    FrameslistComponent,
+    TabsareaComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -44,12 +49,14 @@ export class AppComponent {
     public locale: LocaleService,
     public dialog: MatDialog,
     public dialogService: DialogService,
+    public api: ApiService,
   ) {}
 
   @ViewChildren('grids')
   editariums: EditariumComponent[] | undefined;
 
   save(){
+    this.api.updateProfile();
   }
 
   setColor(value: string):void{
@@ -60,13 +67,9 @@ export class AppComponent {
     this.locale.setLocale('ru');
   }
 
-  addFrameOrOpenDialog(): void {
-    if(this.framesService.frames.length === 0){
-      this.dialogService.openFrameSizeDialog({
-        data: this.framesService.getShape()
-      });
-    } else {
-      this.framesService.add();
-    }
+  addFrameGroup(): void {
+    this.dialogService.openFrameSizeDialog({
+      data: this.framesService.getShape()
+    });
   }
 }

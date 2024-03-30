@@ -9,6 +9,7 @@ const ru: Locale = {
         nextFrame: 'Следующий фрейм',
         previousFrame: 'Предыдущий фрейм',
         addFrame: 'Добавить фрейм',
+        addFrameGroup: 'Добавить группу фреймов',
         removeFrames: 'Удалить фреймы',
         redo: 'Повторить',
         undo: 'Отменить',
@@ -23,15 +24,32 @@ const ru: Locale = {
         colorpick: 'Выбор цвета',
         zoomIn: 'Увеличить',
         zoomOut: 'Уменьшить',
+        saveFrame: 'Сохранить фрейм',
+        saveFramesGroup: 'Сохранить группу',
     },
     frame: {
         shape: 'Размеры фрейма',
         cols: 'Количество столбцов',
         rows: 'Количество строк',
+        groupName: 'Название группы',
+        framesGroupDeletion: 'Удаление группы фреймов',
+        framesGroupDeletionMessage: 'Вы уверены, что хотите удалить группу фреймов?',
+        frameDeletion: 'Удаление фрейма',
+        frameDeletionMessage: 'Вы уверены, что хотите удалить фрейм?',
+        frameDeletionMessageExtra: 'Если это последний фрейм группы, то группа также будет удалена.',
     },
     profile: {
         open: 'Открыть профиль',
-    }
+        name: 'Название профиля',
+        openInfo: 'Открыть параметры профиля',
+        profileInfo: 'Параметры профиля',
+        untitled: 'Безымянный',
+        delete: 'Удалить профиль',
+        openProfileConfirmation: 'Подтверждение открытия профиля',
+        openProfileConfirmationMessage: 'Несохранённые изменения в текущем профиле будут утеряны. Открыть этот профиль?',
+        profileDeletionConfirmation: 'Подтверждение удаления профиля',
+        profileDeletionConfirmationMessage: 'Вы уверены, что хотите удалить этот профиль?',
+    },
 }
 
 export default ru;

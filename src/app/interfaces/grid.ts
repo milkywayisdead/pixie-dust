@@ -20,4 +20,5 @@ export interface FrameCanvas extends GridInterface {
     fromColorMap(color: string, cellIndex: number): void;
     clear(): void;
     isClear(): boolean;
+    setScaleClass(scaleClass: string, classToRemove: string): void;
 }

@@ -1,5 +1,4 @@
 <div [hidden]="!active">
-    <div [id]="frame.id" class="frame-grid-container"></div>
     <div>
         <button mat-icon-button
             (click)="triggerColorPicker()"
@@ -9,13 +8,13 @@
             <input [id]="frame.id + '-cp'" [(ngModel)]="color" type="color" style="display:none"/>
         </button>
         <button mat-icon-button
-            [disabled]="!(scaleIndex - 1 >= 0)"
+            [disabled]="!(framesService.scaleIndex - 1 >= 0)"
             (click)="zoomOut()"
             [matTooltip]="locale.currentLocale['actions']['zoomOut']">
             <mat-icon fontIcon="zoom_out"></mat-icon>
         </button>
         <button mat-icon-button
-            [disabled]="!(scaleIndex + 1 < scales.length)"
+            [disabled]="!(framesService.scaleIndex + 1 < framesService.scales.length)"
             (click)="zoomIn()"
             [matTooltip]="locale.currentLocale['actions']['zoomIn']">
             <mat-icon fontIcon="zoom_in"></mat-icon>
@@ -31,16 +30,19 @@
             <mat-icon fontIcon="content_copy"></mat-icon>
         </button>
         <button mat-icon-button
-            [disabled]="isFirst"
-            [matTooltip]="locale.currentLocale['actions']['previousFrame']"
-            (click)="framesService.stepBack()">
-            <mat-icon fontIcon="arrow_left"></mat-icon>
+            [matTooltip]="locale.currentLocale['actions']['addFrame']"
+            (click)="framesService.add()">
+            <mat-icon fontIcon="add_box"></mat-icon>
         </button>
         <button mat-icon-button
-            [disabled]="isLast"
-            [matTooltip]="locale.currentLocale['actions']['nextFrame']"
-            (click)="framesService.stepForward()">
-            <mat-icon fontIcon="arrow_right"></mat-icon>
+            [matTooltip]="locale.currentLocale['actions']['remove']"
+            (click)="remove()">
+            <mat-icon fontIcon="disabled_by_default"></mat-icon>
+        </button>
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['actions']['removeFrames']"
+            (click)="removeFramesGroup()">
+            <mat-icon fontIcon="delete_forever"></mat-icon>
         </button>
         <button mat-icon-button
             [disabled]="!frameCommandsChain.undoable"
@@ -53,6 +55,30 @@
             [matTooltip]="locale.currentLocale['actions']['redo']"
             (click)="frameCommandsChain.redo()">
             <mat-icon fontIcon="redo"></mat-icon>
+        </button>    
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['actions']['saveFrame']"
+            (click)="saveFrame()">
+            <mat-icon fontIcon="save_as"></mat-icon>
+        </button>
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['actions']['saveFramesGroup']"
+            (click)="framesService.saveFramesGroup()">
+            <mat-icon fontIcon="save"></mat-icon>
+        </button>    
+    </div>
+    <div>
+        <button mat-icon-button
+            [disabled]="isFirst"
+            [matTooltip]="locale.currentLocale['actions']['previousFrame']"
+            (click)="framesService.stepBack()">
+            <mat-icon fontIcon="arrow_left"></mat-icon>
+        </button>
+        <button mat-icon-button
+            [disabled]="isLast"
+            [matTooltip]="locale.currentLocale['actions']['nextFrame']"
+            (click)="framesService.stepForward()">
+            <mat-icon fontIcon="arrow_right"></mat-icon>
         </button>
         <button mat-icon-button
             [disabled]="isFirst"
@@ -78,10 +104,6 @@
             (click)="moveForward()">
             <mat-icon fontIcon="arrow_forward_alt"></mat-icon>
         </button>
-        <button mat-icon-button
-            [matTooltip]="locale.currentLocale['actions']['remove']"
-            (click)="remove()">
-            <mat-icon fontIcon="delete_forever"></mat-icon>
-        </button>
     </div>
+    <div [id]="frame.id" class="frame-grid-container"></div>
 </div>
