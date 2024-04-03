@@ -17,6 +17,9 @@ import {
 import { 
   ProfileInfoDialogComponent
 } from '../../components/dialogs/profile-info-dialog/profile-info-dialog.component';
+import { 
+  AnimationPreviewDialogComponent
+} from '../../components/dialogs/animation-preview-dialog/animation-preview-dialog.component';
 import { CallbackInterface } from '../../interfaces/dialogs';
 
 
@@ -70,6 +73,13 @@ export class DialogService {
     this.dialog.open(
       ProfileInfoDialogComponent,
       data
+    );
+  }
+
+  openAnimationPreviewDialog(data: Object): void {
+    this.dialog.open(
+      AnimationPreviewDialogComponent,
+      {data: data}
     );
   }
 }

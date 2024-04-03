@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{ locale.currentLocale['animation']['animationPreview'] }}</h2>
+<mat-dialog-content>
+    <div>
+        <preview-grid *ngFor="let frame of framesGroup.frames; index as index" 
+            [frame]="frame" 
+            [isFirst]="index === 0" />
+    </div>
+    <div>
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['animation']['playOnce']"
+            (click)="play()">
+            <mat-icon fontIcon="play_arrow"></mat-icon>
+        </button>
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['animation']['cycle']">
+            <mat-icon fontIcon="refresh"></mat-icon>
+        </button>   
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="close()">{{ locale.currentLocale['actions']['close'] }}</button>
+</mat-dialog-actions>

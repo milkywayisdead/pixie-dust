@@ -26,6 +26,7 @@ const ru: Locale = {
         zoomOut: 'Уменьшить',
         saveFrame: 'Сохранить фрейм',
         saveFramesGroup: 'Сохранить группу',
+        openAnimationPreview: 'Открыть превью анимации',
     },
     frame: {
         shape: 'Размеры фрейма',
@@ -50,6 +51,11 @@ const ru: Locale = {
         profileDeletionConfirmation: 'Подтверждение удаления профиля',
         profileDeletionConfirmationMessage: 'Вы уверены, что хотите удалить этот профиль?',
     },
+    animation: {
+        animationPreview: 'Превью анимации',
+        playOnce: 'Воспроизвести',
+        cycle: 'Зациклить',
+    }
 }
 
 export default ru;
