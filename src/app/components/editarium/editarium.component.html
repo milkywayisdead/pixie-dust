@@ -65,6 +65,11 @@
             [matTooltip]="locale.currentLocale['actions']['saveFramesGroup']"
             (click)="framesService.saveFramesGroup()">
             <mat-icon fontIcon="save"></mat-icon>
+        </button>
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['actions']['openAnimationPreview']"
+            (click)="openPreviewDialog()">
+            <mat-icon fontIcon="play_circle"></mat-icon>
         </button>    
     </div>
     <div>
