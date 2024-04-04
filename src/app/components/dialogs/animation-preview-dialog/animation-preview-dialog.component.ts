@@ -35,6 +35,9 @@ import { PreviewGridComponent } from '../../preview-grid/preview-grid.component'
 })
 export class AnimationPreviewDialogComponent {
   previewFramesIds: string[] = [];
+  playing: boolean = false;
+  timeoutId!: number;
+  frameIndex: number = 0;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public framesGroup: ContextFramesGroup,
@@ -48,24 +51,66 @@ export class AnimationPreviewDialogComponent {
   }
 
   close(): void {
+    this.pause();
     this.dialogRef.close();
   }
 
+  playOrPause(): void {
+    if(this.playing){
+      this.pause();
+    } else {
+      this.play();
+    }
+  }
+
   play(msBetweenFrames: number = 200): void {
-    let frameIndex = 0;
+    this.playing = true;
     const _this = this;
     const numberOfFrames = this.previewFramesIds.length;
     
     function step(){
-      _this.hideFrame(_this.previewFramesIds[frameIndex]);
-      frameIndex++;
-      _this.showFrame(_this.previewFramesIds[frameIndex]);
-      if(frameIndex < numberOfFrames - 1){
-        setTimeout(step, msBetweenFrames);
+      _this.hideFrame(_this.getCurrentFrameId());
+      _this.frameIndex++;
+      if(_this.frameIndex <= numberOfFrames - 1){
+        _this.showFrame(_this.getCurrentFrameId());
+      } else {
+        _this.frameIndex = 0;
+        _this.showFrame(_this.getCurrentFrameId());
       }
+      _this.timeoutId = setTimeout(step, msBetweenFrames);
     }
 
-    setTimeout(step, msBetweenFrames);
+    this.timeoutId = setTimeout(step, msBetweenFrames);
+  }
+
+  pause(): void {
+    this.playing = false;
+    clearTimeout(this.timeoutId);
+  }
+
+  stop(): void {
+    this.pause();
+    this.hideFrame(this.getCurrentFrameId());
+    this.frameIndex = 0;
+    this.showFrame(this.getCurrentFrameId());
+  }
+
+  stepForward(): void {
+    const startOver = this.frameIndex === this.previewFramesIds.length - 1;
+    this.hideFrame(this.getCurrentFrameId());
+    this.frameIndex = startOver ? 0 : ++this.frameIndex;
+    this.showFrame(this.getCurrentFrameId());
+  }
+
+  stepBack(): void {
+    const goToLastFrame = this.frameIndex === 0;
+    this.hideFrame(this.getCurrentFrameId());
+    this.frameIndex = goToLastFrame ? this.previewFramesIds.length - 1 : --this.frameIndex;
+    this.showFrame(this.getCurrentFrameId());
+  }
+
+  getCurrentFrameId(): string {
+    return this.previewFramesIds[this.frameIndex];
   }
 
   showFrame(frameId: string): void {
