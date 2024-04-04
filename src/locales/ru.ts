@@ -54,7 +54,10 @@ const ru: Locale = {
     animation: {
         animationPreview: 'Превью анимации',
         playOnce: 'Воспроизвести',
-        cycle: 'Зациклить',
+        stop: 'Остановить',
+        pause: 'Пауза',
+        stepForward: 'Следующий кадр',
+        stepBack: 'Предыдущий кадр',
     }
 }
 

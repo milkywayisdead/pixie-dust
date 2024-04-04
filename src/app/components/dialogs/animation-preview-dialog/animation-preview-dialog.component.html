@@ -7,14 +7,27 @@
     </div>
     <div>
         <button mat-icon-button
-            [matTooltip]="locale.currentLocale['animation']['playOnce']"
-            (click)="play()">
-            <mat-icon fontIcon="play_arrow"></mat-icon>
+            [matTooltip]="playing ? locale.currentLocale['animation']['pause'] : locale.currentLocale['animation']['playOnce']"
+            (click)="playOrPause()">
+            <mat-icon [fontIcon]="playing ? 'pause' : 'play_arrow'"></mat-icon>
         </button>
         <button mat-icon-button
-            [matTooltip]="locale.currentLocale['animation']['cycle']">
-            <mat-icon fontIcon="refresh"></mat-icon>
-        </button>   
+            [matTooltip]="locale.currentLocale['animation']['stop']"
+            (click)="stop()">
+            <mat-icon fontIcon="stop"></mat-icon>
+        </button>
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['animation']['stepBack']"
+            (click)="stepBack()"
+            [disabled]="playing">
+            <mat-icon fontIcon="skip_previous"></mat-icon>
+        </button>
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['animation']['stepForward']"
+            (click)="stepForward()"
+            [disabled]="playing">
+            <mat-icon fontIcon="skip_next"></mat-icon>
+        </button>
     </div>
 </mat-dialog-content>
 <mat-dialog-actions>
