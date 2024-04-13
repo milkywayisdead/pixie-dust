@@ -9,8 +9,8 @@ import { FrameCanvas } from '../../interfaces/grid';
 import { FramesService } from '../../services/frames/frames.service';
 import { LocaleService } from '../../services/locale/locale.service';
 import { GridService } from '../../services/grid/grid.service';
+import { ContextService } from '../../services/context/context.service';
 import { DialogService } from '../../services/dialog/dialog.service';
-import { AnimationService } from '../../services/animation/animation.service';
 import { ColorMap } from '../../interfaces/colormap';
 import { FrameCommandsChain } from '../../services/commands_chain/frame-commands-chain.service';
 import { FrameObject } from '../../interfaces/frame';
@@ -61,7 +61,7 @@ export class EditariumComponent implements FrameCanvas {
     public gridService: GridService,
     public frameCommandsChain: FrameCommandsChain,
     public dialog: DialogService,
-    public animationService: AnimationService,
+    public context: ContextService,
   ) {}
 
   createGrid(cols: number=20, rows: number=20){
@@ -204,6 +204,7 @@ export class EditariumComponent implements FrameCanvas {
   }
 
   openPreviewDialog(): void {
-    this.animationService.openPreviewDialog(this.groupId);
+    const group = this.context.getGroup(this.groupId);
+    this.dialog.openAnimationPreviewDialog(group);
   }
 }
