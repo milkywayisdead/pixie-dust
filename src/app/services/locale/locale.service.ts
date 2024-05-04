@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { locales, Locale } from '../../../locales/locales';
 
-const DEFAULT_LOCALE = 'en';
+const DEFAULT_LOCALE = 'ru';
 const LOCALE_KEY_IN_STORAGE = 'pixie_dust_locale';
 
 @Injectable({

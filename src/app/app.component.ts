@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 
 import { FrameslistComponent } from './components/frameslist/frameslist.component';
@@ -34,6 +35,7 @@ import { FrameSizeDialogComponent } from './components/dialogs/frame-size-dialog
     FrameSizeDialogComponent,
     FrameslistComponent,
     TabsareaComponent,
+    MatMenuModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -71,5 +73,9 @@ export class AppComponent {
     this.dialogService.openFrameSizeDialog({
       data: this.framesService.getShape()
     });
+  }
+
+  changeLocale(locale: string): void {
+    this.locale.setLocale(locale);
   }
 }
