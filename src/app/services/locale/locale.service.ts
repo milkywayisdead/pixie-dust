@@ -16,7 +16,7 @@ export class LocaleService {
     this.setLocale(storageLocale || DEFAULT_LOCALE);
   }
 
-  private getLocale(localeName: string): Locale {
+  getLocale(localeName: string): Locale {
     return locales[localeName];
   }
 
