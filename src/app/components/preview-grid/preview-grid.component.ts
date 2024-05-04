@@ -1,6 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { GridService } from '../../services/grid/grid.service';
 import { FrameObject } from '../../interfaces/frame';
+import { createCanvasWithColorMap } from '../../utils';
 
 
 @Component({
@@ -18,7 +19,12 @@ export class PreviewGridComponent {
   constructor(public gridService: GridService) {}
 
   ngOnInit(): void {
-    setTimeout(() => {this.createGrid()}, 100);
+    setTimeout(
+      () => {
+        this.createCanvas()
+      },
+      100
+    );
   }
 
   createGrid(): void {
@@ -45,5 +51,16 @@ export class PreviewGridComponent {
     this.gridService.draw(colorMap, cellsList);
 
     document.getElementById(this.frame.id + '-preview')!.append(grid);
+  }
+
+  createCanvas(): void {
+    const cols = this.frame.cols;
+    const rows = this.frame.rows;
+    const colorMap = this.frame.colorMap;
+    const canvas = createCanvasWithColorMap(cols, rows, colorMap);
+    canvas.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    });
+    document.getElementById(this.frame.id + '-preview')!.append(canvas);
   }
 }

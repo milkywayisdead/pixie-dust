@@ -14,6 +14,7 @@ import { DialogService } from '../../services/dialog/dialog.service';
 import { ColorMap } from '../../interfaces/colormap';
 import { FrameCommandsChain } from '../../services/commands_chain/frame-commands-chain.service';
 import { FrameObject } from '../../interfaces/frame';
+import { createCanvasWithColorMap } from '../../utils';
 
 
 const changeContainerHeight = (containerId: string) => {
@@ -206,5 +207,17 @@ export class EditariumComponent implements FrameCanvas {
   openPreviewDialog(): void {
     const group = this.context.getGroup(this.groupId);
     this.dialog.openAnimationPreviewDialog(group);
+  }
+
+  downloadPng(pixelSize: number = 10): void {
+    const cols = this.frame.cols;
+    const rows = this.frame.rows;
+    const colorMap = this.frame.colorMap;
+    const canvas = createCanvasWithColorMap(cols, rows, colorMap);
+
+    const link = document.createElement('a');
+    link.setAttribute('download', 'frame.png');
+    link.setAttribute('href', canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'));
+    link.click();
   }
 }

@@ -70,6 +70,11 @@
             [matTooltip]="locale.currentLocale['actions']['openAnimationPreview']"
             (click)="openPreviewDialog()">
             <mat-icon fontIcon="play_circle"></mat-icon>
+        </button>
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['frame']['downloadPng']"
+            (click)="downloadPng()">
+            <mat-icon fontIcon="image"></mat-icon>
         </button>    
     </div>
     <div>

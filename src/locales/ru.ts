@@ -39,6 +39,7 @@ const ru: Locale = {
         frameDeletion: 'Удаление фрейма',
         frameDeletionMessage: 'Вы уверены, что хотите удалить фрейм?',
         frameDeletionMessageExtra: 'Если это последний фрейм группы, то группа также будет удалена.',
+        downloadPng: 'Скачать PNG',
     },
     profile: {
         open: 'Открыть профиль',
