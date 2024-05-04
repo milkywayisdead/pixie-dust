@@ -4,7 +4,7 @@ const ru: Locale = {
     actions: {
         open: 'Открыть',
         save: 'Сохранить',
-        remove: 'Удалить',
+        delete: 'Удалить',
         clear: 'Очистить',
         nextFrame: 'Следующий фрейм',
         previousFrame: 'Предыдущий фрейм',
@@ -32,8 +32,8 @@ const ru: Locale = {
         cols: 'Количество столбцов',
         rows: 'Количество строк',
         groupName: 'Название группы',
-        removeFrame: 'Удалить фрейм',
-        removeGroup: 'Удалить группу фреймов',
+        deleteFrame: 'Удалить фрейм',
+        deleteGroup: 'Удалить группу фреймов',
         framesGroupDeletion: 'Удаление группы фреймов',
         framesGroupDeletionMessage: 'Вы уверены, что хотите удалить группу фреймов?',
         frameDeletion: 'Удаление фрейма',
@@ -55,12 +55,18 @@ const ru: Locale = {
     },
     animation: {
         animationPreview: 'Превью анимации',
-        playOnce: 'Воспроизвести',
+        play: 'Воспроизвести',
         stop: 'Остановить',
         pause: 'Пауза',
         stepForward: 'Следующий кадр',
         stepBack: 'Предыдущий кадр',
-    }
+    },
+    locale: {
+        language: 'Язык',
+        thisLanguage: 'Русский',
+        russian: 'Русский',
+        english: 'Английский',
+    },
 }
 
 export default ru;

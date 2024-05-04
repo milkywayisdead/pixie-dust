@@ -36,7 +36,7 @@ import { PreviewGridComponent } from '../../preview-grid/preview-grid.component'
 export class AnimationPreviewDialogComponent {
   previewFramesIds: string[] = [];
   playing: boolean = false;
-  timeoutId!: number;
+  timeoutId!: ReturnType<typeof setTimeout>;
   frameIndex: number = 0;
 
   constructor(

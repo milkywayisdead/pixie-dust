@@ -64,7 +64,7 @@ export class AppComponent {
   }
 
   ngOnInit(){
-    this.locale.setLocale('ru');
+    this.locale.setLocale();
   }
 
   addFrameGroup(): void {

@@ -7,7 +7,7 @@
     </div>
     <div>
         <button mat-icon-button
-            [matTooltip]="playing ? locale.currentLocale['animation']['pause'] : locale.currentLocale['animation']['playOnce']"
+            [matTooltip]="playing ? locale.currentLocale['animation']['pause'] : locale.currentLocale['animation']['play']"
             (click)="playOrPause()">
             <mat-icon [fontIcon]="playing ? 'pause' : 'play_arrow'"></mat-icon>
         </button>
