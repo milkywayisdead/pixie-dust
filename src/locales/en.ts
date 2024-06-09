@@ -21,6 +21,7 @@ const en: Locale = {
         cancel: 'Cancel',
         close: 'Close',
         colorpick: 'Pick a color',
+        addColor: 'Add a color',
         zoomIn: 'Zoom in',
         zoomOut: 'Zoom out',
         saveFrame: 'Save frame',

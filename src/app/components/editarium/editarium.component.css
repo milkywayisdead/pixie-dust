@@ -82,3 +82,18 @@ table.grid {
         padding: 0px;
     }
 }
+
+.palette-colors {
+    padding: 4px;
+    width: 130px;
+}
+
+.palette-cell {
+    width: 20px!important;
+    height: 20px!important;
+    margin-right: 4px;
+    display: inline-block;
+    border: 1px solid rgba(65, 58, 58, 0.452);
+    border-radius: 25%;
+    cursor: pointer;
+}

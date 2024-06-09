@@ -1,12 +1,27 @@
 <div [hidden]="!active">
     <div>
         <button mat-icon-button
-            (click)="triggerColorPicker()"
             [style.color]="color"
+            [matMenuTriggerFor]="menu"
             [matTooltip]="locale.currentLocale['actions']['colorpick']">
             <mat-icon fontIcon="brush"></mat-icon>
-            <input [id]="frame.id + '-cp'" [(ngModel)]="color" type="color" style="display:none"/>
         </button>
+        <mat-menu #menu="matMenu">
+            <div class="palette-colors">
+                <div *ngFor="let color of palette.colors" 
+                    [style.backgroundColor]="color"
+                    class="palette-cell"
+                    (click)="setColor(color)">
+                </div>
+                <br>
+                <mat-icon fontIcon="add_box"
+                    [matTooltip]="locale.currentLocale['actions']['addColor']"
+                    style="cursor: pointer;" 
+                    (click)="triggerColorPicker()">
+                </mat-icon>
+            </div>
+            <input #newColor [id]="frame.id + '-cp'" (input)="palette.addColor(newColor.value)" type="color" style="display:none"/>
+        </mat-menu>
         <button mat-icon-button
             [disabled]="!(framesService.scaleIndex - 1 >= 0)"
             (click)="zoomOut()"

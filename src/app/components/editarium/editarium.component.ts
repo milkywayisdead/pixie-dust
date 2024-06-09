@@ -1,8 +1,9 @@
 import { Component, ViewEncapsulation, Input } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgIf, NgFor } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule } from '@angular/forms';
 
 import { FrameCanvas } from '../../interfaces/grid';
@@ -11,6 +12,7 @@ import { LocaleService } from '../../services/locale/locale.service';
 import { GridService } from '../../services/grid/grid.service';
 import { ContextService } from '../../services/context/context.service';
 import { DialogService } from '../../services/dialog/dialog.service';
+import { PaletteService } from '../../services/palette.service';
 import { ColorMap } from '../../interfaces/colormap';
 import { FrameCommandsChain } from '../../services/commands_chain/frame-commands-chain.service';
 import { FrameObject } from '../../interfaces/frame';
@@ -30,10 +32,12 @@ const changeContainerHeight = (containerId: string) => {
   standalone: true,
   imports: [
     NgIf,
+    NgFor,
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
     FormsModule,
+    MatMenuModule,
   ],
   templateUrl: './editarium.component.html',
   styleUrl: './editarium.component.css',
@@ -63,6 +67,7 @@ export class EditariumComponent implements FrameCanvas {
     public frameCommandsChain: FrameCommandsChain,
     public dialog: DialogService,
     public context: ContextService,
+    public palette: PaletteService,
   ) {}
 
   createGrid(cols: number=20, rows: number=20){
@@ -219,5 +224,9 @@ export class EditariumComponent implements FrameCanvas {
     link.setAttribute('download', 'frame.png');
     link.setAttribute('href', canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'));
     link.click();
+  }
+
+  setColor(color: string): void {
+    this.color = color;
   }
 }

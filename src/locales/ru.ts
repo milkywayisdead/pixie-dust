@@ -21,6 +21,7 @@ const ru: Locale = {
         cancel: 'Отмена',
         close: 'Закрыть',
         colorpick: 'Выбор цвета',
+        addColor: 'Добавить цвет',
         zoomIn: 'Увеличить',
         zoomOut: 'Уменьшить',
         saveFrame: 'Сохранить фрейм',
