@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Palette } from '../interfaces/palettes';
-import { palettes } from '../palettes';
+import { Palette } from '../../interfaces/palettes';
+import { palettes } from '../../palettes';
 
 @Injectable({
   providedIn: 'root'

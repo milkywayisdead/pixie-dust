@@ -13,11 +13,12 @@ import { LocaleService } from '../../services/locale/locale.service';
 import { GridService } from '../../services/grid/grid.service';
 import { ContextService } from '../../services/context/context.service';
 import { DialogService } from '../../services/dialog/dialog.service';
-import { PaletteService } from '../../services/palette.service';
+import { PaletteService } from '../../services/palette/palette.service';
 import { ColorMap } from '../../interfaces/colormap';
 import { FrameCommandsChain } from '../../services/commands_chain/frame-commands-chain.service';
 import { FrameObject } from '../../interfaces/frame';
 import { createCanvasWithColorMap } from '../../utils';
+import { CanvasService } from '../../services/canvas/canvas.service';
 
 
 const changeContainerHeight = (containerId: string) => {
@@ -62,6 +63,8 @@ export class EditariumComponent implements FrameCanvas {
   grid: HTMLElement|null = null;
   @Input() framesService!: FramesService;
   @Input() groupId!: string;
+  pixelSize: number = 14;
+  useCanvas: boolean = false; //temp
 
   constructor(
     public locale: LocaleService,
@@ -70,6 +73,7 @@ export class EditariumComponent implements FrameCanvas {
     public dialog: DialogService,
     public context: ContextService,
     public palette: PaletteService,
+    public canvas: CanvasService,
   ) {}
 
   createGrid(cols: number=20, rows: number=20){
@@ -121,10 +125,11 @@ export class EditariumComponent implements FrameCanvas {
   ngAfterViewInit(): void {
     this.nCols = this.frame.cols;
     this.nRows = this.frame.rows;
-    const grid = this.createGrid(this.nCols, this.nRows);
-    document.getElementById(this.frame.id)?.append(grid.grid);
-    this.grid = grid.grid;
-    this.cells = grid.cells;
+    if(this.useCanvas){
+      this.initCanvas();
+    } else {
+      this.initGrid();
+    }
 
     this.colorMap = this.frame.colorMap;
     this.gridService.applyColorMap(this);
@@ -136,6 +141,18 @@ export class EditariumComponent implements FrameCanvas {
     });
 
     this.setUpContainerHeightAndResizeListener();
+  }
+
+   private initCanvas(){
+    const canvas = this.canvas.createCanvas(this.nCols, this.nRows, this.pixelSize, this);
+    document.getElementById(this.frame.id)?.append(canvas);
+  }
+
+  private initGrid(){
+    const grid = this.createGrid(this.nCols, this.nRows);
+    document.getElementById(this.frame.id)?.append(grid.grid);
+    this.grid = grid.grid;
+    this.cells = grid.cells;
   }
 
   ngOnDestroy(): void {

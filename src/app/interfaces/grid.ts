@@ -16,6 +16,7 @@ export interface FrameCanvas extends GridInterface {
     clearing: boolean;
     color: string;
     frameCommandsChain: FrameCommandsChain;
+    pixelSize: number;
     toColorMap(color: string, cellIndex: number): void;
     fromColorMap(color: string, cellIndex: number): void;
     clear(): void;
