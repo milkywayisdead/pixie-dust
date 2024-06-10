@@ -64,7 +64,7 @@ export class EditariumComponent implements FrameCanvas {
   @Input() framesService!: FramesService;
   @Input() groupId!: string;
   pixelSize: number = 14;
-  useCanvas: boolean = false; //temp
+  useCanvas: boolean = true; //temp
 
   constructor(
     public locale: LocaleService,

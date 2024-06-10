@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { FrameCanvas, GridInterface } from '../../interfaces/grid';
+import { ColorCanvasCommand } from '../../commands/drawing';
 
 
 @Injectable({
@@ -53,6 +54,9 @@ export class CanvasService {
       e.preventDefault();
     });
 
+    let cellsIds: string[] = [];
+    let currentColors: string[] = [];
+
     canvas.addEventListener('mousedown', function(e: Event){
       e.preventDefault();
       const me = e as MouseEvent;
@@ -65,6 +69,7 @@ export class CanvasService {
         const cellColor = _this.getCellColor(x, y, canvas);
         const cellX = Math.floor(x / pixelSize);
         const cellY = Math.floor(y / pixelSize);
+        
         if(btnIndex){
           const color = '#ffffff';
           editor.clearing = true;
@@ -77,21 +82,29 @@ export class CanvasService {
           editor.fromColorMap(cellColor, cellIndex);
           editor.toColorMap(editorColor, cellIndex);
         }
+
+        const cellId = `${cellX}_${cellY}`;
+        if(!cellsIds.includes(cellId)){
+          cellsIds.push(`${cellX}_${cellY}`);
+          currentColors.push(cellColor);
+        }
       }
     });
 
     canvas.addEventListener('mouseup', function(e: Event){
-      /* if(coveredCells.length > 0){
-        let command = new ColorManyCommand([editor, currentColors.map(c => editor.color), coveredCells.map(c => c)]);
-        let undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+      if(cellsIds.length > 0){
+        let command = new ColorCanvasCommand([editor, currentColors.map(c => editor.color), cellsIds.map(c => c), canvas]);
+        let undoCommand = new ColorCanvasCommand([editor, currentColors.map(c => c), cellsIds.map(c => c), canvas]);
         if(editor.clearing){
-          command = new ColorManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
-          undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+          command = new ColorCanvasCommand([editor, currentColors.map(c => '#ffffff'), cellsIds.map(c => c), canvas]);
+          undoCommand = new ColorCanvasCommand([editor, currentColors.map(c => c), cellsIds.map(c => c), canvas]);
         }
         editor.frameCommandsChain.addCommand(command, undoCommand);
-      } */
+      }
       editor.drawingMode = false;
       editor.clearing = false;
+      currentColors = [];
+      cellsIds = [];
     });
 
     canvas.addEventListener('mousemove', function(e: Event){
@@ -102,35 +115,40 @@ export class CanvasService {
       const y = me.clientY - rect.top;
 
       const cellIndex = _this.getCellIndex(x, y, editor.pixelSize, canvas);
-      const bgColor = _this.getCellColor(x, y, canvas);
+      const cellColor = _this.getCellColor(x, y, canvas);
       const cellX = Math.floor(x / pixelSize);
       const cellY = Math.floor(y / pixelSize);
-      const alreadyProcessed = editor.clearing ? bgColor === '' : bgColor === editor.color;
-      //const alreadyProcessed: boolean = coveredCells.some(c => _this.extractIndex(c) === cellIndex);
-      //if(alreadyProcessed) return;
 
       if(editor.drawingMode){
-        editor.fromColorMap(bgColor, cellIndex);
+        editor.fromColorMap(cellColor, cellIndex);
         editor.toColorMap(editor.color, cellIndex);
         _this.colorCell(cellX, cellY, editor.color, editor.pixelSize, canvas);
       } else if(editor.clearing){
-        editor.fromColorMap(bgColor, cellIndex);
+        editor.fromColorMap(cellColor, cellIndex);
         _this.colorCell(cellX, cellY, '#ffffff', editor.pixelSize, canvas);
+      }
+
+      const cellId = `${cellX}_${cellY}`;
+      if(!cellsIds.includes(cellId)){
+        cellsIds.push(`${cellX}_${cellY}`);
+        currentColors.push(cellColor);
       }
     });
 
     canvas.addEventListener('mouseleave', function(e: Event){
-/*       if(coveredCells.length > 0){
-        let command = new ColorManyCommand([editor, currentColors.map(c => editor.color), coveredCells.map(c => c)]);
-        let undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+      if(cellsIds.length > 0){
+        let command = new ColorCanvasCommand([editor, currentColors.map(c => editor.color), cellsIds.map(c => c)]);
+        let undoCommand = new ColorCanvasCommand([editor, currentColors.map(c => c), cellsIds.map(c => c)]);
         if(editor.clearing){
-          command = new ColorManyCommand([editor, currentColors.map(c => ''), coveredCells.map(c => c)]);
-          undoCommand = new ColorManyCommand([editor, currentColors.map(c => c), coveredCells.map(c => c)]);
+          command = new ColorCanvasCommand([editor, currentColors.map(c => '#ffffff'), cellsIds.map(c => c)]);
+          undoCommand = new ColorCanvasCommand([editor, currentColors.map(c => c), cellsIds.map(c => c)]);
         }
         editor.frameCommandsChain.addCommand(command, undoCommand);
-      } */
+      }
       editor.drawingMode = false;
       editor.clearing = false;
+      cellsIds = [];
+      currentColors = [];
     });
 
 
