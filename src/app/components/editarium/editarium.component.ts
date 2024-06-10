@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, Input } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -38,6 +39,7 @@ const changeContainerHeight = (containerId: string) => {
     MatTooltipModule,
     FormsModule,
     MatMenuModule,
+    KeyValuePipe,
   ],
   templateUrl: './editarium.component.html',
   styleUrl: './editarium.component.css',

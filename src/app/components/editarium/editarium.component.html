@@ -2,11 +2,11 @@
     <div>
         <button mat-icon-button
             [style.color]="color"
-            [matMenuTriggerFor]="menu"
+            [matMenuTriggerFor]="colormenu"
             [matTooltip]="locale.currentLocale['actions']['colorpick']">
             <mat-icon fontIcon="brush"></mat-icon>
         </button>
-        <mat-menu #menu="matMenu">
+        <mat-menu #colormenu="matMenu">
             <div class="palette-colors">
                 <div *ngFor="let color of palette.colors" 
                     [style.backgroundColor]="color"
@@ -19,6 +19,19 @@
                     style="cursor: pointer;" 
                     (click)="triggerColorPicker()">
                 </mat-icon>
+                <mat-icon fontIcon="palette"
+                    [matTooltip]="locale.currentLocale['actions']['selectPalette']"
+                    style="cursor: pointer;" 
+                    [matMenuTriggerFor]="palettemenu"
+                    (click)="$event.stopPropagation()">
+                </mat-icon>
+                <mat-menu #palettemenu="matMenu">
+                    <button *ngFor="let item of palette.palettes | keyvalue"
+                        mat-menu-item
+                        (click)="palette.setPalette(item.value)">
+                        {{ item.key }}
+                    </button>
+                </mat-menu>
             </div>
             <input #newColor [id]="frame.id + '-cp'" (input)="palette.addColor(newColor.value)" type="color" style="display:none"/>
         </mat-menu>

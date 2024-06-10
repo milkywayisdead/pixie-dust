@@ -1,28 +1,25 @@
 import { Injectable } from '@angular/core';
+import { Palette } from '../interfaces/palettes';
+import { palettes } from '../palettes';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaletteService {
-  public colors: string[] = [
-    'black',
-    'white',
-    'red',
-    'orange',
-    'yellow',
-    'green',
-    'lightblue',
-    'blue',
-    'purple',
-  ];
+  public colors: string[] = [];
+  public current!: Palette;
+  public palettes = palettes;
 
-  constructor() { }
+  constructor() {
+    this.setPalette(palettes.basic);
+  }
 
   addColor(color: string): void {
     this.colors.push(color);
   }
 
-  updateColorByIndex(index: number, newColor: string): void {
-    this.colors[index] = newColor;
+  setPalette(palette: Palette): void {
+    this.colors = palette.colors.map(color => color);
+    this.current = palette;
   }
 }
