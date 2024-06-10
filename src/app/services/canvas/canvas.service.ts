@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { FrameCanvas, GridInterface } from '../../interfaces/grid';
+import { FrameCanvas } from '../../interfaces/grid';
 import { ColorCanvasCommand } from '../../commands/drawing';
+import { ApplyColorMapCommandToCanvas } from '../../commands/frames';
+import { ColorMap } from '../../interfaces/colormap';
 
 
 @Injectable({
@@ -9,32 +11,6 @@ import { ColorCanvasCommand } from '../../commands/drawing';
 })
 export class CanvasService {
   constructor() { }
-
-  getCellIndex(x: number, y: number, pixelSize: number, canvas: HTMLCanvasElement): number {
-    const indexByX = Math.floor(x / pixelSize);
-    const indexByY = Math.floor(y / pixelSize);
-    const height = canvas.height;
-    return indexByY*height/pixelSize + indexByX;
-  }
-
-  getCellColor(x: number, y: number, canvas: HTMLCanvasElement): string {
-    const ctx = canvas.getContext('2d');
-    const data = ctx?.getImageData(x, y, 1, 1).data!;
-    const r = data[0].toString(16);
-    const g = data[1].toString(16);
-    const b = data[2].toString(16);
-    const R = r.length > 1 ? r : `0${r}`;
-    const G = g.length > 1 ? g : `0${g}`;
-    const B = b.length > 1 ? b : `0${b}`;
-    return `#${R}${G}${B}`;
-  }
-
-  colorCell(x: number, y: number, color: string, pixelSize: number, canvas: HTMLCanvasElement){
-    const ctx = canvas.getContext('2d');
-    if(!ctx) return;
-    ctx.fillStyle = color;
-    ctx.fillRect(x*pixelSize, y*pixelSize, pixelSize, pixelSize);
-  }
 
   createCanvas(cols: number=20, rows: number=20, pixelSize: number, editor: FrameCanvas): HTMLCanvasElement {
     const canvas = document.createElement('canvas');
@@ -153,5 +129,36 @@ export class CanvasService {
 
 
     return canvas;
+  }
+
+  getCellIndex(x: number, y: number, pixelSize: number, canvas: HTMLCanvasElement): number {
+    const indexByX = Math.floor(x / pixelSize);
+    const indexByY = Math.floor(y / pixelSize);
+    const height = canvas.height;
+    return indexByY*height/pixelSize + indexByX;
+  }
+
+  getCellColor(x: number, y: number, canvas: HTMLCanvasElement): string {
+    const ctx = canvas.getContext('2d');
+    const data = ctx?.getImageData(x, y, 1, 1).data!;
+    const r = data[0].toString(16);
+    const g = data[1].toString(16);
+    const b = data[2].toString(16);
+    const R = r.length > 1 ? r : `0${r}`;
+    const G = g.length > 1 ? g : `0${g}`;
+    const B = b.length > 1 ? b : `0${b}`;
+    return `#${R}${G}${B}`;
+  }
+
+  colorCell(x: number, y: number, color: string, pixelSize: number, canvas: HTMLCanvasElement){
+    const ctx = canvas.getContext('2d');
+    if(!ctx) return;
+    ctx.fillStyle = color;
+    ctx.fillRect(x*pixelSize, y*pixelSize, pixelSize, pixelSize);
+  }
+
+  applyColorMap(editor: FrameCanvas, colorMap: ColorMap){
+    const command = new ApplyColorMapCommandToCanvas([editor, colorMap]);
+    command.do();
   }
 }

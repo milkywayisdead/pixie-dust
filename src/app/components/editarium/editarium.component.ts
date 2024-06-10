@@ -65,6 +65,7 @@ export class EditariumComponent implements FrameCanvas {
   @Input() groupId!: string;
   pixelSize: number = 14;
   useCanvas: boolean = true; //temp
+  canvas!: HTMLCanvasElement;
 
   constructor(
     public locale: LocaleService,
@@ -73,7 +74,7 @@ export class EditariumComponent implements FrameCanvas {
     public dialog: DialogService,
     public context: ContextService,
     public palette: PaletteService,
-    public canvas: CanvasService,
+    public canvasService: CanvasService,
   ) {}
 
   createGrid(cols: number=20, rows: number=20){
@@ -125,14 +126,14 @@ export class EditariumComponent implements FrameCanvas {
   ngAfterViewInit(): void {
     this.nCols = this.frame.cols;
     this.nRows = this.frame.rows;
+    this.colorMap = this.frame.colorMap;
     if(this.useCanvas){
       this.initCanvas();
+      this.canvasService.applyColorMap(this, this.colorMap);
     } else {
       this.initGrid();
+      this.gridService.applyColorMap(this);
     }
-
-    this.colorMap = this.frame.colorMap;
-    this.gridService.applyColorMap(this);
 
     this.framesService.addCanvas(this);
     this.framesService.setShape({
@@ -144,8 +145,9 @@ export class EditariumComponent implements FrameCanvas {
   }
 
    private initCanvas(){
-    const canvas = this.canvas.createCanvas(this.nCols, this.nRows, this.pixelSize, this);
+    const canvas = this.canvasService.createCanvas(this.nCols, this.nRows, this.pixelSize, this);
     document.getElementById(this.frame.id)?.append(canvas);
+    this.canvas = canvas;
   }
 
   private initGrid(){
