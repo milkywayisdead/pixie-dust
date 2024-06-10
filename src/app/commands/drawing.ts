@@ -1,6 +1,7 @@
 import { BaseCommand } from "./base";
 import { FrameCanvas } from "../interfaces/grid";
 import { extractIndex, setColor, getColor } from "../utils";
+import { EditariumComponent } from "../components/editarium/editarium.component";
 
 export class ColorManyCommand extends BaseCommand {
     do(): void {
@@ -35,7 +36,7 @@ export class ClearManyCommand extends BaseCommand {
 
 export class ColorCanvasCommand extends BaseCommand {
     do(): void {
-        const editor: FrameCanvas = this.args[0];
+        const editor: EditariumComponent = this.args[0];
         const colors = this.args[1];
         const cells = this.args[2];
         const canvas = this.args[3];
@@ -46,8 +47,12 @@ export class ColorCanvasCommand extends BaseCommand {
             const cell = c.split('_');
             const cellX = Number(cell[0]);
             const cellY = Number(cell[1]);
+            const currentColor = editor.canvasService.getCellColor(cellX, cellY, canvas);
+            const cellIndex = (canvas.height / pixelSize)*cellY + cellX;
             ctx.fillStyle = colors[index];
             ctx.fillRect(cellX*pixelSize, cellY*pixelSize, pixelSize, pixelSize);
+            editor.fromColorMap(currentColor, cellIndex);
+            editor.toColorMap(colors[index], cellIndex);
         });
     }
 }

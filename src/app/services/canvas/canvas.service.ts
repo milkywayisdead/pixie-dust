@@ -43,8 +43,8 @@ export class CanvasService {
       if([0, 2].includes(btnIndex)){
         const cellIndex = _this.getCellIndex(x, y, editor.pixelSize, canvas);
         const cellColor = _this.getCellColor(x, y, canvas);
-        const cellX = Math.floor(x / pixelSize);
-        const cellY = Math.floor(y / pixelSize);
+        const cellX = Math.floor(x / editor.pixelSize);
+        const cellY = Math.floor(y / editor.pixelSize);
         
         if(btnIndex){
           const color = '#ffffff';
@@ -92,8 +92,8 @@ export class CanvasService {
 
       const cellIndex = _this.getCellIndex(x, y, editor.pixelSize, canvas);
       const cellColor = _this.getCellColor(x, y, canvas);
-      const cellX = Math.floor(x / pixelSize);
-      const cellY = Math.floor(y / pixelSize);
+      const cellX = Math.floor(x / editor.pixelSize);
+      const cellY = Math.floor(y / editor.pixelSize);
 
       if(editor.drawingMode){
         editor.fromColorMap(cellColor, cellIndex);
