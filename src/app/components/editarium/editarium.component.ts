@@ -250,4 +250,13 @@ export class EditariumComponent implements FrameCanvas {
   setColor(color: string): void {
     this.color = color;
   }
+
+  resizeCanvas(newPixelSize: number){
+    this.pixelSize = newPixelSize;
+    const width = this.nCols*this.pixelSize;
+    const heigth = this.nRows*this.pixelSize;
+    this.canvasService.resizeCanvas(this.canvas, width, heigth);
+    this.canvasService.clearCanvas(this.canvas);
+    this.canvasService.applyColorMap(this, this.colorMap);
+  }
 }

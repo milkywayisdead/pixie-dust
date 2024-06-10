@@ -161,4 +161,16 @@ export class CanvasService {
     const command = new ApplyColorMapCommandToCanvas([editor, colorMap]);
     command.do();
   }
+
+  clearCanvas(canvas: HTMLCanvasElement): void {
+    const ctx = canvas.getContext('2d');
+    if(!ctx) return;
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  resizeCanvas(canvas: HTMLCanvasElement, width: number, height: number): void {
+    canvas.width = width;
+    canvas.height = height;
+  }
 }

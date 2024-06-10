@@ -8,6 +8,13 @@ import { ContextService } from '../context/context.service';
 import { TabsService } from '../../services/tabs/tabs.service';
 
 
+interface FrameWithCanvas extends FrameCanvas {
+  canvas: HTMLCanvasElement;
+  useCanvas: boolean;
+  resizeCanvas(pixelSize: number): void;
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +23,7 @@ export class FramesService {
   currentFrameIndex: number = -1;
   nCols: number = 20;
   nRows: number = 20;
-  canvases: { [name: string]: FrameCanvas } = {};
+  canvases: { [name: string]: FrameWithCanvas } = {};
   scales: number[] = [4, 8, 10, 14, 18, 20];
   scaleIndex: number = 3;
   currentGroup: string = '';
@@ -160,7 +167,7 @@ export class FramesService {
     return frameIndex;
   }
 
-  addCanvas(canvas: FrameCanvas): void {
+  addCanvas(canvas: FrameWithCanvas): void {
     this.canvases[canvas.frame.id] = canvas;
   }
 
@@ -182,10 +189,14 @@ export class FramesService {
 
     Object.values(this.canvases).forEach(canvas => {
       canvas.setScaleClass(newClass, currentClass);
-      this.changeTableWidth(
-        canvas.grid,
-        this.nCols*newScaleNumber
-      );
+      if(canvas.useCanvas){
+        canvas.resizeCanvas(newScaleNumber);
+      } else {
+        this.changeTableWidth(
+          canvas.grid,
+          this.nCols*newScaleNumber
+        );
+      }
     });
   }
 
@@ -197,10 +208,14 @@ export class FramesService {
 
     Object.values(this.canvases).forEach(canvas => {
       canvas.setScaleClass(newClass, currentClass);
-      this.changeTableWidth(
-        canvas.grid,
-        this.nCols*newScaleNumber
-      );
+      if(canvas.useCanvas){
+        canvas.resizeCanvas(newScaleNumber);
+      } else {
+        this.changeTableWidth(
+          canvas.grid,
+          this.nCols*newScaleNumber
+        );
+      }
     });
   }
 

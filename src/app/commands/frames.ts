@@ -52,7 +52,5 @@ export class ApplyColorMapCommandToCanvas extends BaseCommand {
                 ctx.fillRect((cellIndex % rows)*pixelSize, rowN*pixelSize, pixelSize, pixelSize);
             })
         }
-
-        editor.colorMap = colorMap;
     } 
 }
