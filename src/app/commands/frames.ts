@@ -2,6 +2,7 @@ import { BaseCommand } from "./base";
 import { FrameCanvas } from "../interfaces/grid";
 import { ColorMap } from "../interfaces/colormap";
 import { setColor } from "../utils";
+import { EditariumComponent } from "../components/editarium/editarium.component";
 
 export class ClearCanvasCommand extends BaseCommand {
     do(): void {
@@ -52,5 +53,15 @@ export class ApplyColorMapCommandToCanvas extends BaseCommand {
                 ctx.fillRect((cellIndex % rows)*pixelSize, rowN*pixelSize, pixelSize, pixelSize);
             })
         }
+
+        editor.colorMap = colorMap;
     } 
+}
+
+export class ClearGridCommand extends BaseCommand {
+    do(): void {
+        const editor: EditariumComponent = this.args[0];
+        editor.canvasService.clearCanvas(editor.canvas);
+        editor.colorMap = {}
+    }
 }

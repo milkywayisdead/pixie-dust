@@ -82,7 +82,11 @@ export class EditariumComponent implements FrameCanvas {
   }
 
   clear(){
-    this.gridService.clearGrid(this);
+    if(!this.useCanvas){
+      this.gridService.clearGrid(this);
+    } else {
+      this.canvasService.clearGrid(this);
+    }
   }
 
   draw(colorMap: ColorMap){

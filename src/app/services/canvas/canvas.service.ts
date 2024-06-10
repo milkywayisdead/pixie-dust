@@ -4,6 +4,7 @@ import { FrameCanvas } from '../../interfaces/grid';
 import { ColorCanvasCommand } from '../../commands/drawing';
 import { ApplyColorMapCommandToCanvas } from '../../commands/frames';
 import { ColorMap } from '../../interfaces/colormap';
+import { ClearGridCommand } from '../../commands/frames';
 
 
 @Injectable({
@@ -172,5 +173,19 @@ export class CanvasService {
   resizeCanvas(canvas: HTMLCanvasElement, width: number, height: number): void {
     canvas.width = width;
     canvas.height = height;
+  }
+
+  clearGrid(editor: FrameCanvas): void {
+    if(editor.isClear()) return
+
+    const colorMapCopy: ColorMap = {}
+    for(const [color, cells] of Object.entries(editor.colorMap)){
+        colorMapCopy[color] = cells.map(c => c);
+    }
+
+    const command = new ClearGridCommand([editor]);
+    const undoCommand = new ApplyColorMapCommandToCanvas([editor, colorMapCopy]);
+    command.do();
+    editor.frameCommandsChain.addCommand(command, undoCommand);
   }
 }
