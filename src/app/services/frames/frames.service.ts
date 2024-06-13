@@ -143,7 +143,10 @@ export class FramesService {
       cols: canvas.nCols,
       rows: canvas.nRows,
     }
-    this.frames.push(newFrame);
+    //this.frames.push(newFrame);
+    const groupId = this.currentGroup;
+    this.context.addFrameToGroup(newFrame, groupId, groupId);
+    this.bindFrames();
     this.currentFrameIndex = this.frames.length - 1;
   } 
 
