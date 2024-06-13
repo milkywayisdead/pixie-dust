@@ -4,15 +4,15 @@ import { Palette } from "./interfaces/palettes";
 const basicPalette: Palette = {
     name: 'basic',
     colors: [
-        'black',
-        'white',
-        'red',
-        'orange',
-        'yellow',
-        'green',
-        'lightblue',
-        'blue',
-        'purple',
+        '#000000',
+        '#ffffff',
+        '#ff0000',
+        '#ffa500',
+        '#ffff00',
+        '#008000',
+        '#add8e6',
+        '#0000ff',
+        '#800080',
     ],
 }
 

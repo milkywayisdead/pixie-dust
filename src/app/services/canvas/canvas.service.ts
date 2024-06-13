@@ -51,7 +51,8 @@ export class CanvasService {
           const color = '#ffffff';
           editor.clearing = true;
           editor.fromColorMap(cellColor, cellIndex);
-          _this.colorCell(cellX, cellY, color, editor.pixelSize, canvas);
+          //editor.toColorMap(color, cellIndex);
+          _this.colorCell(cellX, cellY, color, editor.pixelSize, canvas);          
         } else {
           const editorColor = editor.color;
           editor.drawingMode = true;
