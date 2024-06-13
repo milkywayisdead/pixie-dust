@@ -148,7 +148,7 @@ export class EditariumComponent implements FrameCanvas {
     this.setUpContainerHeightAndResizeListener();
   }
 
-   private initCanvas(){
+  private initCanvas(){
     const canvas = this.canvasService.createCanvas(this.nCols, this.nRows, this.pixelSize, this);
     document.getElementById(this.frame.id)?.append(canvas);
     this.canvas = canvas;

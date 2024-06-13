@@ -43,10 +43,11 @@ export class FramesService {
       cols: this.nCols,
       rows: this.nRows,
     }
-
-    this.context.addFrameToGroup(frame, groupId, groupId);
+    const frameCopy = JSON.parse(JSON.stringify(frame));
+    this.context.addFrameToGroup(frameCopy, groupId, groupId);
     this.currentGroup = groupId;
-    this.bindFrames();
+    //this.bindFrames();
+    this.frames.push(frame);
     this.stepForward();
   }
 
@@ -143,10 +144,12 @@ export class FramesService {
       cols: canvas.nCols,
       rows: canvas.nRows,
     }
-    //this.frames.push(newFrame);
+    
+    const frameCopy = JSON.parse(JSON.stringify(newFrame))
+    this.frames.push(newFrame);
     const groupId = this.currentGroup;
-    this.context.addFrameToGroup(newFrame, groupId, groupId);
-    this.bindFrames();
+    this.context.addFrameToGroup(frameCopy, groupId, groupId);
+    //this.bindFrames();
     this.currentFrameIndex = this.frames.length - 1;
   } 
 
