@@ -1,6 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { GridService } from '../../services/grid/grid.service';
-import { FrameObject } from '../../interfaces/frame';
+import { ColorMap } from '../../interfaces/colormap';
 import { createCanvasWithColorMap } from '../../utils';
 
 
@@ -13,12 +12,16 @@ import { createCanvasWithColorMap } from '../../utils';
   encapsulation: ViewEncapsulation.None,
 })
 export class PreviewGridComponent {
-  @Input() frame!: FrameObject;
+  @Input() frameId: string = '';
+  @Input() cols: number = 0;
+  @Input() rows: number = 0;
+  @Input() colorMap!: ColorMap;
   @Input() isFirst: boolean = false;
+  @Input() pixelSize: number = 10;
 
-  constructor(public gridService: GridService) {}
+  constructor() {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     setTimeout(
       () => {
         this.createCanvas()
@@ -27,40 +30,14 @@ export class PreviewGridComponent {
     );
   }
 
-  createGrid(): void {
-    const cols = this.frame.cols;
-    const rows = this.frame.rows;
-    const colorMap = this.frame.colorMap;
-    const grid = document.createElement('table');
-    grid.classList.add('preview-grid');
-    grid.style.width = `${cols*14}px`;
-    grid.style.height = `${rows*14}px`;
-    const cellsList = [];
-
-    for(let r=0;r<rows;r++){
-        const row = document.createElement('tr');
-        for(let c=0;c<cols;c++){
-            const col = document.createElement('td');
-            col.setAttribute('pixidx', `${r*cols + c}`);
-            row.append(col);
-            cellsList.push(col);
-        }
-        grid.append(row);
-    }
-
-    this.gridService.draw(colorMap, cellsList);
-
-    document.getElementById(this.frame.id + '-preview')!.append(grid);
-  }
-
   createCanvas(): void {
-    const cols = this.frame.cols;
-    const rows = this.frame.rows;
-    const colorMap = this.frame.colorMap;
-    const canvas = createCanvasWithColorMap(cols, rows, colorMap);
+    const cols = this.cols;
+    const rows = this.rows;
+    const colorMap = this.colorMap;
+    const canvas = createCanvasWithColorMap(cols, rows, colorMap, this.pixelSize);
     canvas.addEventListener('contextmenu', (e) => {
       e.preventDefault();
     });
-    document.getElementById(this.frame.id + '-preview')!.append(canvas);
+    document.getElementById(this.frameId + '-preview')!.append(canvas);
   }
 }

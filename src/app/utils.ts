@@ -24,8 +24,8 @@ export function getColor(target: HTMLElement): string {
 
 export function createCanvas(width: number, height: number): HTMLCanvasElement {
     const canvas = document.createElement('canvas');
-    canvas.setAttribute('width', `${width}px`);
-    canvas.setAttribute('height', `${height}px`);
+    canvas.setAttribute('width', `${width}`);
+    canvas.setAttribute('height', `${height}`);
     return canvas;
 }
 
@@ -41,17 +41,12 @@ export function createCanvasWithColorMap(
     // ?? ctx.fillStyle = 'white';
     // ?? ctx.fillRect(0, 0, canvas.width, canvas.height);
     for(let [color, cells] of Object.entries(colorMap)){
-      ctx.fillStyle = color;
-      cells.forEach(cell => {
-        const xOffset = cell % cols;
-        const yOffset = Math.floor(cell / rows);
-        ctx.fillRect(
-          xOffset*pixelSize,
-          yOffset*pixelSize,
-          pixelSize,
-          pixelSize
-        );
+      cells.forEach((cellIndex: number) => {
+        const rowN = Math.floor(cellIndex / rows);
+        ctx.fillStyle = color;
+        ctx.fillRect((cellIndex % rows)*pixelSize, rowN*pixelSize, pixelSize, pixelSize);
       });
     }
+
     return canvas;
 }

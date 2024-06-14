@@ -1,10 +1,10 @@
-import { Component, ViewEncapsulation, Input } from '@angular/core';
+import { Component, ViewEncapsulation, Input, AfterViewInit } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { KeyValuePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { FormsModule } from '@angular/forms';
 
 import { FrameCanvas } from '../../interfaces/grid';
@@ -19,6 +19,7 @@ import { FrameCommandsChain } from '../../services/commands_chain/frame-commands
 import { FrameObject } from '../../interfaces/frame';
 import { createCanvasWithColorMap } from '../../utils';
 import { CanvasService } from '../../services/canvas/canvas.service';
+import { PreviewGridComponent } from '../preview-grid/preview-grid.component';
 
 
 const changeContainerHeight = (containerId: string) => {
@@ -41,13 +42,15 @@ const changeContainerHeight = (containerId: string) => {
     FormsModule,
     MatMenuModule,
     KeyValuePipe,
+    PreviewGridComponent,
+    MatMenuTrigger
   ],
   templateUrl: './editarium.component.html',
   styleUrl: './editarium.component.css',
   encapsulation: ViewEncapsulation.None,
   providers: [FrameCommandsChain],
 })
-export class EditariumComponent implements FrameCanvas {
+export class EditariumComponent implements FrameCanvas, AfterViewInit {
   @Input() index: number = 0;
   @Input() color: string = '#000000';
   @Input() isFirst: boolean = false;
@@ -222,8 +225,10 @@ export class EditariumComponent implements FrameCanvas {
   }
 
   setScaleClass(scaleClass: string, classToRemove: string): void {
-    this.grid?.classList.remove(classToRemove);
-    this.grid?.classList.add(scaleClass);
+/*     this.grid?.classList.remove(classToRemove);
+    this.grid?.classList.add(scaleClass); */
+    this.canvas.classList.remove(classToRemove);
+    this.canvas.classList.add(scaleClass);
   }
 
   private setUpContainerHeightAndResizeListener(): void {

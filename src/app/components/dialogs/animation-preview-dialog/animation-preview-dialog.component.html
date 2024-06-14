@@ -2,7 +2,10 @@
 <mat-dialog-content>
     <div>
         <preview-grid *ngFor="let frame of framesGroup.frames; index as index" 
-            [frame]="frame" 
+            [frameId]="frame.id"
+            [cols]="frame.cols"
+            [rows]="frame.rows"
+            [colorMap]="frame.colorMap"
             [isFirst]="index === 0" />
     </div>
     <div>
