@@ -3,21 +3,11 @@ import { FrameCanvas } from "../interfaces/grid";
 import { ColorMap } from "../interfaces/colormap";
 import { EditariumComponent } from "../components/editarium/editarium.component";
 
-export class ClearCanvasCommand extends BaseCommand {
-    do(): void {
-    }
-}
-
-export class ApplyColorMapCommand extends BaseCommand {
-    do(): void {
-    } 
-}
-
 interface FrameWithCanvas extends FrameCanvas {
     canvas: HTMLCanvasElement;
 }
 
-export class ApplyColorMapCommandToCanvas extends BaseCommand {
+export class ApplyColorMapCommand extends BaseCommand {
     do(): void {
         const editor: FrameWithCanvas = this.args[0];
         const colorMap: ColorMap = this.args[1];
@@ -40,7 +30,7 @@ export class ApplyColorMapCommandToCanvas extends BaseCommand {
     } 
 }
 
-export class ClearGridCommand extends BaseCommand {
+export class ClearCanvasCommand extends BaseCommand {
     do(): void {
         const editor: EditariumComponent = this.args[0];
         editor.canvasService.clearCanvas(editor.canvas);

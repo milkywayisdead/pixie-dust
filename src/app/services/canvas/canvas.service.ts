@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { FrameCanvas } from '../../interfaces/grid';
 import { ColorCanvasCommand } from '../../commands/drawing';
-import { ApplyColorMapCommandToCanvas } from '../../commands/frames';
+import { ApplyColorMapCommand, ClearCanvasCommand } from '../../commands/frames';
 import { ColorMap } from '../../interfaces/colormap';
-import { ClearGridCommand } from '../../commands/frames';
 
 
 @Injectable({
@@ -160,7 +159,7 @@ export class CanvasService {
   }
 
   applyColorMap(editor: FrameCanvas, colorMap: ColorMap){
-    const command = new ApplyColorMapCommandToCanvas([editor, colorMap]);
+    const command = new ApplyColorMapCommand([editor, colorMap]);
     command.do();
   }
 
@@ -184,8 +183,8 @@ export class CanvasService {
         colorMapCopy[color] = cells.map(c => c);
     }
 
-    const command = new ClearGridCommand([editor]);
-    const undoCommand = new ApplyColorMapCommandToCanvas([editor, colorMapCopy]);
+    const command = new ClearCanvasCommand([editor]);
+    const undoCommand = new ApplyColorMapCommand([editor, colorMapCopy]);
     command.do();
     editor.frameCommandsChain.addCommand(command, undoCommand);
   }
