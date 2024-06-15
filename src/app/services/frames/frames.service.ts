@@ -3,14 +3,12 @@ import { FrameCanvas } from '../../interfaces/grid';
 import { FrameObject, CompiledFrames } from '../../interfaces/frame';
 import { ColorMap } from '../../interfaces/colormap';
 import { FrameShape } from '../../interfaces/frame';
-import { GridService } from '../grid/grid.service';
 import { ContextService } from '../context/context.service';
 import { TabsService } from '../../services/tabs/tabs.service';
 
 
 interface FrameWithCanvas extends FrameCanvas {
   canvas: HTMLCanvasElement;
-  useCanvas: boolean;
   resizeCanvas(pixelSize: number): void;
 }
 
@@ -30,7 +28,6 @@ export class FramesService {
 
   constructor(
     public context: ContextService,
-    private gridService: GridService,
     public tabsService: TabsService,
   ) {}
 
@@ -195,14 +192,7 @@ export class FramesService {
 
     Object.values(this.canvases).forEach(canvas => {
       canvas.setScaleClass(newClass, currentClass);
-      if(canvas.useCanvas){
-        canvas.resizeCanvas(newScaleNumber);
-      } else {
-        this.changeTableWidth(
-          canvas.grid,
-          this.nCols*newScaleNumber
-        );
-      }
+      canvas.resizeCanvas(newScaleNumber);
     });
   }
 
@@ -214,14 +204,7 @@ export class FramesService {
 
     Object.values(this.canvases).forEach(canvas => {
       canvas.setScaleClass(newClass, currentClass);
-      if(canvas.useCanvas){
-        canvas.resizeCanvas(newScaleNumber);
-      } else {
-        this.changeTableWidth(
-          canvas.grid,
-          this.nCols*newScaleNumber
-        );
-      }
+      canvas.resizeCanvas(newScaleNumber);
     });
   }
 

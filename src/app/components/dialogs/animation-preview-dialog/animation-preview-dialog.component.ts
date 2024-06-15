@@ -12,7 +12,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LocaleService } from '../../../services/locale/locale.service';
-import { GridService } from '../../../services/grid/grid.service';
 import { ContextFramesGroup } from '../../../interfaces/context';
 import { PreviewGridComponent } from '../../preview-grid/preview-grid.component';
 
@@ -43,7 +42,6 @@ export class AnimationPreviewDialogComponent {
     @Inject(MAT_DIALOG_DATA) public framesGroup: ContextFramesGroup,
     public locale: LocaleService,
     public dialogRef: MatDialogRef<AnimationPreviewDialogComponent>,
-    public gridService: GridService,
   ) {}
 
   ngOnInit(){

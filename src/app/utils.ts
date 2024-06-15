@@ -3,26 +3,6 @@ import { FrameObject } from "./interfaces/frame";
 
 export const IDX_ATTR: string = 'pixidx';
 
-export function extractIndex(target: HTMLElement): number {
-    return Number(target.getAttribute(IDX_ATTR));
-}
-
-export function setColor(target: HTMLElement, color: string): void {
-    target.style.backgroundColor = color || '#fff';
-
-    // @ts-ignore
-    target.attributes['style'].textContent = color ? `background-color:${color}` : '';
-}
-
-export function getColor(target: HTMLElement): string {
-    // @ts-ignore
-    const style = target.attributes['style'];
-    if(style){
-        return style.textContent.split(':')[1];
-    }
-    return '';
-}
-
 export function createCanvas(width: number, height: number): HTMLCanvasElement {
     const canvas = document.createElement('canvas');
     canvas.setAttribute('width', `${width}`);
@@ -42,11 +22,11 @@ export function createCanvasWithColorMap(
     // ?? ctx.fillStyle = 'white';
     // ?? ctx.fillRect(0, 0, canvas.width, canvas.height);
     for(let [color, cells] of Object.entries(colorMap)){
-      cells.forEach((cellIndex: number) => {
-        const rowN = Math.floor(cellIndex / rows);
-        ctx.fillStyle = color;
-        ctx.fillRect((cellIndex % rows)*pixelSize, rowN*pixelSize, pixelSize, pixelSize);
-      });
+        cells.forEach((cellIndex: number) => {
+            const rowN = Math.floor(cellIndex / rows);
+            ctx.fillStyle = color;
+            ctx.fillRect((cellIndex % rows)*pixelSize, rowN*pixelSize, pixelSize, pixelSize);
+        });
     }
 
     return canvas;
@@ -71,4 +51,15 @@ export function strToFrameObject(frameId: string, frameStr: string): FrameObject
         rows: Number(shape[0]),
         cols: Number(shape[1]),
     } as FrameObject;
+}
+
+
+export function compileFrame(nRows: number, nCols: number, colorMap: ColorMap): string {
+    let str = `${nRows},${nCols}[`;
+    for(const [color, cells] of Object.entries(colorMap)){
+        if(!cells.length) continue;
+        str += `${color}:${cells.join(',')}|`;
+    }
+    str += ']';
+    return str;
 }

@@ -23,11 +23,11 @@
                     [matTooltip]="locale.currentLocale['actions']['selectPalette']"
                     style="cursor: pointer;" 
                     [matMenuTriggerFor]="palettemenu"
-                    #t="matMenuTrigger"
+                    #menuState="matMenuTrigger"
                     (click)="$event.stopPropagation()">
                 </mat-icon>
                 <mat-menu #palettemenu="matMenu">
-                     <button *ngFor="let item of (t.menuOpen ? palette.palettes : []) | keyvalue"
+                     <button *ngFor="let item of (menuState.menuOpen ? palette.palettes : {}) | keyvalue"
                         mat-menu-item
                         (click)="palette.setPalette(item.value)"
                         [title]="item.key">

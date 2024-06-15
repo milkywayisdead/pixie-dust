@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { LocaleService } from '../locale/locale.service';
-import { GridService } from '../grid/grid.service';
 import { FrameObject, CompiledFrames, FramesGroup } from '../../interfaces/frame';
 import {
   CompiledFramesGroup,
@@ -8,6 +7,7 @@ import {
   ContextInterface,
   ResponseContextInterface
 } from '../../interfaces/context';
+import { strToFrameObject, compileFrame } from '../../utils';
 
 
 @Injectable({
@@ -21,10 +21,7 @@ export class ContextService {
   }
   framesList: FramesGroup[] = [];
 
-  constructor(
-    public locale: LocaleService,
-    public gridService: GridService,
-  ) { 
+  constructor(public locale: LocaleService) { 
     this.context.name = this.locale.currentLocale['profile']['untitled'];
     this.setDocTitle();
   }
@@ -70,7 +67,8 @@ export class ContextService {
     for(let group of Object.values(responseContext.frames)){
       const frames: FrameObject[] = [];
       for(let [frameId, frameStr] of Object.entries(group.frames)){
-        frames.push(this.gridService.parse(frameId, frameStr));
+        const frame = strToFrameObject(frameId, frameStr);
+        frames.push(frame);
       }
       groups[group.id] = {
         id: group.id,
@@ -132,9 +130,7 @@ export class ContextService {
       } 
       const compiledFrames = {} as CompiledFrames;
       for(let frame of group.frames){
-        const cf = this.gridService.compileFrame(
-          frame.rows, frame.cols, frame.colorMap,
-        );
+        const cf = compileFrame(frame.rows, frame.cols, frame.colorMap);
         compiledFrames[frame.id] = cf;
       }
 
