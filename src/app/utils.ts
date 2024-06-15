@@ -1,4 +1,5 @@
 import { ColorMap } from "./interfaces/colormap";
+import { FrameObject } from "./interfaces/frame";
 
 export const IDX_ATTR: string = 'pixidx';
 
@@ -49,4 +50,25 @@ export function createCanvasWithColorMap(
     }
 
     return canvas;
+}
+
+export function strToFrameObject(frameId: string, frameStr: string): FrameObject {
+    const shape = frameStr.split('[')[0].split(',');
+    const colorList = frameStr.split('[')[1].replace(']', '').split('|');
+    const colorMap: ColorMap = {};
+    for(const cl of colorList){
+        if(cl === '') continue;
+
+        const _ = cl.split(':');
+        const color = _[0];
+        const cells = JSON.parse(`[${_[1]}]`);
+        colorMap[color] = cells;
+    }
+
+    return {
+        id: frameId,
+        colorMap: colorMap,
+        rows: Number(shape[0]),
+        cols: Number(shape[1]),
+    } as FrameObject;
 }
