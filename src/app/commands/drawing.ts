@@ -14,7 +14,7 @@ export class ColorCanvasCommand extends BaseCommand {
             const cell = c.split('_');
             const cellX = Number(cell[0]);
             const cellY = Number(cell[1]);
-            const currentColor = editor.canvasService.getCellColor(cellX, cellY, canvas);
+            const currentColor = editor.canvasService.getCellColor(cellX*pixelSize, cellY*pixelSize, canvas);
             const cellIndex = (canvas.height / pixelSize)*cellY + cellX;
             ctx.fillStyle = colors[index];
             ctx.fillRect(cellX*pixelSize, cellY*pixelSize, pixelSize, pixelSize);

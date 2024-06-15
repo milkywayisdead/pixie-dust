@@ -107,7 +107,7 @@ export class CanvasService {
 
       const cellId = `${cellX}_${cellY}`;
       if(!cellsIds.includes(cellId)){
-        cellsIds.push(`${cellX}_${cellY}`);
+        cellsIds.push(cellId);
         currentColors.push(cellColor);
       }
     });
