@@ -30,7 +30,7 @@ const changeContainerHeight = (containerId: string) => {
 
 
 @Component({
-  selector: 'pix-editarium',
+  selector: 'pix-editorium',
   standalone: true,
   imports: [
     NgIf,
@@ -44,12 +44,12 @@ const changeContainerHeight = (containerId: string) => {
     PreviewGridComponent,
     MatMenuTrigger
   ],
-  templateUrl: './editarium.component.html',
-  styleUrl: './editarium.component.css',
+  templateUrl: './editorium.component.html',
+  styleUrl: './editorium.component.css',
   encapsulation: ViewEncapsulation.None,
   providers: [FrameCommandsChain],
 })
-export class EditariumComponent implements FrameCanvas, AfterViewInit {
+export class EditoriumComponent implements FrameCanvas, AfterViewInit {
   @Input() index: number = 0;
   @Input() color: string = '#000000';
   @Input() isFirst: boolean = false;

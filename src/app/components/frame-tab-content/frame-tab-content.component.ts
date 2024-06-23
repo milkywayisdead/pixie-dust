@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgFor } from '@angular/common';
-import { EditariumComponent } from '../editarium/editarium.component';
+import { EditoriumComponent } from '../editorium/editorium.component';
 import { FramesService } from '../../services/frames/frames.service';
 import { ContextService } from '../../services/context/context.service';
 
@@ -10,7 +10,7 @@ import { ContextService } from '../../services/context/context.service';
   standalone: true,
   imports: [
     NgFor,
-    EditariumComponent,
+    EditoriumComponent,
   ],
   templateUrl: './frame-tab-content.component.html',
   styleUrl: './frame-tab-content.component.css',

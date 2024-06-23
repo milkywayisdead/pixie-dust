@@ -1,9 +1,9 @@
 import { BaseCommand } from "./base";
-import { EditariumComponent } from "../components/editarium/editarium.component";
+import { EditoriumComponent } from "../components/editorium/editorium.component";
 
 export class ColorCanvasCommand extends BaseCommand {
     do(): void {
-        const editor: EditariumComponent = this.args[0];
+        const editor: EditoriumComponent = this.args[0];
         const colors = this.args[1];
         const cells = this.args[2];
         const canvas = this.args[3];

@@ -1,7 +1,7 @@
 import { BaseCommand } from "./base";
 import { FrameCanvas } from "../interfaces/grid";
 import { ColorMap } from "../interfaces/colormap";
-import { EditariumComponent } from "../components/editarium/editarium.component";
+import { EditoriumComponent } from "../components/editorium/editorium.component";
 
 interface FrameWithCanvas extends FrameCanvas {
     canvas: HTMLCanvasElement;
@@ -32,7 +32,7 @@ export class ApplyColorMapCommand extends BaseCommand {
 
 export class ClearCanvasCommand extends BaseCommand {
     do(): void {
-        const editor: EditariumComponent = this.args[0];
+        const editor: EditoriumComponent = this.args[0];
         editor.canvasService.clearCanvas(editor.canvas);
         editor.colorMap = {}
     }

@@ -10,7 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 
 import { FrameslistComponent } from './components/frameslist/frameslist.component';
-import { EditariumComponent } from './components/editarium/editarium.component';
+import { EditoriumComponent } from './components/editorium/editorium.component';
 import { TabsareaComponent } from './components/tabsarea/tabsarea.component';
 import { ApiService } from './services/api/api.service';
 import { FramesService } from './services/frames/frames.service';
@@ -30,7 +30,7 @@ import { FrameSizeDialogComponent } from './components/dialogs/frame-size-dialog
     MatGridListModule,
     MatButtonModule,
     MatToolbarModule,
-    EditariumComponent,
+    EditoriumComponent,
     MatTooltipModule,
     FrameSizeDialogComponent,
     FrameslistComponent,
@@ -55,7 +55,7 @@ export class AppComponent {
   ) {}
 
   @ViewChildren('grids')
-  editariums: EditariumComponent[] | undefined;
+  editoriums: EditoriumComponent[] | undefined;
 
   save(){
     this.api.updateProfile();
