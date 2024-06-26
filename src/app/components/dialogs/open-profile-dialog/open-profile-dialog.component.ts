@@ -3,7 +3,6 @@ import { NgFor } from '@angular/common';
 import { ApiService } from '../../../services/api/api.service';
 import {
   MatDialogRef,
-  MAT_DIALOG_DATA,
   MatDialogTitle,
   MatDialogContent,
   MatDialogActions,
@@ -22,7 +21,7 @@ import { LocaleService } from '../../../services/locale/locale.service';
 import { FramesService } from '../../../services/frames/frames.service';
 import { ContextService } from '../../../services/context/context.service';
 import { ResponseContextInterface } from '../../../interfaces/context';
-
+import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 
 @Component({
   selector: 'open-profile-dialog',
@@ -54,6 +53,7 @@ export class OpenProfileDialogComponent {
       private api: ApiService,
       public dialog: DialogService,
       public tabs: TabsService,
+      private snackbar: SnackbarService,
     ) {}
   
     close(): void {
@@ -84,6 +84,7 @@ export class OpenProfileDialogComponent {
             const deletedProfileId: string = result.id;
             this.clearStuffIfDeletedCurrentProfile(deletedProfileId);
             this.profilesList = this.profilesList.filter(profile => profile._id !== deletedProfileId);
+            this.snackbar.openSnackbar(this.locale.currentLocale['messages']['profileSuccessfullyDeleted'], 'bg-success');
           });
       }
         

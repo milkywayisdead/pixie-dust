@@ -69,6 +69,16 @@ const ru: Locale = {
         russian: 'Русский',
         english: 'Английский',
     },
+    messages: {
+        profileSuccessfullyUpdated: 'Профиль успешно обновлён',
+        profileSuccessfullyCreated: 'Профиль успешно создан',
+        profileSuccessfullyDeleted: 'Профиль успешно удалён',
+        errorWhileLoadingProfiles: 'Ошибка загрузки списка профилей',
+        errorWhileOpeningProfile: 'Ошибка открытия профиля',
+        errorWhileDeletingProfile: 'Ошибка при удалении профиля',
+        errorWhileCreatingProfile: 'Ошибка при создании профиля',
+        errorWhileUpdatingProfile: 'Ошибка при обновлении профиля',
+    }
 }
 
 export default ru;

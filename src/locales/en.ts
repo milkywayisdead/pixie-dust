@@ -69,6 +69,16 @@ const en: Locale = {
         russian: 'Russian',
         english: 'English',
     },
+    messages: {
+        profileSuccessfullyUpdated: 'Profile successfully updated',
+        profileSuccessfullyCreated: 'Profile successfully created',
+        profileSuccessfullyDeleted: 'Profile successfully deleted',
+        errorWhileLoadingProfiles: 'Error while loading profiles list',
+        errorWhileOpeningProfile: 'Error while opening profile',
+        errorWhileDeletingProfile: 'Error while deleting profile',
+        errorWhileCreatingProfile: 'Error while creating profile',
+        errorWhileUpdatingProfile: 'Error while updating profile',
+    }
 }
 
 export default en;
