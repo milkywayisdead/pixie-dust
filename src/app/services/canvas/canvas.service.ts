@@ -5,6 +5,8 @@ import { ColorCanvasCommand } from '../../commands/drawing';
 import { ApplyColorMapCommand, ClearCanvasCommand } from '../../commands/frames';
 import { ColorMap } from '../../interfaces/colormap';
 
+const DEFAULT_BG_COLOR = '#ffffff';
+
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,7 @@ export class CanvasService {
     canvas.setAttribute('width', `${width}`);
     canvas.setAttribute('height', `${height}`);
     const ctx = canvas.getContext('2d');
-    ctx!.fillStyle = '#ffffff';
+    ctx!.fillStyle = DEFAULT_BG_COLOR;
     ctx?.fillRect(0, 0, width, height);
 
     const _this = this;
@@ -47,10 +49,9 @@ export class CanvasService {
         const cellY = Math.floor(y / editor.pixelSize);
         
         if(btnIndex){
-          const color = '#ffffff';
+          const color = DEFAULT_BG_COLOR;
           editor.clearing = true;
           editor.fromColorMap(cellColor, cellIndex);
-          //editor.toColorMap(color, cellIndex);
           _this.colorCell(cellX, cellY, color, editor.pixelSize, canvas);          
         } else {
           const editorColor = editor.color;
@@ -73,7 +74,7 @@ export class CanvasService {
         let command = new ColorCanvasCommand([editor, currentColors.map(c => editor.color), cellsIds.map(c => c), canvas]);
         let undoCommand = new ColorCanvasCommand([editor, currentColors.map(c => c), cellsIds.map(c => c), canvas]);
         if(editor.clearing){
-          command = new ColorCanvasCommand([editor, currentColors.map(c => '#ffffff'), cellsIds.map(c => c), canvas]);
+          command = new ColorCanvasCommand([editor, currentColors.map(c => DEFAULT_BG_COLOR), cellsIds.map(c => c), canvas]);
           undoCommand = new ColorCanvasCommand([editor, currentColors.map(c => c), cellsIds.map(c => c), canvas]);
         }
         editor.frameCommandsChain.addCommand(command, undoCommand);
@@ -102,7 +103,7 @@ export class CanvasService {
         _this.colorCell(cellX, cellY, editor.color, editor.pixelSize, canvas);
       } else if(editor.clearing){
         editor.fromColorMap(cellColor, cellIndex);
-        _this.colorCell(cellX, cellY, '#ffffff', editor.pixelSize, canvas);
+        _this.colorCell(cellX, cellY, DEFAULT_BG_COLOR, editor.pixelSize, canvas);
       }
 
       const cellId = `${cellX}_${cellY}`;
@@ -117,7 +118,7 @@ export class CanvasService {
         let command = new ColorCanvasCommand([editor, currentColors.map(c => editor.color), cellsIds.map(c => c)]);
         let undoCommand = new ColorCanvasCommand([editor, currentColors.map(c => c), cellsIds.map(c => c)]);
         if(editor.clearing){
-          command = new ColorCanvasCommand([editor, currentColors.map(c => '#ffffff'), cellsIds.map(c => c)]);
+          command = new ColorCanvasCommand([editor, currentColors.map(c => DEFAULT_BG_COLOR), cellsIds.map(c => c)]);
           undoCommand = new ColorCanvasCommand([editor, currentColors.map(c => c), cellsIds.map(c => c)]);
         }
         editor.frameCommandsChain.addCommand(command, undoCommand);
@@ -166,7 +167,7 @@ export class CanvasService {
   clearCanvas(canvas: HTMLCanvasElement): void {
     const ctx = canvas.getContext('2d');
     if(!ctx) return;
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = DEFAULT_BG_COLOR;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 
