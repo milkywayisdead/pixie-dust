@@ -35,6 +35,7 @@ export class PreviewGridComponent {
     const rows = this.rows;
     const colorMap = this.colorMap;
     const canvas = createCanvasWithColorMap(cols, rows, colorMap, this.pixelSize);
+    canvas.setAttribute('id', `${this.frameId}-preview-canvas`);
     canvas.addEventListener('contextmenu', (e) => {
       e.preventDefault();
     });

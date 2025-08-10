@@ -62,6 +62,7 @@ const ru: Locale = {
         pause: 'Пауза',
         stepForward: 'Следующий кадр',
         stepBack: 'Предыдущий кадр',
+        toGIF: 'Сохранить в GIF'
     },
     locale: {
         language: 'Язык',

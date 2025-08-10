@@ -62,6 +62,7 @@ const en: Locale = {
         pause: 'Pause',
         stepForward: 'Step forward',
         stepBack: 'Step back',
+        toGIF: 'Save as GIF'
     },
     locale: {
         language: 'Language',
