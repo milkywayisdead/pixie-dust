@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>{{ locale.currentLocale['animation']['toGIF'] }}</h2>
+<mat-dialog-content>
+    <form>
+        <mat-form-field style="width:100%">
+          <mat-label>{{ locale.currentLocale['profile']['name'] }}</mat-label>
+          <input matInput [(ngModel)]="profileName" name="profileName">
+        </mat-form-field>
+      </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="close()">{{ locale.currentLocale['actions']['close'] }}</button>
+    <button mat-raised-button
+      (click)="saveGif()"
+      [disabled]="profileName === ''">
+      {{ locale.currentLocale['animation']['toGIF'] }}
+    </button>
+</mat-dialog-actions>

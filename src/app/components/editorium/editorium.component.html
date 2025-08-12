@@ -112,7 +112,12 @@
             [matTooltip]="locale.currentLocale['frame']['downloadPng']"
             (click)="downloadPng()">
             <mat-icon fontIcon="image"></mat-icon>
-        </button>    
+        </button>   
+        <button mat-icon-button
+            [matTooltip]="locale.currentLocale['animation']['toGIF']"
+            (click)="openToGifDialog()">
+            <mat-icon fontIcon="gif"></mat-icon>
+        </button> 
     </div>
     <div>
         <button mat-icon-button

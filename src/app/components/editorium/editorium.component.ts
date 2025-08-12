@@ -213,6 +213,11 @@ export class EditoriumComponent implements FrameCanvas, AfterViewInit {
     this.dialog.openAnimationPreviewDialog(group);
   }
 
+  openToGifDialog(): void {
+    const group = this.context.getGroup(this.groupId);
+    this.dialog.openToGifDialog(group);
+  }
+
   downloadPng(pixelSize: number = 10): void {
     const cols = this.frame.cols;
     const rows = this.frame.rows;

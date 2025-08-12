@@ -21,6 +21,7 @@ import {
   AnimationPreviewDialogComponent
 } from '../../components/dialogs/animation-preview-dialog/animation-preview-dialog.component';
 import { CallbackInterface } from '../../interfaces/dialogs';
+import { ToGifDialogComponent } from '../../components/dialogs/to-gif-dialog/to-gif-dialog.component';
 
 
 @Injectable({
@@ -79,6 +80,13 @@ export class DialogService {
   openAnimationPreviewDialog(data: Object): void {
     this.dialog.open(
       AnimationPreviewDialogComponent,
+      {data: data}
+    );
+  }
+
+  openToGifDialog(data: Object): void {
+    this.dialog.open(
+      ToGifDialogComponent,
       {data: data}
     );
   }

@@ -23,7 +23,7 @@ export class ContextService {
 
   constructor(public locale: LocaleService) { 
     this.context.name = this.locale.currentLocale['profile']['untitled'];
-    this.setDocTitle();
+    //this.setDocTitle();
   }
 
   compile(): Object {
@@ -39,7 +39,7 @@ export class ContextService {
     this.context.name = this.locale.currentLocale['profile']['untitled'];
     this.context.frames = {}
     this.updateFramesList();
-    this.setDocTitle();
+    //this.setDocTitle();
   }
 
   getId(): string {
@@ -52,7 +52,7 @@ export class ContextService {
 
   setProfileName(name: string): void {
     this.context.name = name;
-    this.setDocTitle();
+    //this.setDocTitle();
   }
 
   getProfileName(): string {
@@ -77,7 +77,7 @@ export class ContextService {
       }
     }
     this.context.frames = groups;
-    this.setDocTitle();
+    //this.setDocTitle();
     this.updateFramesList();
   }
 
