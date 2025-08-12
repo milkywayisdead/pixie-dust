@@ -13,6 +13,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { LocaleService } from '../../../services/locale/locale.service';
 import { ContextService } from '../../../services/context/context.service';
+import { ContextFramesGroup } from '../../../interfaces/context';
+import { FrameObject } from '../../../interfaces/frame';
+import { createCanvasWithColorMap } from '../../../utils';
 
 @Component({
   selector: 'app-to-gif-dialog',
@@ -31,9 +34,12 @@ import { ContextService } from '../../../services/context/context.service';
   styleUrl: './to-gif-dialog.component.css'
 })
 export class ToGifDialogComponent {
-  profileName: string = '';
+  pixelSize: number = 10;
+  delay: number = 10;
+  repeat: number = 0;
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public framesGroup: ContextFramesGroup,
     public dialogRef: MatDialogRef<ToGifDialogComponent>,
     public locale: LocaleService,
     public context: ContextService,
@@ -43,5 +49,28 @@ export class ToGifDialogComponent {
     this.dialogRef.close();
   }
 
-  saveGif(): void {}
+  saveGif(): void {
+    // @ts-ignore
+    const encoder = new window.GIFEncoder();
+    encoder.setRepeat(this.repeat);
+    encoder.setDelay(this.delay);
+    encoder.start();
+
+    for(let frame of this.framesGroup.frames){
+      const canvas = this.createCanvas(frame);
+      encoder.addFrame(canvas.getContext('2d'));
+    }
+
+    encoder.finish();
+    encoder.download();
+  }
+
+  createCanvas(frame: FrameObject): HTMLCanvasElement {
+    const cols = frame.cols;
+    const rows = frame.rows;
+    const colorMap = frame.colorMap;
+    const canvas = createCanvasWithColorMap(cols, rows, colorMap, this.pixelSize);
+    canvas.setAttribute('id', `${frame.id}-to-gif-canvas`);
+    return canvas;
+  }
 }

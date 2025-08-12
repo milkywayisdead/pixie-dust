@@ -2,16 +2,25 @@
 <mat-dialog-content>
     <form>
         <mat-form-field style="width:100%">
-          <mat-label>{{ locale.currentLocale['profile']['name'] }}</mat-label>
-          <input matInput [(ngModel)]="profileName" name="profileName">
+          <mat-label>{{ locale.currentLocale['animation']['pixelSize'] }}</mat-label>
+          <input matInput [(ngModel)]="pixelSize" name="pixelSize">
+        </mat-form-field>
+                <mat-form-field style="width:100%">
+          <mat-label>{{ locale.currentLocale['animation']['delay'] }}</mat-label>
+          <input matInput [(ngModel)]="delay" name="delay">
+        </mat-form-field>
+                <mat-form-field style="width:100%">
+          <mat-label>{{ locale.currentLocale['animation']['repeat'] }}</mat-label>
+          <input matInput [(ngModel)]="repeat" name="repeat">
         </mat-form-field>
       </form>
+      <div id="to-gif-canvas-container" hidden style="width:0px;height:0px"></div>
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-button (click)="close()">{{ locale.currentLocale['actions']['close'] }}</button>
     <button mat-raised-button
       (click)="saveGif()"
-      [disabled]="profileName === ''">
+      [disabled]="pixelSize <= 0 || delay < 0">
       {{ locale.currentLocale['animation']['toGIF'] }}
     </button>
 </mat-dialog-actions>

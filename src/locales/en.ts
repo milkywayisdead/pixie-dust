@@ -62,7 +62,10 @@ const en: Locale = {
         pause: 'Pause',
         stepForward: 'Step forward',
         stepBack: 'Step back',
-        toGIF: 'Save as GIF'
+        toGIF: 'Save as GIF',
+        pixelSize: 'Pixel size',
+        delay: 'Delay between frames, ms',
+        repeat: 'Loop N times (0 - loop forever)'
     },
     locale: {
         language: 'Language',

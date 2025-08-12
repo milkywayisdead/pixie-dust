@@ -118,18 +118,4 @@ export class AnimationPreviewDialogComponent {
   hideFrame(frameId: string): void {
     document.getElementById(frameId)!.style.display = 'none';
   }
-
-  toGIF(): void {
-    // @ts-ignore
-    const encoder = new window.GIFEncoder();
-    encoder.setRepeat(0);
-    encoder.start();
-    for(const previewFrameId of this.previewFramesIds){
-      const canvas: HTMLCanvasElement = document.getElementById(`${previewFrameId}-canvas`) as HTMLCanvasElement;
-      const ctx = canvas.getContext('2d');
-      encoder.addFrame(ctx);
-    }    
-    encoder.finish();
-    encoder.download();
-  }
 }

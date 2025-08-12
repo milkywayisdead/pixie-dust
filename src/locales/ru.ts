@@ -62,7 +62,10 @@ const ru: Locale = {
         pause: 'Пауза',
         stepForward: 'Следующий кадр',
         stepBack: 'Предыдущий кадр',
-        toGIF: 'Сохранить в GIF'
+        toGIF: 'Сохранить в GIF',
+        pixelSize: 'Размер пикселя',
+        delay: 'Задержка между фреймами, мс',
+        repeat: 'Количество повторений (0 - повторять вечно)'
     },
     locale: {
         language: 'Язык',
